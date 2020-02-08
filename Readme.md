@@ -26,12 +26,13 @@
 Поля:
 - Покупатель
 - Статус
+- Количество
 - Общая стоимость
 - Список заказа
 
 Связи:
-- появляются при оформлении заказа ("Beer" to "Order")
-- появляются при оформлении заказа ("Customer" to "Order")
+- список наименований пива, появляется при оформлении заказа ("Beer" to "Order")
+- покупатель, появляется при оформлении заказа ("Customer" to "Order")
  
 ### Покупатель (Customer)
 
@@ -121,8 +122,8 @@ Request:
 {
     "name": "Иван Иванов",
     "email": "ivan.ivanov@mail.ru",
-    "password": 123456,
-    "tel": "+375331234567"
+    "password": "123456",
+    "phone": "+375331234567"
 }
 ```
 Response: `201 CREATED`
@@ -161,31 +162,35 @@ Response: `200 OK`
         "id": 1,    
         "name": "Иван Иванов",
         "email": "ivan.ivanov@mail.ru",
-        "tel": "+375331234567"
+        "phone": "+375331234567"
     },
     "processed": false,
     "total": 31,
     "order": [
         {
-            "id": 2,
-            "type": "темное",
-            "name": "Аливария",
-            "description": "Лучшее пиво по бабушкиным рецептам",
-            "alcohol": "4.6",
-            "density": "10.2",
-            "country": "Пиво номер 1 в Беларуси",
-            "price": "3",
+            "beer": {
+                "id": 2,
+                "type": "темное",
+                "name": "Аливария",
+                "description": "Лучшее пиво по бабушкиным рецептам",
+                "alcohol": "4.6",
+                "density": "10.2",
+                "country": "Пиво номер 1 в Беларуси",
+                "price": "3"
+            },
             "volume": 5
         },
         {
-            "id": 3,
-            "type": "светлое осветлённое",
-            "name": "Pilsner Urquell",
-            "description": "непастеризованное",
-            "alcohol": "4.2",
-            "density": "12.0",
-            "country": "Чехия",
-            "price": "8",
+            "beer": {
+                "id": 3,
+                "type": "светлое осветлённое",
+                "name": "Pilsner Urquell",
+                "description": "непастеризованное",
+                "alcohol": "4.2",
+                "density": "12.0",
+                "country": "Чехия",
+                "price": "8"
+            },
             "volume": 2
         }
     ]
@@ -266,31 +271,35 @@ Response: `200 OK`
             "id": 1,
             "name": "Иван Иванов",
             "email": "ivan.ivanov@mail.ru",
-            "tel": "+375331234567"
+            "phone": "+375331234567"
         },
         "processed": true,
         "total": 31,
         "order": [
             {
-                "id": 2,
-                "type": "темное",
-                "name": "Аливария",
-                "description": "Лучшее пиво по бабушкиным рецептам",
-                "alcohol": "4.6",
-                "density": "10.2",
-                "country": "Пиво номер 1 в Беларуси",
-                "price": "3",
+                "beer": {
+                    "id": 2,
+                    "type": "темное",
+                    "name": "Аливария",
+                    "description": "Лучшее пиво по бабушкиным рецептам",
+                    "alcohol": "4.6",
+                    "density": "10.2",
+                    "country": "Пиво номер 1 в Беларуси",
+                    "price": "3"
+                },
                 "volume": 5
             },
             {
-                "id": 3,
-                "type": "светлое осветлённое",
-                "name": "Pilsner Urquell",
-                "description": "непастеризованное",
-                "alcohol": "4.2",
-                "density": "12.0",
-                "country": "Чехия",
-                "price": "8",
+                "beer": {
+                    "id": 3,
+                    "type": "светлое осветлённое",
+                    "name": "Pilsner Urquell",
+                    "description": "непастеризованное",
+                    "alcohol": "4.2",
+                    "density": "12.0",
+                    "country": "Чехия",
+                    "price": "8"
+                },
                 "volume": 2
             }
         ]
@@ -301,31 +310,35 @@ Response: `200 OK`
             "id": 2,
             "name": "Петр Петров",
             "email": "petr.petrovov@yandex.ru",
-            "tel": "+375337654321"
+            "phone": "+375337654321"
         },
         "processed": false,
         "total": 27,
         "order": [
             {
-                "id": 2,
-                "type": "темное",
-                "name": "Аливария",
-                "description": "Лучшее пиво по бабушкиным рецептам",
-                "alcohol": "4.6",
-                "density": "10.2",
-                "country": "Республика Беларусь",
-                "price": "3",
+                "beer": {
+                    "id": 2,
+                    "type": "темное",
+                    "name": "Аливария",
+                    "description": "Лучшее пиво по бабушкиным рецептам",
+                    "alcohol": "4.6",
+                    "density": "10.2",
+                    "country": "Республика Беларусь",
+                    "price": "3"
+                },
                 "volume": 1
             },
             {
-                "id": 3,
-                "type": "светлое осветлённое",
-                "name": "Pilsner Urquell",
-                "description": "непастеризованное",
-                "alcohol": "4.2",
-                "density": "12.0",
-                "country": "Чехия",
-                "price": "8",
+                "beer": {
+                    "id": 3,
+                    "type": "светлое осветлённое",
+                    "name": "Pilsner Urquell",
+                    "description": "непастеризованное",
+                    "alcohol": "4.2",
+                    "density": "12.0",
+                    "country": "Чехия",
+                    "price": "8"
+                },
                 "volume": 3
             }
         ]
