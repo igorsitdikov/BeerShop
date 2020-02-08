@@ -55,13 +55,13 @@
 
 Request: 
 
-`GET /api/beer/list`
+`GET /api/beer/`
 
 Response: `200 OK`
 ```
 [
     {
-        "id": 1
+        "id": 1,
         "type": "светлое",
         "in_stock": "true",
         "name": "Лидское",
@@ -81,8 +81,7 @@ Response: `200 OK`
         "density": "10.2",
         "country": "Республика Беларусь",
         "price": "3"
-    },
-    
+    }
 ]
 ```
 
@@ -90,7 +89,7 @@ Response: `200 OK`
 
 Request: 
 
-`GET /api/beer/list?type=${beerType}`
+`GET /api/beer/?type=${beerType}`
 
 `Headers: beerType="темное"`
 
@@ -142,7 +141,7 @@ Request:
 ```    
 {
     "email": "ivan.ivanov@mail.ru",
-    "password": 123456
+    "password": "123456"
 }
 ```
 Response: `200 OK`
@@ -201,7 +200,7 @@ Response: `200 OK`
 
 Request: 
     
-`POST /api/admin/beer/`
+`POST /api/beer/`
     
 ```    
 {
@@ -227,7 +226,7 @@ Response: `201 CREATED`
 
 Request: 
     
-`PUT /api/admin/beer/${beerId}`
+`PUT /api/beer/${beerId}`
 
 `Headers: beerId=3`
     
@@ -249,7 +248,7 @@ Response: `200 OK`
 
 Request: 
     
-`DELETE /api/admin/beer/${beerId}`
+`DELETE /api/beer/${beerId}`
 `Headers: beerId=3`
 
 Response: `200 OK`
@@ -259,7 +258,7 @@ Response: `200 OK`
 
 Request: 
     
-`GET /api/admin/orders/list`
+`GET /api/admin/orders`
     
 Response: `200 OK`
 
@@ -350,7 +349,9 @@ Response: `200 OK`
 
 Request: 
     
-`PATCH /api/admin/orders/2`
+`PATCH /api/admin/orders/${orderId}`
+
+`Headers: orderId=2`
 
 ```
 {
