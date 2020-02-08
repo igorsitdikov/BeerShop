@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Log
 @Service
-public class OrderService {
+public class OrdersService {
 
     private final List<Orders> orders = List.of(Orders.builder()
                     .id(1)
