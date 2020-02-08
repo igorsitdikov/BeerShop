@@ -55,7 +55,7 @@
 
 Request: 
 
-`GET /api/beer/`
+`GET /api/beer`
 
 Response: `200 OK`
 ```
@@ -63,24 +63,24 @@ Response: `200 OK`
     {
         "id": 1,
         "type": "светлое",
-        "in_stock": "true",
+        "in_stock": true,
         "name": "Лидское",
         "description": "Лучшее пиво по бабушкиным рецептам",
-        "alcohol": "5",
+        "alcohol": "5.0",
         "density": "11.5",
         "country": "Республика Беларусь",
-        "price": "5"
+        "price": "5.0"
     },
     {
         "id": 2,
         "type": "темное",
-        "in_stock": "false",
+        "in_stock": false,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
-        "alcohol": "4.6",
-        "density": "10.2",
+        "alcohol": 4.6,
+        "density": 10.2,
         "country": "Республика Беларусь",
-        "price": "3"
+        "price": 3.0
     }
 ]
 ```
@@ -100,13 +100,13 @@ Response: `200 OK`
     {
         "id": 2,
         "type": "темное",
-        "in_stock": "false",
+        "in_stock": false,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
-        "alcohol": "4.6",
-        "density": "10.2",
+        "alcohol": 4.6,
+        "density": 10.2,
         "country": "Республика Беларусь",
-        "price": "3"
+        "price": 3.0
     }
 ]
 ```
@@ -154,6 +154,28 @@ Response: `200 OK`
 
 ### BS-5 Как "Покупатель", я хочу выбрать, интресующие меня наименования пива с указанием объема, и оформить заказ, и если я авторизован, оформляю заказ
 
+Request: 
+
+```POST /api/admin/orders```
+
+```
+{
+    "customerId": 1,
+    "goods" [
+        {
+            "id": 2,
+            "value": 5
+        },
+        {
+            "id": 3,
+            "value": 2
+        }
+    ]
+}
+```
+
+Response: `201 CREATED`
+
 ```
 {
     "id": 1,
@@ -170,12 +192,13 @@ Response: `200 OK`
             "beer": {
                 "id": 2,
                 "type": "темное",
+                "in_stock": true,
                 "name": "Аливария",
                 "description": "Лучшее пиво по бабушкиным рецептам",
-                "alcohol": "4.6",
-                "density": "10.2",
+                "alcohol": 4.6,
+                "density": 10.2,
                 "country": "Пиво номер 1 в Беларуси",
-                "price": "3"
+                "price": 3.0
             },
             "volume": 5
         },
@@ -183,12 +206,13 @@ Response: `200 OK`
             "beer": {
                 "id": 3,
                 "type": "светлое осветлённое",
+                "in_stock": true,
                 "name": "Pilsner Urquell",
                 "description": "непастеризованное",
-                "alcohol": "4.2",
-                "density": "12.0",
+                "alcohol": 4.2,
+                "density": 12.0,
                 "country": "Чехия",
-                "price": "8"
+                "price": 8.0
             },
             "volume": 2
         }
@@ -200,18 +224,18 @@ Response: `200 OK`
 
 Request: 
     
-`POST /api/beer/`
+`POST /api/beer`
     
 ```    
 {
     "type": "светлое осветлённое",
-    "in_stock": "true",
+    "in_stock": true,
     "name": "Pilsner Urquell",
     "description": "непастеризованное",
-    "alcohol": "4.2",
-    "density": "12.0",
+    "alcohol": 4.2,
+    "density": 12.0,
     "country": "Чехия",
-    "price": "8"
+    "price": 8.0
 }
 ```
 
@@ -226,13 +250,13 @@ Response: `201 CREATED`
 
 Request: 
     
-`PUT /api/beer/${beerId}`
+`PATCH /api/beer/${beerId}`
 
 `Headers: beerId=3`
     
 ```    
 {
-    "price": "8.30"
+    "price": 8.30
 }
 ```
 
@@ -249,6 +273,7 @@ Response: `200 OK`
 Request: 
     
 `DELETE /api/beer/${beerId}`
+
 `Headers: beerId=3`
 
 Response: `200 OK`
@@ -279,12 +304,13 @@ Response: `200 OK`
                 "beer": {
                     "id": 2,
                     "type": "темное",
+                    "in_stock": true,
                     "name": "Аливария",
                     "description": "Лучшее пиво по бабушкиным рецептам",
-                    "alcohol": "4.6",
-                    "density": "10.2",
+                    "alcohol": 4.6,
+                    "density": 10.2,
                     "country": "Пиво номер 1 в Беларуси",
-                    "price": "3"
+                    "price": 3.0
                 },
                 "volume": 5
             },
@@ -292,12 +318,13 @@ Response: `200 OK`
                 "beer": {
                     "id": 3,
                     "type": "светлое осветлённое",
+                    "in_stock": true,
                     "name": "Pilsner Urquell",
                     "description": "непастеризованное",
-                    "alcohol": "4.2",
-                    "density": "12.0",
+                    "alcohol": 4.2,
+                    "density": 12.0,
                     "country": "Чехия",
-                    "price": "8"
+                    "price": 8.0
                 },
                 "volume": 2
             }
@@ -318,12 +345,13 @@ Response: `200 OK`
                 "beer": {
                     "id": 2,
                     "type": "темное",
+                    "in_stock": true,
                     "name": "Аливария",
                     "description": "Лучшее пиво по бабушкиным рецептам",
-                    "alcohol": "4.6",
-                    "density": "10.2",
+                    "alcohol": 4.6,
+                    "density": 10.2,
                     "country": "Республика Беларусь",
-                    "price": "3"
+                    "price": 3.0"
                 },
                 "volume": 1
             },
@@ -331,12 +359,13 @@ Response: `200 OK`
                 "beer": {
                     "id": 3,
                     "type": "светлое осветлённое",
+                    "in_stock": true,
                     "name": "Pilsner Urquell",
                     "description": "непастеризованное",
-                    "alcohol": "4.2",
-                    "density": "12.0",
+                    "alcohol": 4.2,
+                    "density": 12.0,
                     "country": "Чехия",
-                    "price": "8"
+                    "price": 8.0
                 },
                 "volume": 3
             }
