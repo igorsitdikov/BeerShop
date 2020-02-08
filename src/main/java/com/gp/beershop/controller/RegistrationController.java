@@ -1,6 +1,7 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.CustomerSignUpRequest;
+import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.service.RegistrationService;
 import lombok.Data;
 import lombok.extern.java.Log;
@@ -29,7 +30,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String singUp(@RequestBody final CustomerSignUpRequest request) {
+    public IdResponse singUp(@RequestBody final CustomerSignUpRequest request) {
         return registrationService.signUp(request);
     }
 }

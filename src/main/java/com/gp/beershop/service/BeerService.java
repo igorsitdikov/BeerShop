@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -60,7 +58,8 @@ public class BeerService {
     }
 
     public List<Beer> getBeerFilter(final String beerType) {
-        return beerList.stream().filter(b -> b.getType().equals(beerType)).collect(Collectors.toList());
+        return beerList.stream()
+                .filter(b -> b.getType().equals(beerType)).collect(Collectors.toList());
     }
 
     public IdResponse addBeer(final BeerRequest request) {

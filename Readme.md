@@ -160,15 +160,15 @@ Request:
 
 ```
 {
-    "customerId": 1,
-    "goods" [
+    "customerId": 2,
+    "goods": [
         {
             "id": 2,
-            "value": 5
+            "value": 1
         },
         {
             "id": 3,
-            "value": 2
+            "value": 3
         }
     ]
 }
@@ -178,15 +178,15 @@ Response: `201 CREATED`
 
 ```
 {
-    "id": 1,
+    "id": 2,
     "customer": {
-        "id": 1,    
-        "name": "Иван Иванов",
-        "email": "ivan.ivanov@mail.ru",
-        "phone": "+375331234567"
+        "id": 2,
+        "name": "Петр Петров",
+        "email": "petr.petrov@yandex.ru",
+        "phone": "+375337654321"
     },
     "processed": false,
-    "total": 31,
+    "total": 27.0,
     "order": [
         {
             "beer": {
@@ -194,13 +194,13 @@ Response: `201 CREATED`
                 "type": "темное",
                 "in_stock": true,
                 "name": "Аливария",
-                "description": "Лучшее пиво по бабушкиным рецептам",
+                "description": "Пиво номер 1 в Беларуси",
                 "alcohol": 4.6,
                 "density": 10.2,
-                "country": "Пиво номер 1 в Беларуси",
+                "country": "Республика Беларусь",
                 "price": 3.0
             },
-            "volume": 5
+            "volume": 1
         },
         {
             "beer": {
@@ -214,10 +214,10 @@ Response: `201 CREATED`
                 "country": "Чехия",
                 "price": 8.0
             },
-            "volume": 2
+            "volume": 3
         }
     ]
-},
+}
 ```
 
 ### BS-6 Как "Администратор", я хочу добавить новое наименование пива, и если такого наименования нет, добавляю его
@@ -298,7 +298,7 @@ Response: `200 OK`
             "phone": "+375331234567"
         },
         "processed": true,
-        "total": 31,
+        "total": 31.0,
         "order": [
             {
                 "beer": {
@@ -306,10 +306,10 @@ Response: `200 OK`
                     "type": "темное",
                     "in_stock": true,
                     "name": "Аливария",
-                    "description": "Лучшее пиво по бабушкиным рецептам",
+                    "description": "Пиво номер 1 в Беларуси",
                     "alcohol": 4.6,
                     "density": 10.2,
-                    "country": "Пиво номер 1 в Беларуси",
+                    "country": "Республика Беларусь",
                     "price": 3.0
                 },
                 "volume": 5
@@ -335,11 +335,11 @@ Response: `200 OK`
         "customer": {
             "id": 2,
             "name": "Петр Петров",
-            "email": "petr.petrovov@yandex.ru",
+            "email": "petr.petrov@yandex.ru",
             "phone": "+375337654321"
         },
         "processed": false,
-        "total": 27,
+        "total": 27.0,
         "order": [
             {
                 "beer": {
@@ -347,11 +347,11 @@ Response: `200 OK`
                     "type": "темное",
                     "in_stock": true,
                     "name": "Аливария",
-                    "description": "Лучшее пиво по бабушкиным рецептам",
+                    "description": "Пиво номер 1 в Беларуси",
                     "alcohol": 4.6,
                     "density": 10.2,
                     "country": "Республика Беларусь",
-                    "price": 3.0"
+                    "price": 3.0
                 },
                 "volume": 1
             },
@@ -389,3 +389,9 @@ Request:
 ```
     
 Response: `200 OK`
+
+```
+{
+    "id": 2
+}
+```
