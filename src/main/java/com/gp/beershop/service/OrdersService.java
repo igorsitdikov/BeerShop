@@ -27,7 +27,6 @@ public class OrdersService {
         if (customer.isEmpty()) {
             throw new NoSuchCustomerException("No customer with id = " + request.getCustomerId() + " was found.");
         } else {
-
             List<Order> orderList = request.getGoods().stream().map(el -> {
                 try {
                     return Order.builder()
