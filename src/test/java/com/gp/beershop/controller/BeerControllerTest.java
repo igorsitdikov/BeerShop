@@ -37,7 +37,7 @@ public class BeerControllerTest {
                         "    {\n" +
                         "        \"id\": 2,\n" +
                         "        \"type\": \"темное\",\n" +
-                        "        \"in_stock\": false,\n" +
+                        "        \"in_stock\": true,\n" +
                         "        \"name\": \"Аливария\",\n" +
                         "        \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "        \"alcohol\": 4.6,\n" +
@@ -58,7 +58,7 @@ public class BeerControllerTest {
                         "    {\n" +
                         "        \"id\": 2,\n" +
                         "        \"type\": \"темное\",\n" +
-                        "        \"in_stock\": false,\n" +
+                        "        \"in_stock\": true,\n" +
                         "        \"name\": \"Аливария\",\n" +
                         "        \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "        \"alcohol\": 4.6,\n" +

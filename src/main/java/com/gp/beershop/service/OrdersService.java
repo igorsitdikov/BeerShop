@@ -1,110 +1,66 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.*;
+import com.gp.beershop.exception.NoSuchBeerException;
+import com.gp.beershop.exception.NoSuchCustomerException;
+import com.gp.beershop.fish.FishObject;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 @Log
 @Service
 public class OrdersService {
 
-    private final List<Orders> orders = List.of(Orders.builder()
-                    .id(1)
-                    .customer(Customer.builder()
-                            .id(1)
-                            .name("Иван Иванов")
-                            .email("ivan.ivanov@mail.ru")
-                            .phone("+375331234567")
-                            .build())
-                    .processed(true)
-                    .total(31D)
-                    .order(List.of(
-                            Order.builder()
-                                    .beer(Beer.builder()
-                                            .id(2)
-                                            .type("темное")
-                                            .in_stock(true)
-                                            .name("Аливария")
-                                            .description("Пиво номер 1 в Беларуси")
-                                            .alcohol(4.6)
-                                            .density(10.2)
-                                            .country("Республика Беларусь")
-                                            .price(3D)
-                                            .build())
-                                    .volume(5)
-                                    .build(),
-                            Order.builder().beer(Beer.builder()
-                                    .id(3)
-                                    .type("светлое осветлённое")
-                                    .in_stock(true)
-                                    .name("Pilsner Urquell")
-                                    .description("непастеризованное")
-                                    .alcohol(4.2)
-                                    .density(12.0)
-                                    .country("Чехия")
-                                    .price(8D)
-                                    .build())
-                                    .volume(2)
-                                    .build()
-                    ))
-                    .build(),
-            Orders.builder().id(2)
-                    .customer(Customer.builder()
-                            .id(2)
-                            .name("Петр Петров")
-                            .email("petr.petrov@yandex.ru")
-                            .phone("+375337654321")
-                            .build())
-                    .processed(false)
-                    .total(27D)
-                    .order(List.of(
-                            Order.builder()
-                                    .beer(Beer.builder()
-                                            .id(2)
-                                            .type("темное")
-                                            .in_stock(true)
-                                            .name("Аливария")
-                                            .description("Пиво номер 1 в Беларуси")
-                                            .alcohol(4.6)
-                                            .density(10.2)
-                                            .country("Республика Беларусь")
-                                            .price(3D)
-                                            .build())
-                                    .volume(1)
-                                    .build(),
-                            Order.builder().beer(Beer.builder()
-                                    .id(3)
-                                    .type("светлое осветлённое")
-                                    .in_stock(true)
-                                    .name("Pilsner Urquell")
-                                    .description("непастеризованное")
-                                    .alcohol(4.2)
-                                    .density(12.0)
-                                    .country("Чехия")
-                                    .price(8D)
-                                    .build())
-                                    .volume(3)
-                                    .build()
-                    ))
-                    .build()
-    );
-
-    public Orders addOrder(OrderRequest request) {
+    public Orders addOrder(OrderRequest request) throws NoSuchCustomerException {
         log.info("customer Id = " + request.getCustomerId());
         request.getGoods()
                 .forEach(el -> log.info("goods id = " + el.getId() + " goods value = " + el.getValue()));
-        return orders.get(1);
+        Orders customerOrder;
+        Optional<Customer> customer = FishObject.customers.stream()
+                .filter(c -> c.getId().equals(request.getCustomerId())).findAny();
+        if (customer.isEmpty()) {
+            throw new NoSuchCustomerException("No customer with id = " + request.getCustomerId() + " was found.");
+        } else {
+
+            List<Order> orderList = request.getGoods().stream().map(el -> {
+                try {
+                    return Order.builder()
+                            .beer(FishObject.beerList.stream()
+                                    .filter(b -> b.getId().equals(el.getId()))
+                                    .findAny()
+                                    .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + el.getId() + " was found.")))
+                            .volume(el.getValue())
+                            .build();
+                } catch (NoSuchBeerException e) {
+                    log.info(e.getMessage());
+                }
+                return null;
+            }).collect(Collectors.toList());
+            Double total = orderList.stream().mapToDouble(a -> a.getBeer().getPrice() * a.getVolume()).sum();
+            customerOrder = Orders.builder()
+                    .id(2)
+                    .customer(customer.get())
+                    .processed(false)
+                    .order(orderList)
+                    .total(total)
+                    .build();
+        }
+        return customerOrder;
     }
+
     public IdResponse updateOrder(Integer id, OrderStatus request) {
         log.info("processed = " + request.getProcessed());
         return new IdResponse(id);
     }
+
     public List<Orders> showAllOrders() {
-        return orders;
+        return FishObject.orders;
     }
 
 }

@@ -4,6 +4,7 @@ import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.OrderStatus;
 import com.gp.beershop.dto.Orders;
+import com.gp.beershop.exception.NoSuchCustomerException;
 import com.gp.beershop.service.OrdersService;
 import lombok.Data;
 import lombok.extern.java.Log;
@@ -30,7 +31,7 @@ public class OrdersController {
 
     @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Orders addOrder(@RequestBody final OrderRequest request) {
+    public Orders addOrder(@RequestBody final OrderRequest request) throws NoSuchCustomerException {
         return ordersService.addOrder(request);
     }
 

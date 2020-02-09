@@ -73,7 +73,7 @@ Response: `200 OK`
     {
         "id": 2,
         "type": "темное",
-        "in_stock": false,
+        "in_stock": true,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
         "alcohol": 4.6,
@@ -99,7 +99,7 @@ Response: `200 OK`
     {
         "id": 2,
         "type": "темное",
-        "in_stock": false,
+        "in_stock": true,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
         "alcohol": 4.6,
