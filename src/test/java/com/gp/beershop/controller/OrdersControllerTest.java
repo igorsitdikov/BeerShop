@@ -51,7 +51,7 @@ public class OrdersControllerTest {
                         "            \"beer\": {\n" +
                         "                \"id\": 2,\n" +
                         "                \"type\": \"темное\",\n" +
-                        "                \"in_stock\": true,\n" +
+                        "                \"inStock\": true,\n" +
                         "                \"name\": \"Аливария\",\n" +
                         "                \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "                \"alcohol\": 4.6,\n" +
@@ -65,7 +65,7 @@ public class OrdersControllerTest {
                         "            \"beer\": {\n" +
                         "                \"id\": 3,\n" +
                         "                \"type\": \"светлое осветлённое\",\n" +
-                        "                \"in_stock\": true,\n" +
+                        "                \"inStock\": true,\n" +
                         "                \"name\": \"Pilsner Urquell\",\n" +
                         "                \"description\": \"непастеризованное\",\n" +
                         "                \"alcohol\": 4.2,\n" +
@@ -113,7 +113,7 @@ public class OrdersControllerTest {
                         "                \"beer\": {\n" +
                         "                    \"id\": 2,\n" +
                         "                    \"type\": \"темное\",\n" +
-                        "                    \"in_stock\": true,\n" +
+                        "                    \"inStock\": true,\n" +
                         "                    \"name\": \"Аливария\",\n" +
                         "                    \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "                    \"alcohol\": 4.6,\n" +
@@ -127,7 +127,7 @@ public class OrdersControllerTest {
                         "                \"beer\": {\n" +
                         "                    \"id\": 3,\n" +
                         "                    \"type\": \"светлое осветлённое\",\n" +
-                        "                    \"in_stock\": true,\n" +
+                        "                    \"inStock\": true,\n" +
                         "                    \"name\": \"Pilsner Urquell\",\n" +
                         "                    \"description\": \"непастеризованное\",\n" +
                         "                    \"alcohol\": 4.2,\n" +
@@ -154,7 +154,7 @@ public class OrdersControllerTest {
                         "                \"beer\": {\n" +
                         "                    \"id\": 2,\n" +
                         "                    \"type\": \"темное\",\n" +
-                        "                    \"in_stock\": true,\n" +
+                        "                    \"inStock\": true,\n" +
                         "                    \"name\": \"Аливария\",\n" +
                         "                    \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "                    \"alcohol\": 4.6,\n" +
@@ -168,7 +168,7 @@ public class OrdersControllerTest {
                         "                \"beer\": {\n" +
                         "                    \"id\": 3,\n" +
                         "                    \"type\": \"светлое осветлённое\",\n" +
-                        "                    \"in_stock\": true,\n" +
+                        "                    \"inStock\": true,\n" +
                         "                    \"name\": \"Pilsner Urquell\",\n" +
                         "                    \"description\": \"непастеризованное\",\n" +
                         "                    \"alcohol\": 4.2,\n" +

@@ -62,7 +62,7 @@ Response: `200 OK`
     {
         "id": 1,
         "type": "светлое",
-        "in_stock": true,
+        "inStock": true,
         "name": "Лидское",
         "description": "Лучшее пиво по бабушкиным рецептам",
         "alcohol": "5.0",
@@ -73,7 +73,7 @@ Response: `200 OK`
     {
         "id": 2,
         "type": "темное",
-        "in_stock": true,
+        "inStock": true,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
         "alcohol": 4.6,
@@ -99,7 +99,7 @@ Response: `200 OK`
     {
         "id": 2,
         "type": "темное",
-        "in_stock": true,
+        "inStock": true,
         "name": "Аливария",
         "description": "Пиво номер 1 в Беларуси",
         "alcohol": 4.6,
@@ -191,7 +191,7 @@ Response: `201 CREATED`
             "beer": {
                 "id": 2,
                 "type": "темное",
-                "in_stock": true,
+                "inStock": true,
                 "name": "Аливария",
                 "description": "Пиво номер 1 в Беларуси",
                 "alcohol": 4.6,
@@ -205,7 +205,7 @@ Response: `201 CREATED`
             "beer": {
                 "id": 3,
                 "type": "светлое осветлённое",
-                "in_stock": true,
+                "inStock": true,
                 "name": "Pilsner Urquell",
                 "description": "непастеризованное",
                 "alcohol": 4.2,
@@ -228,7 +228,7 @@ Request:
 ```    
 {
     "type": "светлое осветлённое",
-    "in_stock": true,
+    "inStock": true,
     "name": "Pilsner Urquell",
     "description": "непастеризованное",
     "alcohol": 4.2,
@@ -303,7 +303,7 @@ Response: `200 OK`
                 "beer": {
                     "id": 2,
                     "type": "темное",
-                    "in_stock": true,
+                    "inStock": true,
                     "name": "Аливария",
                     "description": "Пиво номер 1 в Беларуси",
                     "alcohol": 4.6,
@@ -317,7 +317,7 @@ Response: `200 OK`
                 "beer": {
                     "id": 3,
                     "type": "светлое осветлённое",
-                    "in_stock": true,
+                    "inStock": true,
                     "name": "Pilsner Urquell",
                     "description": "непастеризованное",
                     "alcohol": 4.2,
@@ -344,7 +344,7 @@ Response: `200 OK`
                 "beer": {
                     "id": 2,
                     "type": "темное",
-                    "in_stock": true,
+                    "inStock": true,
                     "name": "Аливария",
                     "description": "Пиво номер 1 в Беларуси",
                     "alcohol": 4.6,
@@ -358,7 +358,7 @@ Response: `200 OK`
                 "beer": {
                     "id": 3,
                     "type": "светлое осветлённое",
-                    "in_stock": true,
+                    "inStock": true,
                     "name": "Pilsner Urquell",
                     "description": "непастеризованное",
                     "alcohol": 4.2,

@@ -26,7 +26,7 @@ public class BeerControllerTest {
                         "    {\n" +
                         "        \"id\": 1,\n" +
                         "        \"type\": \"светлое\",\n" +
-                        "        \"in_stock\": true,\n" +
+                        "        \"inStock\": true,\n" +
                         "        \"name\": \"Лидское\",\n" +
                         "        \"description\": \"Лучшее пиво по бабушкиным рецептам\",\n" +
                         "        \"alcohol\": 5.0,\n" +
@@ -37,7 +37,7 @@ public class BeerControllerTest {
                         "    {\n" +
                         "        \"id\": 2,\n" +
                         "        \"type\": \"темное\",\n" +
-                        "        \"in_stock\": true,\n" +
+                        "        \"inStock\": true,\n" +
                         "        \"name\": \"Аливария\",\n" +
                         "        \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "        \"alcohol\": 4.6,\n" +
@@ -58,7 +58,7 @@ public class BeerControllerTest {
                         "    {\n" +
                         "        \"id\": 2,\n" +
                         "        \"type\": \"темное\",\n" +
-                        "        \"in_stock\": true,\n" +
+                        "        \"inStock\": true,\n" +
                         "        \"name\": \"Аливария\",\n" +
                         "        \"description\": \"Пиво номер 1 в Беларуси\",\n" +
                         "        \"alcohol\": 4.6,\n" +
@@ -75,7 +75,7 @@ public class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "    \"type\": \"светлое осветлённое\",\n" +
-                        "    \"in_stock\": true,\n" +
+                        "    \"inStock\": true,\n" +
                         "    \"name\": \"Pilsner Urquell\",\n" +
                         "    \"description\": \"непастеризованное\",\n" +
                         "    \"alcohol\": 4.2,\n" +

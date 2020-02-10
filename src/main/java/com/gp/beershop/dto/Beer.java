@@ -8,7 +8,7 @@ import lombok.Data;
 public class Beer {
     private Integer id;
     private String type;
-    private Boolean in_stock;
+    private Boolean inStock;
     private String name;
     private String description;
     private Double alcohol;

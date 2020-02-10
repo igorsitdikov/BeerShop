@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class BeerRequest {
     private String type;
-    private Boolean in_stock;
+    private Boolean inStock;
     private String name;
     private String description;
     private Double alcohol;

@@ -29,7 +29,7 @@ public class BeerService {
 
     public IdResponse addBeer(final BeerRequest request) {
         log.info("type = " + request.getType());
-        log.info("in_stock = " + request.getIn_stock());
+        log.info("inStock = " + request.getInStock());
         log.info("name = " + request.getName());
         log.info("description = " + request.getDescription());
         log.info("alcohol = " + request.getAlcohol());
