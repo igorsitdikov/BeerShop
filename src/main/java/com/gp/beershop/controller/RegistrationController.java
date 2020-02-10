@@ -5,15 +5,16 @@ import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.service.RegistrationService;
 import lombok.Data;
 import lombok.extern.java.Log;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 //version 1
 @Data
 @Log
 @RestController
-@RequestMapping("/api/user")
+@BasePathAwareController
+@RequestMapping("/user")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
@@ -28,7 +29,7 @@ public class RegistrationController {
 //        this.authService = authService;
 //    }
 
-    @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public IdResponse singUp(@RequestBody final CustomerSignUpRequest request) {
         return registrationService.signUp(request);

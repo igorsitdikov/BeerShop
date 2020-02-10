@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Data
 @Log
 @Service
-public class OrdersService {
+public class OrderService {
 
     public Orders addOrder(OrderRequest request) throws NoSuchCustomerException {
         log.info("customer Id = " + request.getCustomerId());
