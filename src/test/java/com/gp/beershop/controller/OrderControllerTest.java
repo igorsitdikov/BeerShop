@@ -1,10 +1,15 @@
 package com.gp.beershop.controller;
 
 
+import com.gp.beershop.mock.BeerMock;
+import com.gp.beershop.service.BeerService;
+import lombok.Data;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,11 +32,11 @@ public class OrderControllerTest {
                         "    \"goods\": [\n" +
                         "        {\n" +
                         "            \"id\": 2,\n" +
-                        "            \"value\": 1\n" +
+                        "            \"count\": 1\n" +
                         "        },\n" +
                         "        {\n" +
                         "            \"id\": 3,\n" +
-                        "            \"value\": 3\n" +
+                        "            \"count\": 3\n" +
                         "        }\n" +
                         "    ]\n" +
                         "}"))
@@ -59,7 +64,7 @@ public class OrderControllerTest {
                         "                \"country\": \"Республика Беларусь\",\n" +
                         "                \"price\": 3.0\n" +
                         "            },\n" +
-                        "            \"volume\": 1\n" +
+                        "            \"count\": 1\n" +
                         "        },\n" +
                         "        {\n" +
                         "            \"beer\": {\n" +
@@ -73,7 +78,7 @@ public class OrderControllerTest {
                         "                \"country\": \"Чехия\",\n" +
                         "                \"price\": 8.0\n" +
                         "            },\n" +
-                        "            \"volume\": 3\n" +
+                        "            \"count\": 3\n" +
                         "        }\n" +
                         "    ]\n" +
                         "}"));
@@ -107,8 +112,22 @@ public class OrderControllerTest {
                         "            \"phone\": \"+375331234567\"\n" +
                         "        },\n" +
                         "        \"processed\": true,\n" +
-                        "        \"total\": 31.0,\n" +
+                        "        \"total\": 25.0,\n" +
                         "        \"order\": [\n" +
+                        "            {\n" +
+                        "                \"beer\": {\n" +
+                        "                    \"id\": 1,\n" +
+                        "                    \"type\": \"светлое\",\n" +
+                        "                    \"inStock\": true,\n" +
+                        "                    \"name\": \"Лидское\",\n" +
+                        "                    \"description\": \"Лучшее пиво по бабушкиным рецептам\",\n" +
+                        "                    \"alcohol\": 5.0,\n" +
+                        "                    \"density\": 11.5,\n" +
+                        "                    \"country\": \"Республика Беларусь\",\n" +
+                        "                    \"price\": 5.0\n" +
+                        "                },\n" +
+                        "                \"count\": 2\n" +
+                        "            },\n" +
                         "            {\n" +
                         "                \"beer\": {\n" +
                         "                    \"id\": 2,\n" +
@@ -121,21 +140,7 @@ public class OrderControllerTest {
                         "                    \"country\": \"Республика Беларусь\",\n" +
                         "                    \"price\": 3.0\n" +
                         "                },\n" +
-                        "                \"volume\": 5\n" +
-                        "            },\n" +
-                        "            {\n" +
-                        "                \"beer\": {\n" +
-                        "                    \"id\": 3,\n" +
-                        "                    \"type\": \"светлое осветлённое\",\n" +
-                        "                    \"inStock\": true,\n" +
-                        "                    \"name\": \"Pilsner Urquell\",\n" +
-                        "                    \"description\": \"непастеризованное\",\n" +
-                        "                    \"alcohol\": 4.2,\n" +
-                        "                    \"density\": 12.0,\n" +
-                        "                    \"country\": \"Чехия\",\n" +
-                        "                    \"price\": 8.0\n" +
-                        "                },\n" +
-                        "                \"volume\": 2\n" +
+                        "                \"count\": 5\n" +
                         "            }\n" +
                         "        ]\n" +
                         "    },\n" +
@@ -162,7 +167,7 @@ public class OrderControllerTest {
                         "                    \"country\": \"Республика Беларусь\",\n" +
                         "                    \"price\": 3.0\n" +
                         "                },\n" +
-                        "                \"volume\": 1\n" +
+                        "                \"count\": 1\n" +
                         "            },\n" +
                         "            {\n" +
                         "                \"beer\": {\n" +
@@ -176,7 +181,7 @@ public class OrderControllerTest {
                         "                    \"country\": \"Чехия\",\n" +
                         "                    \"price\": 8.0\n" +
                         "                },\n" +
-                        "                \"volume\": 3\n" +
+                        "                \"count\": 3\n" +
                         "            }\n" +
                         "        ]\n" +
                         "    }\n" +

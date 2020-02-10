@@ -1,6 +1,6 @@
 package com.gp.beershop.controller;
 
-import com.gp.beershop.dto.CustomerSignUpRequest;
+import com.gp.beershop.dto.Customer;
 import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.service.RegistrationService;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdResponse singUp(@RequestBody final CustomerSignUpRequest request) {
+    public IdResponse singUp(@RequestBody final Customer request) {
         return registrationService.signUp(request);
     }
 }

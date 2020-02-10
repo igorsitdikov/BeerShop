@@ -1,8 +1,9 @@
 package com.gp.beershop.controller;
 
+import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.Beer;
-import com.gp.beershop.dto.BeerRequest;
 import com.gp.beershop.dto.IdResponse;
+import com.gp.beershop.dto.PriceRequest;
 import com.gp.beershop.service.BeerService;
 import lombok.Data;
 import lombok.extern.java.Log;
@@ -31,14 +32,14 @@ public class BeerController {
 
     @PostMapping(value = "/beer")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdResponse addBeer(@RequestBody final BeerRequest request) {
+    public IdResponse addBeer(@RequestBody final Beer request) {
         return beerService.addBeer(request);
     }
 
     @PatchMapping(value = "/beer/{beerId}")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponse updateBeerById(@PathVariable final Integer beerId) {
-        return beerService.updateBeerById(beerId);
+    public IdResponse updateBeerById(@PathVariable final Integer beerId, @RequestBody PriceRequest request) {
+        return beerService.updateBeerById(beerId, request);
     }
 
     @DeleteMapping(value = "/beer/{beerId}")

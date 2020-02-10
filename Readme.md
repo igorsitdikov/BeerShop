@@ -65,10 +65,10 @@ Response: `200 OK`
         "inStock": true,
         "name": "Лидское",
         "description": "Лучшее пиво по бабушкиным рецептам",
-        "alcohol": "5.0",
-        "density": "11.5",
+        "alcohol": 5.0,
+        "density": 11.5,
         "country": "Республика Беларусь",
-        "price": "5.0"
+        "price": 5.0
     },
     {
         "id": 2,
@@ -163,11 +163,11 @@ Request:
     "goods": [
         {
             "id": 2,
-            "value": 1
+            "count": 1
         },
         {
             "id": 3,
-            "value": 3
+            "count": 3
         }
     ]
 }
@@ -199,7 +199,7 @@ Response: `201 CREATED`
                 "country": "Республика Беларусь",
                 "price": 3.0
             },
-            "volume": 1
+            "count": 1
         },
         {
             "beer": {
@@ -213,7 +213,7 @@ Response: `201 CREATED`
                 "country": "Чехия",
                 "price": 8.0
             },
-            "volume": 3
+            "count": 3
         }
     ]
 }
@@ -311,7 +311,7 @@ Response: `200 OK`
                     "country": "Республика Беларусь",
                     "price": 3.0
                 },
-                "volume": 5
+                "count": 5
             },
             {
                 "beer": {
@@ -325,7 +325,7 @@ Response: `200 OK`
                     "country": "Чехия",
                     "price": 8.0
                 },
-                "volume": 2
+                "count": 2
             }
         ]
     },
@@ -352,7 +352,7 @@ Response: `200 OK`
                     "country": "Республика Беларусь",
                     "price": 3.0
                 },
-                "volume": 1
+                "count": 1
             },
             {
                 "beer": {
@@ -366,7 +366,7 @@ Response: `200 OK`
                     "country": "Чехия",
                     "price": 8.0
                 },
-                "volume": 3
+                "count": 3
             }
         ]
     }

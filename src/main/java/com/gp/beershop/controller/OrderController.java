@@ -2,7 +2,6 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.OrderRequest;
-import com.gp.beershop.dto.OrderStatus;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchCustomerException;
 import com.gp.beershop.service.OrderService;
@@ -38,7 +37,7 @@ public class OrderController {
 
     @PatchMapping(value = "/orders/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponse updateOrder(@PathVariable final Integer orderId, @RequestBody OrderStatus request) {
+    public IdResponse updateOrder(@PathVariable final Integer orderId, @RequestBody Orders request) {
         return orderService.updateOrder(orderId, request);
     }
 }

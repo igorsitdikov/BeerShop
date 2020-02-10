@@ -1,9 +1,12 @@
 package com.gp.beershop.controller;
 
+import com.gp.beershop.mock.BeerMock;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,11 +21,12 @@ public class BeerControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @Order(1)
     public void testBeerGetAll() throws Exception {
         mockMvc.perform(get("/api/beer")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json( "[\n" +
+                .andExpect(content().json("[\n" +
                         "    {\n" +
                         "        \"id\": 1,\n" +
                         "        \"type\": \"светлое\",\n" +
@@ -49,12 +53,13 @@ public class BeerControllerTest {
     }
 
     @Test
+    @Order(2)
     public void testBeerFilter() throws Exception {
-        mockMvc.perform(get("/api/beer/")
+        mockMvc.perform(get("/api/beer")
                 .param("type", "темное")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json( "[\n" +
+                .andExpect(content().json("[\n" +
                         "    {\n" +
                         "        \"id\": 2,\n" +
                         "        \"type\": \"темное\",\n" +
@@ -70,7 +75,8 @@ public class BeerControllerTest {
     }
 
     @Test
-    public void testAddBeer() throws Exception {
+    @Order(3)
+    public void testNewBeer() throws Exception {
         mockMvc.perform(post("/api/beer")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -90,17 +96,19 @@ public class BeerControllerTest {
     }
 
     @Test
+    @Order(4)
     public void testUpdateBeerById() throws Exception {
         mockMvc.perform(patch("/api/beer/3")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "    \"price\": \"8.30\"\n" +
+                        "    \"price\": 8.30\n" +
                         "}"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
                         "  \"id\" : 3\n" +
                         "}"));
     }
+
     @Test
     public void testDeleteBeerById() throws Exception {
         mockMvc.perform(delete("/api/beer/3")

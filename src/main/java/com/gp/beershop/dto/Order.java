@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class Order {
     private Beer beer;
-    private Integer volume;
+    private Integer count;
 }

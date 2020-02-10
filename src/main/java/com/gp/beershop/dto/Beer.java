@@ -2,10 +2,12 @@ package com.gp.beershop.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 @Data
 @Builder
 public class Beer {
+    @ReadOnlyProperty
     private Integer id;
     private String type;
     private Boolean inStock;
