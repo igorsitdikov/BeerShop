@@ -20,7 +20,7 @@ public class BeerService {
     private final IdResponse id = new IdResponse(3);
 
     public List<Beer> getAllBeer() {
-        return BeerMock.getAll().values().stream().collect(Collectors.toList());// .beerList.subList(0, 2);
+        return BeerMock.getAllValues();// .beerList.subList(0, 2);
     }
 
     public Beer getBeerById(Integer id) throws NoSuchBeerException {
@@ -32,8 +32,8 @@ public class BeerService {
     }
 
     public List<Beer> getBeerFilter(final String beerType) {
-        BeerMock.getAll().values().forEach(el -> log.info("type " + el.getType()));
-        return BeerMock.getAll().values().stream()
+        BeerMock.getAllValues().forEach(el -> log.info("type " + el.getType()));
+        return BeerMock.getAllValues().stream()
                 .filter(b -> b.getType().equals(beerType))
                 .collect(Collectors.toList());
     }
@@ -69,6 +69,7 @@ public class BeerService {
     }
 
     public IdResponse deleteBeerById(final Integer beerId) {
+        BeerMock.delete(beerId);
         return new IdResponse(beerId);
     }
 }

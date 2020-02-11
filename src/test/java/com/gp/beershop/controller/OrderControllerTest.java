@@ -152,7 +152,7 @@ public class OrderControllerTest {
                         "            \"email\": \"petr.petrov@yandex.ru\",\n" +
                         "            \"phone\": \"+375337654321\"\n" +
                         "        },\n" +
-                        "        \"processed\": false,\n" +
+                        "        \"processed\": true,\n" +
                         "        \"total\": 27.0,\n" +
                         "        \"order\": [\n" +
                         "            {\n" +

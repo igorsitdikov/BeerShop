@@ -5,6 +5,7 @@ import com.gp.beershop.dto.Orders;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,5 +46,9 @@ public class OrderMock {
 
     public static Map<Integer, Orders> getAll() {
         return ordersMap;
+    }
+
+    public static List<Orders> getAllValues() {
+        return new ArrayList<>(ordersMap.values());
     }
 }

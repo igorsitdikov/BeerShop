@@ -3,14 +3,12 @@ package com.gp.beershop.service;
 import com.gp.beershop.dto.*;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchCustomerException;
-import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.mock.OrderMock;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +25,7 @@ public class OrderService {
         request.getGoods()
                 .forEach(el -> log.info("goods id = " + el.getId() + " goods value = " + el.getCount()));
         Orders customerOrder;
-        Optional<Customer> customer = CustomersMock.getAll().values().stream()
+        Optional<Customer> customer = CustomersMock.getAllValues().stream()
                 .filter(c -> c.getId().equals(request.getCustomerId())).findAny();
         if (customer.isEmpty()) {
             throw new NoSuchCustomerException("No customer with id = " + request.getCustomerId() + " was found.");
@@ -59,14 +57,13 @@ public class OrderService {
 
     public IdResponse updateOrder(Integer id, Orders request) {
         log.info("processed = " + request.getProcessed());
-//        OrderMock.getById(id).setProcessed(true);
+        OrderMock.getById(id).setProcessed(true);
 //        log.info("processed in map = " + OrderMock.getById(id).getProcessed());
         return new IdResponse(id);
     }
 
     public List<Orders> showAllOrders() {
-        return new ArrayList<>(OrderMock.getAll().values());
-//        return FishObject.orders;
+        return OrderMock.getAllValues();
     }
 
 }

@@ -4,7 +4,9 @@ import com.gp.beershop.dto.Beer;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -49,5 +51,13 @@ public class BeerMock {
 
     public static Map<Integer, Beer> getAll() {
         return beerMap;
+    }
+
+    public static List<Beer> getAllValues() {
+        return new ArrayList<>(beerMap.values());
+    }
+
+    public static void delete(Integer id) {
+        beerMap.remove(id);
     }
 }

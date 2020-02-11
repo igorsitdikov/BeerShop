@@ -1,11 +1,12 @@
 package com.gp.beershop.mock;
 
 import com.gp.beershop.dto.Customer;
-import com.gp.beershop.dto.Orders;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -33,11 +34,16 @@ public class CustomersMock {
     public static Customer getById(Integer id) {
         return customerMap.get(id);
     }
+
     public static Integer size() {
         return customerMap.size();
     }
 
     public static Map<Integer, Customer> getAll() {
         return customerMap;
+    }
+
+    public static List<Customer> getAllValues() {
+        return new ArrayList<>(customerMap.values());
     }
 }
