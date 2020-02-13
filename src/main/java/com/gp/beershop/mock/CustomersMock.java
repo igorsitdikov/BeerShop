@@ -1,5 +1,6 @@
 package com.gp.beershop.mock;
 
+import com.gp.beershop.dto.Beer;
 import com.gp.beershop.dto.Customer;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,23 @@ public class CustomersMock {
 
     public static Map<Integer, Customer> getAll() {
         return customerMap;
+    }
+
+    public static void defaultState() {
+        customerMap = new HashMap<>() {{
+            put(1, Customer.builder()
+                    .id(1)
+                    .name("Иван Иванов")
+                    .email("ivan.ivanov@mail.ru")
+                    .phone("+375331234567")
+                    .build());
+            put(2, Customer.builder()
+                    .id(2)
+                    .name("Петр Петров")
+                    .email("petr.petrov@yandex.ru")
+                    .phone("+375337654321")
+                    .build());
+        }};
     }
 
     public static List<Customer> getAllValues() {

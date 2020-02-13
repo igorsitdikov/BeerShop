@@ -1,7 +1,6 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.*;
-import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchCustomerException;
 import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.mock.OrderMock;
@@ -30,17 +29,10 @@ public class OrderService {
         if (customer.isEmpty()) {
             throw new NoSuchCustomerException("No customer with id = " + request.getCustomerId() + " was found.");
         } else {
-            List<Order> orderList = request.getGoods().stream().map(el -> {
-                try {
-                    return Order.builder()
-                            .beer(beerService.getBeerById(el.getId()))
-                            .count(el.getCount())
-                            .build();
-                } catch (NoSuchBeerException e) {
-                    log.info(e.getMessage());
-                }
-                return null;
-            }).collect(Collectors.toList());
+            List<Order> orderList = request.getGoods().stream().map(el -> Order.builder()
+                    .beer(beerService.getBeerById(el.getId()))
+                    .count(el.getCount())
+                    .build()).collect(Collectors.toList());
             Double total = orderList.stream().mapToDouble(a -> a.getBeer().getPrice() * a.getCount()).sum();
             customerOrder = Orders.builder()
                     .id(2)
@@ -58,7 +50,7 @@ public class OrderService {
     public IdResponse updateOrder(Integer id, Orders request) {
         log.info("processed = " + request.getProcessed());
         OrderMock.getById(id).setProcessed(true);
-//        log.info("processed in map = " + OrderMock.getById(id).getProcessed());
+        log.info("processed in map = " + OrderMock.getById(id).getProcessed());
         return new IdResponse(id);
     }
 

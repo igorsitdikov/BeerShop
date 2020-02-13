@@ -3,7 +3,6 @@ package com.gp.beershop.service;
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.PriceRequest;
-import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mock.BeerMock;
 import lombok.Data;
 import lombok.extern.java.Log;
@@ -20,15 +19,11 @@ public class BeerService {
     private final IdResponse id = new IdResponse(3);
 
     public List<Beer> getAllBeer() {
-        return BeerMock.getAllValues();// .beerList.subList(0, 2);
+        return BeerMock.getAllValues();
     }
 
-    public Beer getBeerById(Integer id) throws NoSuchBeerException {
+    public Beer getBeerById(Integer id) {
         return BeerMock.getById(id);
-//        return FishObject.beerList.stream()
-//                .filter(b -> b.getId().equals(id))
-//                .findAny()
-//                .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + id + " was found."));
     }
 
     public List<Beer> getBeerFilter(final String beerType) {
@@ -63,8 +58,8 @@ public class BeerService {
     }
 
     public IdResponse updateBeerById(final Integer beerId, final PriceRequest request) {
-//        BeerMock.getById(beerId).setPrice(request.getPrice());
-//        log.info("new price = " + BeerMock.getById(beerId).getPrice());
+        BeerMock.getById(beerId).setPrice(request.getPrice());
+        log.info("new price = " + BeerMock.getById(beerId).getPrice());
         return new IdResponse(beerId);
     }
 
