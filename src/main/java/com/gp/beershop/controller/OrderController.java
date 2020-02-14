@@ -6,7 +6,6 @@ import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchCustomerException;
 import com.gp.beershop.service.OrderService;
 import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Data
-@Log
 @RestController
 @BasePathAwareController
 @RequestMapping("/admin/")

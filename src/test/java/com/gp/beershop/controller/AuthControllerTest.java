@@ -2,6 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.IdResponse;
+import com.gp.beershop.dto.UserSignInResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -13,6 +14,7 @@ public class AuthControllerTest extends AbstractControllerTest{
 
     @Test
     public void testCustomerSignIn() throws Exception {
+        final String token = signInAsCustomer().replace("Bearer ", "");
         mockMvc.perform(post("/api/user/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
@@ -23,11 +25,10 @@ public class AuthControllerTest extends AbstractControllerTest{
                                         .build()
                         )))
                 .andExpect(status().isOk())
-                .andExpect(content().json(
-                        mapper.writeValueAsString(
-                                IdResponse.builder()
-                                        .id(1)
-                                        .build()
-                        )));
+                .andExpect(content().json(mapper.writeValueAsString(
+                        UserSignInResponse.builder()
+                                .token(token)
+                                .build()
+                )));
     }
 }

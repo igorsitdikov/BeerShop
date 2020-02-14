@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class PriceRequest {
-    private Double price;
+@NoArgsConstructor
+public class UserSignInResponse {
+    private String token;
 }

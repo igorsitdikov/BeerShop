@@ -5,7 +5,6 @@ import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.PriceRequest;
 import com.gp.beershop.service.BeerService;
 import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Data
-@Log
 @RestController
-@RequestMapping("/beer")
+@RequestMapping("/beers")
 @BasePathAwareController
 public class BeerController {
 
@@ -38,7 +36,7 @@ public class BeerController {
 
     @PatchMapping(value = "/{beerId}")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponse updateBeerById(@PathVariable final Integer beerId, @RequestBody PriceRequest request) {
+    public IdResponse updateBeerById(@RequestBody final PriceRequest request, @PathVariable final Integer beerId) {
         return beerService.updateBeerById(beerId, request);
     }
 

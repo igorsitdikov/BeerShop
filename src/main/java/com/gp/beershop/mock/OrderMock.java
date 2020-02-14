@@ -1,6 +1,5 @@
 package com.gp.beershop.mock;
 
-import com.gp.beershop.dto.Customer;
 import com.gp.beershop.dto.Order;
 import com.gp.beershop.dto.Orders;
 import lombok.Data;

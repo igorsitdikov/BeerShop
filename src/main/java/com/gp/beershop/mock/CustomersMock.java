@@ -1,6 +1,5 @@
 package com.gp.beershop.mock;
 
-import com.gp.beershop.dto.Beer;
 import com.gp.beershop.dto.Customer;
 import lombok.Data;
 import org.springframework.stereotype.Service;

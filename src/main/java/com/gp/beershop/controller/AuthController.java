@@ -1,16 +1,14 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
-import com.gp.beershop.dto.IdResponse;
+import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.service.AuthService;
 import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Data
-@Log
 @RestController
 @BasePathAwareController
 @RequestMapping("/user")
@@ -20,7 +18,7 @@ public class AuthController {
 
     @PostMapping(value = "/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponse singUp(@RequestBody final AuthRequest request) {
+    public UserSignInResponse singUp(@RequestBody final AuthRequest request) {
         return authService.signIn(request);
     }
 }
