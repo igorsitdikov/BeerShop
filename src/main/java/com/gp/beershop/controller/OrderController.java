@@ -1,6 +1,5 @@
 package com.gp.beershop.controller;
 
-import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchCustomerException;
@@ -15,27 +14,27 @@ import java.util.List;
 @Data
 @RestController
 @BasePathAwareController
-@RequestMapping("/admin/")
+@RequestMapping(value = "/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping(value = "/orders")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<Orders> showAllOrders() {
-        return orderService.showAllOrders();
+    public List<Orders> showOrders() {
+        return orderService.showOrders();
     }
 
 
-    @PostMapping(value = "/orders")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Orders addOrder(@RequestBody final OrderRequest request) throws NoSuchCustomerException {
-        return orderService.addOrder(request);
+    public Orders addOrder(@RequestBody final OrderRequest orderRequest) throws NoSuchCustomerException {
+        return orderService.addOrder(orderRequest);
     }
 
-    @PatchMapping(value = "/orders/{orderId}")
+    @PatchMapping(value = "/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponse updateOrder(@PathVariable final Integer orderId, @RequestBody Orders request) {
-        return orderService.updateOrder(orderId, request);
+    public Integer changeOrderStatus(@PathVariable final Integer orderId, @RequestBody final Orders orders) {
+        return orderService.changeOrderStatus(orderId, orders);
     }
 }

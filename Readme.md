@@ -88,7 +88,7 @@ Response: `200 OK`
 
 Request: 
 
-`GET /api/beer/?type=${beerType}`
+`GET /api/beer?type=${beerType}`
 
 `Headers: beerType="темное"`
 
@@ -155,7 +155,7 @@ Response: `200 OK`
 
 Request: 
 
-```POST /api/admin/orders```
+```POST /api/orders```
 
 ```
 {
@@ -186,7 +186,7 @@ Response: `201 CREATED`
     },
     "processed": false,
     "total": 27.0,
-    "order": [
+    "customerOrder": [
         {
             "beer": {
                 "id": 2,
@@ -282,7 +282,7 @@ Response: `200 OK`
 
 Request: 
     
-`GET /api/admin/orders`
+`GET /api/orders`
     
 Response: `200 OK`
 
@@ -298,7 +298,7 @@ Response: `200 OK`
         },
         "processed": true,
         "total": 31.0,
-        "order": [
+        "customerOrder": [
             {
                 "beer": {
                     "id": 2,
@@ -339,7 +339,7 @@ Response: `200 OK`
         },
         "processed": false,
         "total": 27.0,
-        "order": [
+        "customerOrder": [
             {
                 "beer": {
                     "id": 2,
@@ -377,7 +377,7 @@ Response: `200 OK`
 
 Request: 
     
-`PATCH /api/admin/orders/${orderId}`
+`PATCH /api/orders/${orderId}`
 
 `Headers: orderId=2`
 

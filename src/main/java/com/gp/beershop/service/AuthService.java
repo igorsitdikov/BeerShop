@@ -1,7 +1,6 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.AuthRequest;
-import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.mapper.UserMapper;
 import com.gp.beershop.repository.UserRepository;
@@ -26,7 +25,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final IdResponse id = new IdResponse(1);
     public UserSignInResponse signIn(final AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())

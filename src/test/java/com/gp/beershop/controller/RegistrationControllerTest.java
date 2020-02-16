@@ -1,7 +1,6 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.CustomerSignUpRequest;
-import com.gp.beershop.dto.IdResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -28,11 +27,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
                         )))
                 // then
                 .andExpect(status().isCreated())
-                .andExpect(content().json( mapper.writeValueAsString(
-                        IdResponse.builder()
-                                .id(1)
-                                .build()
-                )));
+                .andExpect(content().json(mapper.writeValueAsString(1)));
     }
 
 }

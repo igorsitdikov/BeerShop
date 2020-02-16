@@ -1,6 +1,6 @@
 package com.gp.beershop.mock;
 
-import com.gp.beershop.dto.Order;
+import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Orders;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -19,12 +19,12 @@ public class OrderMock {
                 .customer(CustomersMock.getById(1))
                 .processed(true)
                 .total(25D)
-                .order(List.of(
-                        Order.builder()
+                .customerOrders(List.of(
+                        CustomerOrder.builder()
                                 .beer(BeerMock.getById(1))
                                 .count(2)
                                 .build(),
-                        Order.builder().beer(BeerMock.getById(2))
+                        CustomerOrder.builder().beer(BeerMock.getById(2))
                                 .count(5)
                                 .build()
                 ))
@@ -38,12 +38,12 @@ public class OrderMock {
                     .customer(CustomersMock.getById(1))
                     .processed(true)
                     .total(25D)
-                    .order(List.of(
-                            Order.builder()
+                    .customerOrders(List.of(
+                            CustomerOrder.builder()
                                     .beer(BeerMock.getById(1))
                                     .count(2)
                                     .build(),
-                            Order.builder().beer(BeerMock.getById(2))
+                            CustomerOrder.builder().beer(BeerMock.getById(2))
                                     .count(5)
                                     .build()
                     ))
@@ -53,12 +53,12 @@ public class OrderMock {
                     .customer(CustomersMock.getById(2))
                     .processed(true)
                     .total(27D)
-                    .order(List.of(
-                            Order.builder()
+                    .customerOrders(List.of(
+                            CustomerOrder.builder()
                                     .beer(BeerMock.getById(2))
                                     .count(1)
                                     .build(),
-                            Order.builder().beer(BeerMock.getById(3))
+                            CustomerOrder.builder().beer(BeerMock.getById(3))
                                     .count(3)
                                     .build()
                     ))

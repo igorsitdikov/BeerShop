@@ -1,7 +1,6 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.Customer;
-import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.service.RegistrationService;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -19,7 +18,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdResponse singUp(@RequestBody final Customer request) {
+    public Integer singUp(@RequestBody final Customer request) {
         return registrationService.signUp(request);
     }
 }

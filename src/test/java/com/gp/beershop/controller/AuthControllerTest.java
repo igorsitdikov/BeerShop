@@ -1,7 +1,6 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
-import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.UserSignInResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

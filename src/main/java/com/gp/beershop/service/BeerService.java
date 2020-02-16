@@ -1,16 +1,15 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.Beer;
-import com.gp.beershop.dto.IdResponse;
 import com.gp.beershop.dto.PriceRequest;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.mapper.BeerMapper;
-import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,17 +21,42 @@ public class BeerService {
 
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
-
-    private final IdResponse id = new IdResponse(3);
-
-    public List<Beer> getAllBeer() {
-        return beerRepository.findAll().stream()
-                .map(beerMapper::destinationToSource)
-                .collect(Collectors.toList());
+    @PostConstruct
+    public void init() {
+        beerRepository.saveAndFlush(beerMapper.sourceToDestination(Beer.builder()
+                .id(1)
+                .type("светлое")
+                .inStock(true)
+                .name("Лидское")
+                .description("Лучшее пиво по бабушкиным рецептам")
+                .alcohol(5.0)
+                .density(11.5)
+                .country("Республика Беларусь")
+                .price(5D)
+                .build()));
+        beerRepository.saveAndFlush( beerMapper.sourceToDestination(Beer.builder()
+                .id(2)
+                .type("темное")
+                .inStock(true)
+                .name("Аливария")
+                .description("Пиво номер 1 в Беларуси")
+                .alcohol(4.6)
+                .density(10.2)
+                .country("Республика Беларусь")
+                .price(3D)
+                .build()));
+        log.info("Beer repo = " + (long) beerRepository.findAll().size());
     }
 
-    public Beer getBeerById(Integer id) {
-        return BeerMock.getById(id);
+    public List<Beer> getBeers() {
+        final List<Beer> beers = beerRepository.findAll().stream()
+                .map(beerMapper::destinationToSource)
+                .collect(Collectors.toList());
+        return beers;
+    }
+
+    public Beer getBeerById(final Integer id) {
+        return beerRepository.findById(id).map(beerMapper::destinationToSource).get();
     }
 
     public List<Beer> getBeerFilter(final String beerType) {
@@ -40,34 +64,10 @@ public class BeerService {
                 .map(beerMapper::destinationToSource)
                 .filter(b -> b.getType().equals(beerType))
                 .collect(Collectors.toList());
-//        BeerMock.getAllValues().forEach(el -> log.info("type " + el.getType()));
-//        return BeerMock.getAllValues().stream()
-//                .filter(b -> b.getType().equals(beerType))
-//                .collect(Collectors.toList());
     }
 
-    public IdResponse addBeer(final Beer request) {
-        log.info("type = " + request.getType());
-        log.info("inStock = " + request.getInStock());
-        log.info("name = " + request.getName());
-        log.info("description = " + request.getDescription());
-        log.info("alcohol = " + request.getAlcohol());
-        log.info("density = " + request.getDensity());
-        log.info("country = " + request.getCountry());
-        log.info("price = " + request.getPrice());
-        Integer lastElementId = BeerMock.size() + 1;
-        BeerMock.put(lastElementId, Beer.builder()
-                .id(lastElementId)
-                .type(request.getType())
-                .inStock(request.getInStock())
-                .name(request.getName())
-                .description(request.getDescription())
-                .alcohol(request.getAlcohol())
-                .density(request.getDensity())
-                .country(request.getCountry())
-                .price(request.getPrice())
-                .build());
-        BeerEntity ss = beerRepository.saveAndFlush(beerMapper.sourceToDestination(Beer.builder()
+    public Integer addBeer(final Beer request) {
+        final BeerEntity beerEntity = beerRepository.saveAndFlush(beerMapper.sourceToDestination(Beer.builder()
                 .type(request.getType())
                 .inStock(request.getInStock())
                 .name(request.getName())
@@ -77,11 +77,11 @@ public class BeerService {
                 .country(request.getCountry())
                 .price(request.getPrice())
                 .build()));
-        return new IdResponse(ss.getId());
+        return beerEntity.getId();
     }
 
-    public IdResponse updateBeerById(final Integer beerId, final PriceRequest request) {
-        Optional<BeerEntity> beerEntity = beerRepository.findById(beerId);
+    public Integer updateBeerById(final Integer beerId, final PriceRequest request) {
+        final Optional<BeerEntity> beerEntity = beerRepository.findById(beerId);
         BeerEntity beer = null;
         if (beerEntity.isPresent()) {
             beer = beerEntity.get();
@@ -89,11 +89,11 @@ public class BeerService {
             beerRepository.save(beer);
         }
         log.info("new price = " + beer.getPrice());
-        return new IdResponse(beer.getId());
+        return beer.getId();
     }
 
-    public IdResponse deleteBeerById(final Integer beerId) {
+    public Integer deleteBeerById(final Integer beerId) {
         beerRepository.deleteById(beerId);
-        return new IdResponse(beerId);
+        return beerId;
     }
 }

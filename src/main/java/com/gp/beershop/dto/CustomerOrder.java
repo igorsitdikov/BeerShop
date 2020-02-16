@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Order {
+public class CustomerOrder {
     private Beer beer;
     private Integer count;
 }

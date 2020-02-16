@@ -3,13 +3,11 @@ package com.gp.beershop.entity;
 import com.gp.beershop.security.UserRole;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
-@Entity
+@Entity(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +16,7 @@ public class UserEntity {
     private String password;
     private String email;
     private String phone;
+    @OneToMany(mappedBy = "user")
+    private Set<OrderEntity> orders;
     private UserRole userRole;
 }

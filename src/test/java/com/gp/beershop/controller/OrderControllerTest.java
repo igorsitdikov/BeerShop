@@ -2,27 +2,44 @@ package com.gp.beershop.controller;
 
 
 import com.gp.beershop.dto.*;
+import com.gp.beershop.mapper.BeerMapper;
+import com.gp.beershop.mapper.OrderMapper;
+import com.gp.beershop.mock.BeerMock;
+import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.mock.OrderMock;
+import com.gp.beershop.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class OrderControllerTest extends AbstractControllerTest {
+    @MockBean
+    protected OrderRepository orderRepository;
+
+    @SpyBean
+    private OrderMapper orderMapper;
 
     @BeforeEach
     public void defaultSystem() {
+        BeerMock.defaultState();
         OrderMock.defaultState();
     }
 
     @Test
     public void testAddOrder() throws Exception {
-        mockMvc.perform(post("/api/admin/orders")
+        final String token = signInAsCustomer();
+
+        mockMvc.perform(post("/api/orders").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         mapper.writeValueAsString(OrderRequest.builder()
@@ -52,8 +69,8 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                 .build())
                                         .processed(false)
                                         .total(27D)
-                                        .order(List.of(
-                                                Order.builder()
+                                        .customerOrders(List.of(
+                                                CustomerOrder.builder()
                                                         .beer(Beer.builder()
                                                                 .id(2)
                                                                 .type("темное")
@@ -67,7 +84,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                                 .build())
                                                         .count(1)
                                                         .build(),
-                                                Order.builder()
+                                                CustomerOrder.builder()
                                                         .beer(Beer.builder()
                                                                 .id(3)
                                                                 .type("светлое осветлённое")
@@ -88,24 +105,26 @@ public class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdateOrderById() throws Exception {
-        mockMvc.perform(patch("/api/admin/orders/2")
+        final String token = signInAsCustomer();
+        mockMvc.perform(patch("/api/orders/2").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "    \"processed\": true\n" +
                         "}"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
-                        mapper.writeValueAsString(
-                                IdResponse.builder()
-                                        .id(2)
-                                        .build()
-                        )
+                        mapper.writeValueAsString(2)
                 ));
     }
 
     @Test
     public void testShowAllOrders() throws Exception {
-        mockMvc.perform(get("/api/admin/orders")
+        final String token = signInAsCustomer();
+        willReturn(OrderMock.getAllValues().stream()
+                .map(orderMapper::sourceToDestination)
+                .collect(Collectors.toList()))
+                .given(orderRepository).findAll();
+        mockMvc.perform(get("/api/orders").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -120,8 +139,8 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                         .build())
                                                 .processed(true)
                                                 .total(25D)
-                                                .order(List.of(
-                                                        Order.builder()
+                                                .customerOrders(List.of(
+                                                        CustomerOrder.builder()
                                                                 .beer(Beer.builder()
                                                                         .id(1)
                                                                         .type("светлое")
@@ -135,7 +154,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                                         .build())
                                                                 .count(2)
                                                                 .build(),
-                                                        Order.builder()
+                                                        CustomerOrder.builder()
                                                                 .beer(Beer.builder()
                                                                         .id(2)
                                                                         .type("темное")
@@ -160,8 +179,8 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                         .build())
                                                 .processed(true)
                                                 .total(27D)
-                                                .order(List.of(
-                                                        Order.builder()
+                                                .customerOrders(List.of(
+                                                        CustomerOrder.builder()
                                                                 .beer(Beer.builder()
                                                                         .id(2)
                                                                         .type("темное")
@@ -175,7 +194,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                                                         .build())
                                                                 .count(1)
                                                                 .build(),
-                                                        Order.builder()
+                                                        CustomerOrder.builder()
                                                                 .beer(Beer.builder()
                                                                         .id(3)
                                                                         .type("светлое осветлённое")
