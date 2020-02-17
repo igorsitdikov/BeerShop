@@ -7,6 +7,8 @@ import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Data
 @RestController
@@ -20,5 +22,11 @@ public class RegistrationController {
     @ResponseStatus(HttpStatus.CREATED)
     public Integer singUp(@RequestBody final Customer request) {
         return registrationService.signUp(request);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<Customer> customers() {
+        return registrationService.customers();
     }
 }

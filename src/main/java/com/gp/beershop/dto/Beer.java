@@ -8,8 +8,8 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 
 @Data
 @Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Beer {
     @ReadOnlyProperty
     private Integer id;

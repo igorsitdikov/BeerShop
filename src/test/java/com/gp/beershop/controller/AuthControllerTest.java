@@ -9,25 +9,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AuthControllerTest extends AbstractControllerTest{
+public class AuthControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCustomerSignIn() throws Exception {
         final String token = signInAsCustomer().replace("Bearer ", "");
-        mockMvc.perform(post("/api/user/sign-in")
+        mockMvc.perform(
+            post("/api/user/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
-                        mapper.writeValueAsString(
-                                AuthRequest.builder()
-                                        .email("ivan.ivanov@mail.ru")
-                                        .password("123456")
-                                        .build()
-                        )))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(
-                        UserSignInResponse.builder()
-                                .token(token)
-                                .build()
-                )));
+                    mapper.writeValueAsString(
+                        AuthRequest.builder()
+                            .email("ivan.ivanov@mail.ru")
+                            .password("123456")
+                            .build())))
+            .andExpect(status().isOk())
+            .andExpect(content().json(
+                mapper.writeValueAsString(
+                    UserSignInResponse.builder()
+                        .token(token)
+                        .build())));
     }
 }

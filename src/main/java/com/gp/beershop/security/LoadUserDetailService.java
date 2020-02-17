@@ -26,7 +26,7 @@ public class LoadUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User with email: " + email + " not found");
         } else {
             final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
-                    "ROLE_" + userEntity.get().getUserRole().name());
+                "ROLE_" + userEntity.get().getUserRole().name());
             return new User(email, userEntity.get().getPassword(), List.of(authority));
         }
     }

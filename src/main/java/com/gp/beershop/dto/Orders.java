@@ -1,7 +1,7 @@
 package com.gp.beershop.dto;
 
 import com.gp.beershop.entity.OrderEntity;
-import com.gp.beershop.mapper.CustomerOrderMapper;
+//import com.gp.beershop.mapper.CustomerOrderMapper;
 import com.gp.beershop.mapper.UserMapper;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class Orders {
-    private final CustomerOrderMapper customerOrderMapper;
+//    private final CustomerOrderMapper customerOrderMapper;
     private final UserMapper userMapper;
     private Integer id;
     private Customer customer;

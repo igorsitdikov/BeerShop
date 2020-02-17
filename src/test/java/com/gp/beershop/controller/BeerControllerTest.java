@@ -29,129 +29,127 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @MockBean
     protected BeerRepository beerRepository;
-//    @SpyBean
-//    private BeerService beerService;
     @SpyBean
     private BeerMapper beerMapper;
-//    @BeforeEach
-//    public void init() {
-//        beerService.init();
-//    }
+
     @Test
     public void testBeerGetAll() throws Exception {
-//        willReturn(List.of(
-//                Beer.builder()
-//                        .id(1)
-//                        .type("светлое")
-//                        .inStock(true)
-//                        .name("Лидское")
-//                        .description("Лучшее пиво по бабушкиным рецептам")
-//                        .alcohol(5.0)
-//                        .density(11.5)
-//                        .country("Республика Беларусь")
-//                        .price(5D)
-//                        .build(),
-//                Beer.builder()
-//                        .id(2)
-//                        .type("темное")
-//                        .inStock(true)
-//                        .name("Аливария")
-//                        .description("Пиво номер 1 в Беларуси")
-//                        .alcohol(4.6)
-//                        .density(10.2)
-//                        .country("Республика Беларусь")
-//                        .price(3D)
-//                        .build())
-//                .stream()
-//                .map(beerMapper::sourceToDestination)
-//                .collect(Collectors.toList()))
-//                .given(beerRepository).findAll();
+        willReturn(List.of(
+            Beer.builder()
+                .id(1)
+                .type("светлое")
+                .inStock(true)
+                .name("Лидское")
+                .description("Лучшее пиво по бабушкиным рецептам")
+                .alcohol(5.0)
+                .density(11.5)
+                .country("Республика Беларусь")
+                .price(5D)
+                .build(),
+            Beer.builder()
+                .id(2)
+                .type("темное")
+                .inStock(true)
+                .name("Аливария")
+                .description("Пиво номер 1 в Беларуси")
+                .alcohol(4.6)
+                .density(10.2)
+                .country("Республика Беларусь")
+                .price(3D)
+                .build())
+                       .stream()
+                       .map(beerMapper::sourceToDestination)
+                       .collect(Collectors.toList()))
+            .given(beerRepository).findAll();
 
         mockMvc.perform(get("/api/beers")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(
-                        List.of(Beer.builder()
-                                        .id(1)
-                                        .type("светлое")
-                                        .inStock(true)
-                                        .name("Лидское")
-                                        .description("Лучшее пиво по бабушкиным рецептам")
-                                        .alcohol(5.0)
-                                        .density(11.5)
-                                        .country("Республика Беларусь")
-                                        .price(5D)
-                                        .build(),
-                                Beer.builder()
-                                        .id(2)
-                                        .type("темное")
-                                        .inStock(true)
-                                        .name("Аливария")
-                                        .description("Пиво номер 1 в Беларуси")
-                                        .alcohol(4.6)
-                                        .density(10.2)
-                                        .country("Республика Беларусь")
-                                        .price(3D)
-                                        .build()
-                        )
-                )));
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(
+                mapper.writeValueAsString(
+                    List.of(Beer.builder()
+                                .id(1)
+                                .type("светлое")
+                                .inStock(true)
+                                .name("Лидское")
+                                .description("Лучшее пиво по бабушкиным рецептам")
+                                .alcohol(5.0)
+                                .density(11.5)
+                                .country("Республика Беларусь")
+                                .price(5D)
+                                .build(),
+                            Beer.builder()
+                                .id(2)
+                                .type("темное")
+                                .inStock(true)
+                                .name("Аливария")
+                                .description("Пиво номер 1 в Беларуси")
+                                .alcohol(4.6)
+                                .density(10.2)
+                                .country("Республика Беларусь")
+                                .price(3D)
+                                .build()
+                           )
+                                         )));
     }
 
     @Test
     public void testBeerFilter() throws Exception {
         final String token = signInAsCustomer();
-//        willReturn(List.of(
-//                Beer.builder()
-//                        .id(1)
-//                        .type("светлое")
-//                        .inStock(true)
-//                        .name("Лидское")
-//                        .description("Лучшее пиво по бабушкиным рецептам")
-//                        .alcohol(5.0)
-//                        .density(11.5)
-//                        .country("Республика Беларусь")
-//                        .price(5D)
-//                        .build(),
-//                Beer.builder()
-//                        .id(2)
-//                        .type("темное")
-//                        .inStock(true)
-//                        .name("Аливария")
-//                        .description("Пиво номер 1 в Беларуси")
-//                        .alcohol(4.6)
-//                        .density(10.2)
-//                        .country("Республика Беларусь")
-//                        .price(3D)
-//                        .build())
-//                .stream()
-//                .map(beerMapper::sourceToDestination)
-//                .collect(Collectors.toList()))
-//                .given(beerRepository).findAll();
-        log.info("Test beeer size = " + beerRepository.findAll().stream().count());
+        willReturn(List.of(
+            Beer.builder()
+                .id(1)
+                .type("светлое")
+                .inStock(true)
+                .name("Лидское")
+                .description("Лучшее пиво по бабушкиным рецептам")
+                .alcohol(5.0)
+                .density(11.5)
+                .country("Республика Беларусь")
+                .price(5D)
+                .build(),
+            Beer.builder()
+                .id(2)
+                .type("темное")
+                .inStock(true)
+                .name("Аливария")
+                .description("Пиво номер 1 в Беларуси")
+                .alcohol(4.6)
+                .density(10.2)
+                .country("Республика Беларусь")
+                .price(3D)
+                .build())
+                       .stream()
+                       .map(beerMapper::sourceToDestination)
+                       .collect(Collectors.toList()))
+            .given(beerRepository).findAll();
+
         mockMvc.perform(get("/api/beers")
-                .param("type", "темное")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(
-                        List.of(
-                                Beer.builder()
-                                        .id(2)
-                                        .type("темное")
-                                        .inStock(true)
-                                        .name("Аливария")
-                                        .description("Пиво номер 1 в Беларуси")
-                                        .alcohol(4.6)
-                                        .density(10.2)
-                                        .country("Республика Беларусь")
-                                        .price(3D)
-                                        .build()
-                        ))));
+                            .header("Authorization", token)
+                            .param("type", "темное")
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(
+                List.of(
+                    Beer.builder()
+                        .id(2)
+                        .type("темное")
+                        .inStock(true)
+                        .name("Аливария")
+                        .description("Пиво номер 1 в Беларуси")
+                        .alcohol(4.6)
+                        .density(10.2)
+                        .country("Республика Беларусь")
+                        .price(3D)
+                        .build()
+                       ))));
     }
 
     @Test
     public void testNewBeer() throws Exception {
         final String token = signInAsCustomer();
-        BeerEntity s = beerMapper.sourceToDestination(Beer.builder()
+        BeerEntity s = beerMapper.sourceToDestination(
+            Beer.builder()
                 .type("светлое осветлённое")
                 .inStock(true)
                 .name("Pilsner Urquell")
@@ -161,24 +159,27 @@ public class BeerControllerTest extends AbstractControllerTest {
                 .country("Чехия")
                 .price(8D)
                 .build());
-        willReturn(beerMapper.sourceToDestination(Beer.builder()
-                .id(3)
-                .type("светлое осветлённое")
-                .inStock(true)
-                .name("Pilsner Urquell")
-                .description("непастеризованное")
-                .alcohol(4.2)
-                .density(12.0)
-                .country("Чехия")
-                .price(8D)
-                .build()))
-                .given(beerRepository)
-                .saveAndFlush(s);
-        mockMvc.perform(post("/api/beers").header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                        mapper.writeValueAsString(
-                                Beer.builder()
+        willReturn(
+            beerMapper.sourceToDestination(
+                Beer.builder()
+                    .id(3)
+                    .type("светлое осветлённое")
+                    .inStock(true)
+                    .name("Pilsner Urquell")
+                    .description("непастеризованное")
+                    .alcohol(4.2)
+                    .density(12.0)
+                    .country("Чехия")
+                    .price(8D)
+                    .build()))
+            .given(beerRepository)
+            .save(s);
+        mockMvc.perform(post("/api/beers")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    Beer.builder()
                                         .type("светлое осветлённое")
                                         .inStock(true)
                                         .name("Pilsner Urquell")
@@ -188,49 +189,54 @@ public class BeerControllerTest extends AbstractControllerTest {
                                         .country("Чехия")
                                         .price(8D)
                                         .build()
-                        )))
-                .andExpect(status().isCreated())
-                .andExpect(content().json(
-                        mapper.writeValueAsString(3)));
+                                                         )))
+            .andExpect(status().isCreated())
+            .andExpect(content().json(
+                mapper.writeValueAsString(3)));
     }
 
     @Test
     public void testUpdateBeerById() throws Exception {
         final String token = signInAsCustomer();
-        willReturn(Optional.of(beerMapper.sourceToDestination(Beer.builder()
-                .id(3)
-                .type("светлое осветлённое")
-                .inStock(true)
-                .name("Pilsner Urquell")
-                .description("непастеризованное")
-                .alcohol(4.2)
-                .density(12.0)
-                .country("Чехия")
-                .price(8D)
-                .build())))
-                .given(beerRepository)
-                .findById(3);
-        mockMvc.perform(patch("/api/beers/3").header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                        mapper.writeValueAsString(
-                                PriceRequest.builder().price(8.3).build()
-                        )
-
-                ))
-                .andExpect(status().isOk())
-                .andExpect(content().json(
-                        mapper.writeValueAsString(3)
-                ));
+        willReturn(
+            Optional.of(
+                beerMapper.sourceToDestination(
+                    Beer.builder()
+                        .id(3)
+                        .type("светлое осветлённое")
+                        .inStock(true)
+                        .name("Pilsner Urquell")
+                        .description("непастеризованное")
+                        .alcohol(4.2)
+                        .density(12.0)
+                        .country("Чехия")
+                        .price(8D)
+                        .build())))
+            .given(beerRepository)
+            .findById(3);
+        mockMvc.perform(patch("/api/beers/3")
+                            .header("Authorization", token)
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    PriceRequest
+                                        .builder()
+                                        .price(8.3)
+                                        .build())))
+            .andExpect(status().isOk())
+            .andExpect(content()
+                           .json(
+                               mapper.writeValueAsString(3)));
     }
 
     @Test
     public void testDeleteBeerById() throws Exception {
         final String token = signInAsCustomer();
         mockMvc.perform(delete("/api/beers/3").header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(
-                        mapper.writeValueAsString(3)));
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(content().json(
+                mapper.writeValueAsString(3)));
     }
 }

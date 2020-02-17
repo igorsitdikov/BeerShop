@@ -41,17 +41,16 @@ public abstract class AbstractControllerTest {
         final UserEntity user = createCustomer();
         willReturn(Optional.of(user)).given(userRepository).findByEmail("ivan.ivanov@mail.ru");
 
-        final String response = mockMvc.perform(post("/api/user/sign-in")
+        final String response = mockMvc.perform(
+            post("/api/user/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(
-                        AuthRequest.builder()
-                                .email("ivan.ivanov@mail.ru")
-                                .password("123456")
-                                .build()
-                )))
-                .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        log.info("Bearer " + mapper.readValue(response, UserSignInResponse.class).getToken());
+                    AuthRequest.builder()
+                        .email("ivan.ivanov@mail.ru")
+                        .password("123456")
+                        .build())))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
         return "Bearer " + mapper.readValue(response, UserSignInResponse.class).getToken();
     }
 

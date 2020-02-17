@@ -19,7 +19,7 @@ public class BeerEntity {
     private Double density;
     private String country;
     private Double price;
-//    @ManyToMany
+    //    @ManyToMany
 //    @JoinTable(name = "order_beer",
 //            joinColumns = @JoinColumn(name = "beer_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))

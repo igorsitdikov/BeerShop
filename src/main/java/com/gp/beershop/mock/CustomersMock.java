@@ -14,24 +14,24 @@ import java.util.Map;
 public class CustomersMock {
     private static Map<Integer, Customer> customerMap = new HashMap<>() {{
         put(1, Customer.builder()
-                .id(1)
-                .name("Иван Иванов")
-                .email("ivan.ivanov@mail.ru")
-                .phone("+375331234567")
-                .build());
+            .id(1)
+            .name("Иван Иванов")
+            .email("ivan.ivanov@mail.ru")
+            .phone("+375331234567")
+            .build());
         put(2, Customer.builder()
-                .id(2)
-                .name("Петр Петров")
-                .email("petr.petrov@yandex.ru")
-                .phone("+375337654321")
-                .build());
+            .id(2)
+            .name("Петр Петров")
+            .email("petr.petrov@yandex.ru")
+            .phone("+375337654321")
+            .build());
     }};
 
-    public static void put(Integer id, Customer customer) {
+    public static void put(final Integer id, final Customer customer) {
         customerMap.put(id, customer);
     }
 
-    public static Customer getById(Integer id) {
+    public static Customer getById(final Integer id) {
         return customerMap.get(id);
     }
 
@@ -46,17 +46,17 @@ public class CustomersMock {
     public static void defaultState() {
         customerMap = new HashMap<>() {{
             put(1, Customer.builder()
-                    .id(1)
-                    .name("Иван Иванов")
-                    .email("ivan.ivanov@mail.ru")
-                    .phone("+375331234567")
-                    .build());
+                .id(1)
+                .name("Иван Иванов")
+                .email("ivan.ivanov@mail.ru")
+                .phone("+375331234567")
+                .build());
             put(2, Customer.builder()
-                    .id(2)
-                    .name("Петр Петров")
-                    .email("petr.petrov@yandex.ru")
-                    .phone("+375337654321")
-                    .build());
+                .id(2)
+                .name("Петр Петров")
+                .email("petr.petrov@yandex.ru")
+                .phone("+375337654321")
+                .build());
         }};
     }
 
