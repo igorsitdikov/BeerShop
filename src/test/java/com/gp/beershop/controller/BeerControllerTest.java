@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BeerControllerTest extends AbstractControllerTest {
 
     @MockBean
-    protected BeerRepository beerRepository;
+    private BeerRepository beerRepository;
     @SpyBean
     private BeerMapper beerMapper;
 

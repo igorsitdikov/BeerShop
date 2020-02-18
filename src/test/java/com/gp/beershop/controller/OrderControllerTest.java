@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class OrderControllerTest extends AbstractControllerTest {
     @MockBean
-    protected OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @SpyBean
     private UserMapper userMapper;
@@ -50,7 +50,8 @@ public class OrderControllerTest extends AbstractControllerTest {
     public void testAddOrder() throws Exception {
         final String token = signInAsCustomer();
 
-        mockMvc.perform(post("/api/orders").header("Authorization", token)
+        mockMvc.perform(post("/api/orders")
+                            .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(
                                 mapper.writeValueAsString(

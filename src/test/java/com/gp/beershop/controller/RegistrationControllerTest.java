@@ -27,13 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log
 public class RegistrationControllerTest {
     @Autowired
-    protected UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    protected ObjectMapper mapper;
+    private ObjectMapper mapper;
     @Autowired
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @PostConstruct
     public void init() {

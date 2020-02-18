@@ -17,13 +17,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest()
+@SpringBootTest
 @TestPropertySource("classpath:application-test.properties")
 @Log
 public class BeerTestMapperMockTest {
     private static final int ID = 1;
+
     @MockBean
-    protected BeerRepository beerRepository;
+    private BeerRepository beerRepository;
     @SpyBean
     private BeerService beerService;
     @SpyBean

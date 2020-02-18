@@ -6,6 +6,7 @@ import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -13,13 +14,13 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
 
-@SpringBootTest()
+//@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class BeerTestServiceMockTest {
     private static final int ID = 1;
     @MockBean
-    protected BeerRepository beerRepository;
+    private BeerRepository beerRepository;
     @SpyBean
     private BeerService beerService;
     @SpyBean
@@ -27,12 +28,12 @@ public class BeerTestServiceMockTest {
 
     @Test
     public void testGetUserById() {
-        final Beer beerDto = BeerMock.getById(ID);
-        final BeerEntity beerEntity = beerMapper.sourceToDestination(beerDto);
+        final Beer beerExpected = BeerMock.getById(ID);
+        final BeerEntity beerEntity = beerMapper.sourceToDestination(beerExpected);
 
-        doReturn(Optional.of(beerEntity)).when(beerRepository).findById(ID);
+        Mockito.doReturn(Optional.of(beerEntity)).when(beerRepository).findById(ID);
 
-        final Beer beer = beerService.getBeerById(ID);
-        assertEquals(beerDto, beer);
+        final Beer beerActual = beerService.getBeerById(ID);
+        assertEquals(beerExpected, beerActual);
     }
 }
