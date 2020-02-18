@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest()
+@SpringBootTest
 @TestPropertySource("classpath:application-test.properties")
 @Log
 public class CustomerOrderMapperMockTest {

@@ -35,6 +35,17 @@ public class BeerMock {
             .country("Республика Беларусь")
             .price(3D)
             .build());
+        put(3, Beer.builder()
+            .id(3)
+            .type("светлое осветлённое")
+            .inStock(true)
+            .name("Pilsner Urquell")
+            .description("непастеризованное")
+            .alcohol(4.2)
+            .density(12.0)
+            .country("Чехия")
+            .price(8D)
+            .build());
     }};
 
     public static void put(final Integer id, final Beer beer) {

@@ -2,29 +2,31 @@ package com.gp.beershop.service;
 
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.entity.BeerEntity;
-import com.gp.beershop.mapper.BeerMapper;
+import com.gp.beershop.mapper.BeerMapperImpl;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class BeerTestServiceMockTest {
+
     private static final int ID = 1;
-    @MockBean
+    @Mock
     private BeerRepository beerRepository;
-    @SpyBean
+    @InjectMocks
     private BeerService beerService;
-    @SpyBean
-    private BeerMapper beerMapper;
+    @Spy
+    private BeerMapperImpl beerMapper;
 
     @Test
     public void testGetUserById() {

@@ -31,6 +31,23 @@ public class OrderMock {
                         .build()
                        ))
             .build());
+        put(2, Orders.builder()
+            .id(2)
+            .customer(CustomersMock.getById(2))
+            .processed(false)
+            .total(27D)
+            .customerOrders(
+                List.of(
+                    CustomerOrder.builder()
+                        .beer(BeerMock.getById(2))
+                        .count(1)
+                        .build(),
+                    CustomerOrder.builder()
+                        .beer(BeerMock.getById(3))
+                        .count(3)
+                        .build()
+                       ))
+            .build());
     }};
 
     public static void defaultState() {

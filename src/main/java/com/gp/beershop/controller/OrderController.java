@@ -3,6 +3,7 @@ package com.gp.beershop.controller;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchCustomerException;
+import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.service.OrderService;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -34,7 +35,8 @@ public class OrderController {
 
     @PatchMapping(value = "/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public Integer changeOrderStatus(@PathVariable final Integer orderId, @RequestBody final Orders orders) {
+    public Integer changeOrderStatus(@PathVariable final Integer orderId, @RequestBody final Orders orders)
+        throws NoSuchOrderException {
         return orderService.changeOrderStatus(orderId, orders);
     }
 }
