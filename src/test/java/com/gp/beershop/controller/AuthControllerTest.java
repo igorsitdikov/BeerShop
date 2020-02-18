@@ -11,7 +11,7 @@ public class AuthControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCustomerSignIn() throws Exception {
-        final String token = signInAsCustomer().replace("Bearer ", "");
+        final String token = signInAsCustomer();
         mockMvc.perform(
             post("/api/user/sign-in")
                 .header("Authorization", token)

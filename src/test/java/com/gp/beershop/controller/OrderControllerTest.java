@@ -1,13 +1,10 @@
 package com.gp.beershop.controller;
 
 
-import com.gp.beershop.dto.Beer;
-import com.gp.beershop.dto.Customer;
-import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Goods;
 import com.gp.beershop.dto.OrderRequest;
-import com.gp.beershop.dto.Orders;
 import com.gp.beershop.entity.OrderEntity;
+import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
@@ -16,12 +13,14 @@ import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.mock.OrderMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
+import com.gp.beershop.repository.UserRepository;
+import com.gp.beershop.security.UserRole;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -45,9 +44,24 @@ public class OrderControllerTest extends AbstractControllerTest {
     private BeerMapper beerMapper;
     @SpyBean
     private OrderMapper orderMapper;
+    @MockBean
+    private UserRepository userRepository;
+
+    @BeforeEach
+    public void initAithorizedUser() {
+        final UserEntity customer = new UserEntity();
+        customer.setEmail("ivan.ivanov@mail.ru");
+        customer.setPassword(passwordEncoder.encode("123456"));
+        customer.setUserRole(UserRole.CUSTOMER);
+
+        willReturn(Optional.of(customer)).given(userRepository).findByEmail("ivan.ivanov@mail.ru");
+    }
+
 
     @Test
     public void testAddOrder() throws Exception {
+
+
         final String token = signInAsCustomer();
 
         willReturn(Optional.of(userMapper.sourceToDestination(CustomersMock.getById(2))))
@@ -82,7 +96,7 @@ public class OrderControllerTest extends AbstractControllerTest {
             .andExpect(content().json(
                 mapper.writeValueAsString(
                     OrderMock.getById(2))
-                   ));
+                                     ));
     }
 
     @Test
