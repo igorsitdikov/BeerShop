@@ -56,9 +56,9 @@ public class BeerService {
 
     @Transactional
     public Integer addBeer(final Beer beer) {
-        final BeerEntity beerEntity = beerRepository.save(
-            beerMapper.sourceToDestination(beer));
-        return beerEntity.getId();
+        final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
+        final BeerEntity beerEntityOutput = beerRepository.save(beerEntity);
+        return beerEntityOutput.getId();
     }
 
     public Integer updateBeerById(final Integer beerId, final PriceRequest request) {

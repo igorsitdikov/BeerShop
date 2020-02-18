@@ -1,11 +1,18 @@
 package com.gp.beershop.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "beer")
 public class BeerEntity {
     @Id
@@ -19,13 +26,8 @@ public class BeerEntity {
     private Double density;
     private String country;
     private Double price;
-    //    @ManyToMany
-//    @JoinTable(name = "order_beer",
-//            joinColumns = @JoinColumn(name = "beer_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
-//    private Set<OrderEntity> orders;
     @OneToMany(mappedBy = "beer")
-    private Set<CustomerOrderEntity> customerOrders;
+    private Set<CustomerOrderEntity> customerOrders = new HashSet<>();
 }
 
 

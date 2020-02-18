@@ -19,14 +19,14 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Orders> showOrders() {
         return orderService.showOrders();
     }
 
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Orders addOrder(@RequestBody final OrderRequest orderRequest) throws NoSuchCustomerException {
         return orderService.addOrder(orderRequest);

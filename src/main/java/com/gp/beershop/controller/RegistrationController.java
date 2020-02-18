@@ -24,7 +24,7 @@ public class RegistrationController {
         return registrationService.signUp(request);
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Customer> customers() {
         return registrationService.customers();

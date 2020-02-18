@@ -18,7 +18,7 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Beer> getBeerFilter(@RequestParam(name = "type", required = false) final String type) {
         if (type != null) {
@@ -27,7 +27,7 @@ public class BeerController {
         return beerService.getBeers();
     }
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Integer addBeer(@RequestBody final Beer request) {
         return beerService.addBeer(request);

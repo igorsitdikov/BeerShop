@@ -3,21 +3,18 @@ package com.gp.beershop.mapper;
 import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.entity.CustomerOrderEntity;
-import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.mock.OrderMock;
 import com.gp.beershop.repository.CustomerOrderRepository;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest()
 @TestPropertySource("classpath:application-test.properties")
@@ -27,6 +24,9 @@ public class CustomerOrderMapperMockTest {
 
     @SpyBean
     private CustomerOrderMapper customerOrderMapper;
+
+    @Autowired
+    private CustomerOrderRepository customerOrderRepository;
 
     @Test
     public void testCustomerOrderDtoToCustomerOrderEntity() {
@@ -63,6 +63,8 @@ public class CustomerOrderMapperMockTest {
         final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
         customerOrderEntity.setCount(customerOrderExpected.getCount());
         customerOrderEntity.setBeer(beerEntity);
+        beerEntity.setCustomerOrders(Set.of(customerOrderEntity));
+        customerOrderRepository.save(customerOrderEntity);
 
         final CustomerOrder customerOrderActual = customerOrderMapper.destinationToSource(customerOrderEntity);
 
