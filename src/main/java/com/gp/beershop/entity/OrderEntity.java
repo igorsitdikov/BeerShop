@@ -1,7 +1,5 @@
 package com.gp.beershop.entity;
 
-import com.gp.beershop.mapper.CustomerOrderMapper;
-import com.gp.beershop.mapper.UserMapper;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -15,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import java.util.Set;
 
 @Getter
@@ -23,10 +20,6 @@ import java.util.Set;
 @Log
 @Entity(name = "orders")
 public class OrderEntity {
-    @Transient
-    private UserMapper userMapper;
-    @Transient
-    private CustomerOrderMapper customerOrderMapper;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

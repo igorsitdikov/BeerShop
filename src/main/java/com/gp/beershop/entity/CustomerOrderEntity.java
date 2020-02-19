@@ -18,10 +18,10 @@ public class CustomerOrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity orders;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "beer_id", nullable = false)
     private BeerEntity beer;
     private Integer count;
 }

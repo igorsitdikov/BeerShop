@@ -1,0 +1,10 @@
+databaseChangeLog:
+    -   logicalFilePath: classpath:db/changelog/db.changelog-master.yaml
+    -   changeSet:
+            id: 1
+            author: sitdikov_igor
+            changes:
+                -   sqlFile:
+                        dbms: mysql
+                        encoding: UTF-8
+                        path: db/changelog/beershop.sql
