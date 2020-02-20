@@ -68,9 +68,7 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(
-                List.of(
-                    BeerMock.getById(2)
-                       ))));
+                List.of(BeerMock.getById(2)))));
     }
 
     @Test

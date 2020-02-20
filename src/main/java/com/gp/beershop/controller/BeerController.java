@@ -29,7 +29,7 @@ public class BeerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public final List<Beer> getBeerFilter(@RequestParam(name = "status", required = false) final String type) {
+    public final List<Beer> getBeerFilter(@RequestParam(name = "type", required = false) final String type) {
         if (type != null) {
             return beerService.getBeersByFilter(type);
         }
