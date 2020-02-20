@@ -1,10 +1,12 @@
 package com.gp.beershop.service;
 
+import com.gp.beershop.dto.Goods;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.entity.CustomerOrderEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
+import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchCustomerException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.mapper.OrderMapper;
@@ -17,6 +19,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -26,14 +29,15 @@ import java.util.stream.Collectors;
 @Log
 @Service
 public class OrderService {
-    final OrderRepository orderRepository;
-    final UserRepository userRepository;
-    final BeerRepository beerRepository;
-    final BeerService beerService;
-    final OrderMapper orderMapper;
-    final UserMapper userMapper;
 
-    public Orders addOrder(final OrderRequest orderRequest) throws NoSuchCustomerException {
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final BeerRepository beerRepository;
+    private final BeerService beerService;
+    private final OrderMapper orderMapper;
+    private final UserMapper userMapper;
+
+    public Orders addOrder(final OrderRequest orderRequest) throws NoSuchCustomerException, NoSuchBeerException {
 
         final Optional<UserEntity> userEntity = userRepository.findById(orderRequest.getCustomerId());
 
@@ -41,28 +45,16 @@ public class OrderService {
             throw new NoSuchCustomerException("No customer with id = " + orderRequest.getCustomerId() + " was found.");
         }
 
-        final Set<CustomerOrderEntity> customerOrders = orderRequest.getGoods()
-            .stream()
-            .map(goods ->
-                 {
-                     CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
-                     customerOrderEntity.setCount(goods.getCount());
-                     try {
-                         customerOrderEntity.setBeer(
-                             beerRepository.findById(goods.getId()).orElseThrow(
-                                 () -> new NoSuchOrderException("No beer with id = " + goods.getId() + " was found.")));
-                     } catch (NoSuchOrderException e) {
-                         e.printStackTrace();
-                     }
-                     return customerOrderEntity;
-                 })
-            .collect(Collectors.toSet());
+        final Set<Goods> goodsIds = orderRequest.getGoods();
+        final Set<CustomerOrderEntity> customerOrders = findAllCustomerOrders(goodsIds);
+
         final Double total = calculateTotalCostOrder(customerOrders);
         final OrderEntity orderEntity = new OrderEntity();
         orderEntity.setProcessed(false);
         orderEntity.setUser(userEntity.get());
         orderEntity.setTotal(total);
         orderEntity.setCustomerOrders(customerOrders);
+
         final OrderEntity orderSaved = orderRepository.save(orderEntity);
 
         return orderMapper.destinationToSource(orderSaved);
@@ -94,4 +86,19 @@ public class OrderService {
             .sum();
     }
 
+    private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet) throws NoSuchBeerException {
+
+        final Set<CustomerOrderEntity> customerOrders = new HashSet<>();
+
+        for (final Goods goods : goodsSet) {
+            final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
+            customerOrderEntity.setCount(goods.getCount());
+            customerOrderEntity.setBeer(
+                beerRepository.findById(goods.getId()).orElseThrow(
+                    () -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
+            customerOrders.add(customerOrderEntity);
+        }
+
+        return customerOrders;
+    }
 }

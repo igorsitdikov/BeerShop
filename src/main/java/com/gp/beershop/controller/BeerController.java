@@ -20,7 +20,7 @@ public class BeerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Beer> getBeerFilter(@RequestParam(name = "type", required = false) final String type) {
+    public final List<Beer> getBeerFilter(@RequestParam(name = "type", required = false) final String type) {
         if (type != null) {
             return beerService.getBeerFilter(type);
         }
@@ -29,19 +29,19 @@ public class BeerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer addBeer(@RequestBody final Beer request) {
+    public final Integer addBeer(@RequestBody final Beer request) {
         return beerService.addBeer(request);
     }
 
     @PatchMapping(value = "/{beerId}")
     @ResponseStatus(HttpStatus.OK)
-    public Integer updateBeerById(@RequestBody final PriceRequest request, @PathVariable final Integer beerId) {
+    public final Integer updateBeerById(@RequestBody final PriceRequest request, @PathVariable final Integer beerId) {
         return beerService.updateBeerById(beerId, request);
     }
 
     @DeleteMapping(value = "/{beerId}")
     @ResponseStatus(HttpStatus.OK)
-    public Integer deleteBeerById(@PathVariable final Integer beerId) {
+    public final Integer deleteBeerById(@PathVariable final Integer beerId) {
         return beerService.deleteBeerById(beerId);
     }
 }

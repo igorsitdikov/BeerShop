@@ -2,10 +2,11 @@ package com.gp.beershop.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
-@Data
+@Getter
 @Builder
 public class Orders {
     private Integer id;

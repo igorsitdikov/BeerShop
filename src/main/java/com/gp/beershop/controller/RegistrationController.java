@@ -20,13 +20,13 @@ public class RegistrationController {
 
     @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer singUp(@RequestBody final Customer request) {
+    public final Integer singUp(@RequestBody final Customer request) {
         return registrationService.signUp(request);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Customer> customers() {
+    public final List<Customer> customers() {
         return registrationService.customers();
     }
 }

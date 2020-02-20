@@ -9,9 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 @SpringBootApplication
-public class BeershopApplication {
+public class BeerShopApplication {
     public static void main(final String[] args) {
-        SpringApplication.run(BeershopApplication.class, args);
+        SpringApplication.run(BeerShopApplication.class, args);
     }
 
     @Bean

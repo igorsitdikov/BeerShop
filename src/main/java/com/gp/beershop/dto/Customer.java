@@ -1,10 +1,9 @@
 package com.gp.beershop.dto;
 
 import lombok.Builder;
-import lombok.Data;
-import org.springframework.data.annotation.ReadOnlyProperty;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class Customer {
     private Integer id;

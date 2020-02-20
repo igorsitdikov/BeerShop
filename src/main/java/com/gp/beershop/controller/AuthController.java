@@ -18,7 +18,7 @@ public class AuthController {
 
     @PostMapping(value = "/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    public UserSignInResponse singIn(@RequestBody final AuthRequest request) {
+    public final UserSignInResponse singIn(@RequestBody final AuthRequest request) {
         return authService.signIn(request);
     }
 }

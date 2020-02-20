@@ -1,11 +1,11 @@
 package com.gp.beershop.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Set;
 
-@Data
+@Getter
 @Builder
 public class OrderRequest {
     private Integer customerId;

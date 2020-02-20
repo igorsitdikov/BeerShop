@@ -19,7 +19,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final LoadUserDetailService userDetailsService;
     private final JwtUtil jwtUtil;
-    private final Integer BEARER = 7;
+    private static final Integer BEARER = 7;
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)

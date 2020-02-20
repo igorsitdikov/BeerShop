@@ -3,8 +3,10 @@ package com.gp.beershop.mapper;
 import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.entity.CustomerOrderEntity;
+import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.mock.OrderMock;
 import com.gp.beershop.repository.CustomerOrderRepository;
+import com.gp.beershop.repository.OrderRepository;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class CustomerOrderMapperMockTest {
 
     @Autowired
     private CustomerOrderRepository customerOrderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Test
     public void testCustomerOrderDtoToCustomerOrderEntity() {
@@ -45,6 +49,7 @@ public class CustomerOrderMapperMockTest {
         assertEquals(customerOrder.getBeer().getDensity(), customerOrderEntity.getBeer().getDensity());
         assertEquals(customerOrder.getBeer().getPrice(), customerOrderEntity.getBeer().getPrice());
     }
+
     @Test
     public void testCustomerOrderEntityToCustomerOrderDto() {
         final CustomerOrder customerOrderExpected = OrderMock.getById(ID).getCustomerOrders().get(ID);
@@ -60,9 +65,16 @@ public class CustomerOrderMapperMockTest {
         beerEntity.setInStock(customerOrderExpected.getBeer().getInStock());
         beerEntity.setDescription(customerOrderExpected.getBeer().getDescription());
 
+        final OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setProcessed(false);
+        orderEntity.setTotal(25D);
+        orderRepository.save(orderEntity);
+
         final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
         customerOrderEntity.setCount(customerOrderExpected.getCount());
         customerOrderEntity.setBeer(beerEntity);
+        orderEntity.setCustomerOrders(Set.of(customerOrderEntity));
+        customerOrderEntity.setOrders(orderEntity);
         beerEntity.setCustomerOrders(Set.of(customerOrderEntity));
         customerOrderRepository.save(customerOrderEntity);
 

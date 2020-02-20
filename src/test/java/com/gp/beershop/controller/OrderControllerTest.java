@@ -11,6 +11,7 @@ import com.gp.beershop.mapper.UserMapper;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.mock.OrderMock;
+import com.gp.beershop.mock.OrderRequestMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
@@ -80,18 +81,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(
                                 mapper.writeValueAsString(
-                                    OrderRequest.builder()
-                                        .customerId(2)
-                                        .goods(Set.of(
-                                            Goods.builder()
-                                                .id(2)
-                                                .count(1)
-                                                .build(),
-                                            Goods.builder()
-                                                .id(3)
-                                                .count(3)
-                                                .build()))
-                                        .build())))
+                                    OrderRequestMock.getOrderRequest())))
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
