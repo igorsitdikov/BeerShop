@@ -1,8 +1,8 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.Beer;
-import com.gp.beershop.dto.PriceRequest;
 import com.gp.beershop.entity.BeerEntity;
+import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -40,13 +39,14 @@ public class BeerService {
             .collect(Collectors.toList());
     }
 
-    public Beer getBeerById(final Integer id) {
+    public Beer getBeerById(final Integer id) throws NoSuchBeerException {
+        isFoundEntity(id);
         return beerRepository.findById(id)
             .map(beerMapper::destinationToSource)
             .get();
     }
 
-    public List<Beer> getBeerFilter(final String beerType) {
+    public List<Beer> getBeersByFilter(final String beerType) {
         return beerRepository.findAll()
             .stream()
             .map(beerMapper::destinationToSource)
@@ -61,19 +61,40 @@ public class BeerService {
         return beerEntityOutput.getId();
     }
 
-    public Integer updateBeerById(final Integer beerId, final PriceRequest request) {
-        final Optional<BeerEntity> beerEntity = beerRepository.findById(beerId);
-        BeerEntity beer = null;
-        if (beerEntity.isPresent()) {
-            beer = beerEntity.get();
-            beer.setPrice(request.getPrice());
-            beerRepository.save(beer);
-        }
-        return beer.getId();
+    public Beer updateBeerById(final Integer id, final Beer beer) throws NoSuchBeerException {
+        isFoundEntity(id);
+        final BeerEntity beerEntity = beerRepository.getOne(id);
+
+        beerEntity.setType(beerEntity.getType().equals(beer.getType()) ? beerEntity.getType() : beer.getType());
+        beerEntity.setInStock(
+            beerEntity.getInStock().equals(beer.getInStock()) ? beerEntity.getInStock() : beer.getInStock());
+        beerEntity.setName(beerEntity.getName().equals(beer.getName()) ? beerEntity.getName() : beer.getName());
+        beerEntity.setDescription(
+            beerEntity.getDescription().equals(beer.getDescription()) ? beerEntity.getDescription()
+                                                                      : beer.getDescription());
+        beerEntity.setAlcohol(
+            beerEntity.getAlcohol().equals(beer.getAlcohol()) ? beerEntity.getAlcohol() : beer.getAlcohol());
+        beerEntity.setDensity(
+            beerEntity.getDensity().equals(beer.getDensity()) ? beerEntity.getDensity() : beer.getDensity());
+        beerEntity.setCountry(
+            beerEntity.getCountry().equals(beer.getCountry()) ? beerEntity.getCountry() : beer.getCountry());
+        beerEntity.setPrice(beerEntity.getPrice().equals(beer.getPrice()) ? beerEntity.getPrice() : beer.getPrice());
+
+        beerRepository.save(beerEntity);
+
+        return beerMapper.destinationToSource(beerEntity);
     }
 
-    public Integer deleteBeerById(final Integer beerId) {
-        beerRepository.deleteById(beerId);
-        return beerId;
+    public Integer deleteBeerById(final Integer id) throws NoSuchBeerException {
+        isFoundEntity(id);
+        beerRepository.deleteById(id);
+        return id;
+    }
+
+    private void isFoundEntity(final Integer id) throws NoSuchBeerException {
+        final boolean isFound = beerRepository.existsById(id);
+        if (!isFound) {
+            throw new NoSuchBeerException("No beer with id = " + id + " was found.");
+        }
     }
 }

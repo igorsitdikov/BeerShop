@@ -44,9 +44,9 @@ public class OrderTestServiceMockTest {
 
     @Test
     public void testChangeStatusOrderNotFound() {
-        final Orders orders = OrderMock.getById(ID);
+//        final Orders orders = OrderMock.getById(ID);
         Mockito.doReturn(Optional.empty()).when(orderRepository).findById(ID);
-        assertThrows(NoSuchOrderException.class, () -> orderService.changeOrderStatus(ID, orders));
+        assertThrows(NoSuchOrderException.class, () -> orderService.changeOrderStatus(ID, Boolean.TRUE));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.gp.beershop.service;
 
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.entity.BeerEntity;
+import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mapper.BeerMapperImpl;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class BeerTestServiceMockTest {
@@ -29,10 +31,10 @@ public class BeerTestServiceMockTest {
     private BeerMapperImpl beerMapper;
 
     @Test
-    public void testGetUserById() {
+    public void testGetUserById() throws NoSuchBeerException {
         final Beer beerExpected = BeerMock.getById(ID);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beerExpected);
-
+        willReturn(true).given(beerRepository).existsById(ID);
         Mockito.doReturn(Optional.of(beerEntity)).when(beerRepository).findById(ID);
 
         final Beer beerActual = beerService.getBeerById(ID);

@@ -2,9 +2,7 @@ package com.gp.beershop.mock;
 
 import com.gp.beershop.dto.Beer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class BeerMock {
@@ -43,6 +41,16 @@ public final class BeerMock {
             .density(12.0)
             .country("Чехия")
             .price(8D).build());
+        put(4, Beer.builder()
+            .id(3)
+            .type("светлое осветлённое")
+            .inStock(false)
+            .name("Pilsner Urquell Extra")
+            .description("непастеризованное")
+            .alcohol(4.5)
+            .density(12.2)
+            .country("Чехия")
+            .price(8.3).build());
     }};
 
     public static Beer getById(final Integer id) {

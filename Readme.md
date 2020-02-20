@@ -249,13 +249,21 @@ Response: `201 CREATED`
 
 Request: 
     
-`PATCH /api/beer/${beerId}`
+`PUT /api/beer/${beerId}`
 
 `Headers: beerId=3`
     
 ```    
 {
-    "price": 8.30
+    "id": 3,
+    "type": "светлое осветлённое",
+    "inStock": true,
+    "name": "Pilsner Urquell Extra",
+    "description": "непастеризованное",
+    "alcohol": 4.5,
+    "density": 12.2,
+    "country": "Чехия",
+    "price": 8.3
 }
 ```
 
@@ -263,7 +271,15 @@ Response: `200 OK`
 
 ```
 {
-    "id" : 3
+    "id": 3,
+    "type": "светлое осветлённое",
+    "inStock": false,
+    "name": "Pilsner Urquell Extra",
+    "description": "непастеризованное",
+    "alcohol": 4.5,
+    "density": 12.2,
+    "country": "Чехия",
+    "price": 8.3
 }
 ```
 
@@ -377,15 +393,9 @@ Response: `200 OK`
 
 Request: 
     
-`PATCH /api/orders/${orderId}`
+`PATCH /api/orders/${orderId}?status=${status}`
 
-`Headers: orderId=2`
-
-```
-{
-    "processed": true
-}
-```
+`Headers: orderId=2, status=true`
     
 Response: `200 OK`
 

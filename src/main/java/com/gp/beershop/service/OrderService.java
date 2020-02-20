@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,11 +38,9 @@ public class OrderService {
 
     public Orders addOrder(final OrderRequest orderRequest) throws NoSuchCustomerException, NoSuchBeerException {
 
-        final Optional<UserEntity> userEntity = userRepository.findById(orderRequest.getCustomerId());
-
-        if (userEntity.isEmpty()) {
-            throw new NoSuchCustomerException("No customer with id = " + orderRequest.getCustomerId() + " was found.");
-        }
+        final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
+            .orElseThrow(() -> new NoSuchCustomerException(
+                "No customer with id = " + orderRequest.getCustomerId() + " was found."));
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
         final Set<CustomerOrderEntity> customerOrders = findAllCustomerOrders(goodsIds);
@@ -51,25 +48,21 @@ public class OrderService {
         final Double total = calculateTotalCostOrder(customerOrders);
         final OrderEntity orderEntity = new OrderEntity();
         orderEntity.setProcessed(false);
-        orderEntity.setUser(userEntity.get());
+        orderEntity.setUser(userEntity);
         orderEntity.setTotal(total);
         orderEntity.setCustomerOrders(customerOrders);
-
         final OrderEntity orderSaved = orderRepository.save(orderEntity);
-
         return orderMapper.destinationToSource(orderSaved);
     }
 
     @Transactional
-    public Integer changeOrderStatus(final Integer id, final Orders orders) throws NoSuchOrderException {
-        final Optional<OrderEntity> orderEntity = orderRepository.findById(id);
-        if (orderEntity.isEmpty()) {
-            throw new NoSuchOrderException("No order with id = " + id + " was found.");
-        }
-        final OrderEntity orderProcessed = orderEntity.get();
-        orderProcessed.setProcessed(orders.getProcessed());
-        orderRepository.save(orderProcessed);
-        return orderProcessed.getId();
+    public Integer changeOrderStatus(final Integer id, final Boolean status) throws NoSuchOrderException {
+        final OrderEntity orderEntity = orderRepository.findById(id)
+            .orElseThrow(() -> new NoSuchOrderException("No order with id = " + id + " was found."));
+
+        orderEntity.setProcessed(status);
+        orderRepository.save(orderEntity);
+        return orderEntity.getId();
     }
 
     public List<Orders> showOrders() {
@@ -87,7 +80,6 @@ public class OrderService {
     }
 
     private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet) throws NoSuchBeerException {
-
         final Set<CustomerOrderEntity> customerOrders = new HashSet<>();
 
         for (final Goods goods : goodsSet) {
@@ -98,7 +90,6 @@ public class OrderService {
                     () -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
             customerOrders.add(customerOrderEntity);
         }
-
         return customerOrders;
     }
 }

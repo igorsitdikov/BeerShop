@@ -2,7 +2,9 @@ package com.gp.beershop.service;
 
 import com.gp.beershop.dto.Customer;
 import com.gp.beershop.entity.UserEntity;
+import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.mapper.UserMapper;
+import com.gp.beershop.mock.CustomersMock;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
 import lombok.Data;
@@ -21,30 +23,33 @@ public class RegistrationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void init() {
-        final UserEntity ivan = userMapper.sourceToDestination(
-            Customer.builder()
-                .id(1)
-                .name("Иван Иванов")
-                .email("ivan.ivanov@mail.ru")
-                .password(passwordEncoder.encode("123456"))
-                .phone("+375331234567")
-                .build());
+        final UserEntity ivan = userMapper.sourceToDestination(CustomersMock.getById(1));
+        ivan.setPassword(passwordEncoder.encode("123456"));
         ivan.setUserRole(UserRole.CUSTOMER);
         userRepository.save(ivan);
         userRepository.save(
             userMapper.sourceToDestination(
-                Customer.builder()
-                    .id(2)
-                    .name("Петр Петров")
-                    .email("petr.petrov@yandex.ru")
-                    .phone("+375337654321")
-                    .build()));
+                CustomersMock.getById(2)));
     }
 
-    public Integer signUp(final Customer request) {
-        return 1;
+    public Integer signUp(final Customer customer) throws SuchUserAlreadyExistException {
+
+        if (userRepository.findByEmail(customer.getEmail()).isPresent()) {
+            throw new SuchUserAlreadyExistException("User with email " + customer.getEmail() + " already exists");
+        }
+        return saveUser(customer);
+    }
+
+    private Integer saveUser(final Customer customer) {
+        final UserEntity userEntity = userMapper.sourceToDestination(customer);
+        userEntity.setUserRole(UserRole.CUSTOMER);
+        userEntity.setPassword(passwordEncoder.encode(customer.getPassword()));
+        userRepository.save(userEntity);
+
+        return userEntity.getId();
     }
 
     public List<Customer> customers() {

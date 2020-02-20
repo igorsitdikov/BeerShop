@@ -37,8 +37,8 @@ public class OrderController {
 
     @PatchMapping(value = "/{orderId}")
     @ResponseStatus(HttpStatus.OK)
-    public final Integer changeOrderStatus(@PathVariable final Integer orderId, @RequestBody final Orders orders)
+    public final Integer changeOrderStatus(@PathVariable final Integer orderId, @RequestParam(name = "status", required = false) final Boolean status)
         throws NoSuchOrderException {
-        return orderService.changeOrderStatus(orderId, orders);
+        return orderService.changeOrderStatus(orderId, status);
     }
 }

@@ -2,6 +2,7 @@ package com.gp.beershop.mapper;
 
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.entity.BeerEntity;
+import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.service.BeerService;
@@ -15,6 +16,7 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
@@ -47,10 +49,11 @@ public class BeerTestMapperMockTest {
     }
 
     @Test
-    public void testConverterBeerEntityToBeerDto() {
+    public void testConverterBeerEntityToBeerDto() throws NoSuchBeerException {
         final Beer beerDto = BeerMock.getById(ID);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beerDto);
 
+        willReturn(true).given(beerRepository).existsById(ID);
         doReturn(Optional.of(beerEntity)).when(beerRepository).findById(ID);
 
         final Beer beer = beerService.getBeerById(ID);

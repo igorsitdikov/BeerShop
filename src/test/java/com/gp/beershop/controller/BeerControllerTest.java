@@ -1,9 +1,9 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.Beer;
-import com.gp.beershop.dto.PriceRequest;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.mapper.BeerMapper;
+import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -20,8 +19,8 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,28 +35,8 @@ public class BeerControllerTest extends AbstractControllerTest {
     @Test
     public void testBeerGetAll() throws Exception {
         willReturn(List.of(
-            Beer.builder()
-                .id(1)
-                .type("светлое")
-                .inStock(true)
-                .name("Лидское")
-                .description("Лучшее пиво по бабушкиным рецептам")
-                .alcohol(5.0)
-                .density(11.5)
-                .country("Республика Беларусь")
-                .price(5D)
-                .build(),
-            Beer.builder()
-                .id(2)
-                .type("темное")
-                .inStock(true)
-                .name("Аливария")
-                .description("Пиво номер 1 в Беларуси")
-                .alcohol(4.6)
-                .density(10.2)
-                .country("Республика Беларусь")
-                .price(3D)
-                .build())
+            BeerMock.getById(1),
+            BeerMock.getById(2))
                        .stream()
                        .map(beerMapper::sourceToDestination)
                        .collect(Collectors.toList()))
@@ -68,58 +47,16 @@ public class BeerControllerTest extends AbstractControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(
                 mapper.writeValueAsString(
-                    List.of(Beer.builder()
-                                .id(1)
-                                .type("светлое")
-                                .inStock(true)
-                                .name("Лидское")
-                                .description("Лучшее пиво по бабушкиным рецептам")
-                                .alcohol(5.0)
-                                .density(11.5)
-                                .country("Республика Беларусь")
-                                .price(5D)
-                                .build(),
-                            Beer.builder()
-                                .id(2)
-                                .type("темное")
-                                .inStock(true)
-                                .name("Аливария")
-                                .description("Пиво номер 1 в Беларуси")
-                                .alcohol(4.6)
-                                .density(10.2)
-                                .country("Республика Беларусь")
-                                .price(3D)
-                                .build()
-                           )
-                                         )));
+                    List.of(BeerMock.getById(1),
+                            BeerMock.getById(2)))));
     }
 
     @Test
     public void testBeerFilter() throws Exception {
         final String token = signInAsCustomer();
         willReturn(List.of(
-            Beer.builder()
-                .id(1)
-                .type("светлое")
-                .inStock(true)
-                .name("Лидское")
-                .description("Лучшее пиво по бабушкиным рецептам")
-                .alcohol(5.0)
-                .density(11.5)
-                .country("Республика Беларусь")
-                .price(5D)
-                .build(),
-            Beer.builder()
-                .id(2)
-                .type("темное")
-                .inStock(true)
-                .name("Аливария")
-                .description("Пиво номер 1 в Беларуси")
-                .alcohol(4.6)
-                .density(10.2)
-                .country("Республика Беларусь")
-                .price(3D)
-                .build())
+            BeerMock.getById(1),
+            BeerMock.getById(2))
                        .stream()
                        .map(beerMapper::sourceToDestination)
                        .collect(Collectors.toList()))
@@ -132,34 +69,14 @@ public class BeerControllerTest extends AbstractControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(
                 List.of(
-                    Beer.builder()
-                        .id(2)
-                        .type("темное")
-                        .inStock(true)
-                        .name("Аливария")
-                        .description("Пиво номер 1 в Беларуси")
-                        .alcohol(4.6)
-                        .density(10.2)
-                        .country("Республика Беларусь")
-                        .price(3D)
-                        .build()
+                    BeerMock.getById(2)
                        ))));
     }
 
     @Test
     public void testNewBeer() throws Exception {
         final String token = signInAsCustomer();
-        final Beer beer = Beer.builder()
-            .id(3)
-            .type("светлое осветлённое")
-            .inStock(true)
-            .name("Pilsner Urquell")
-            .description("непастеризованное")
-            .alcohol(4.2)
-            .density(12.0)
-            .country("Чехия")
-            .price(8D)
-            .build();
+        final Beer beer = BeerMock.getById(3);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
         when(beerRepository.save(any(BeerEntity.class))).thenReturn(beerEntity);
@@ -176,40 +93,29 @@ public class BeerControllerTest extends AbstractControllerTest {
     public void testUpdateBeerById() throws Exception {
         final String token = signInAsCustomer();
         willReturn(
-            Optional.of(
-                beerMapper.sourceToDestination(
-                    Beer.builder()
-                        .id(3)
-                        .type("светлое осветлённое")
-                        .inStock(true)
-                        .name("Pilsner Urquell")
-                        .description("непастеризованное")
-                        .alcohol(4.2)
-                        .density(12.0)
-                        .country("Чехия")
-                        .price(8D)
-                        .build())))
+            beerMapper.sourceToDestination(BeerMock.getById(3)))
             .given(beerRepository)
-            .findById(3);
-        mockMvc.perform(patch("/api/beers/3")
+            .getOne(3);
+        willReturn(true)
+            .given(beerRepository)
+            .existsById(3);
+        mockMvc.perform(put("/api/beers/3")
                             .header("Authorization", token)
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(
-                                mapper.writeValueAsString(
-                                    PriceRequest
-                                        .builder()
-                                        .price(8.3)
-                                        .build())))
+                                mapper.writeValueAsString(BeerMock.getById(4))))
             .andExpect(status().isOk())
             .andExpect(content()
                            .json(
-                               mapper.writeValueAsString(3)));
+                               mapper.writeValueAsString(BeerMock.getById(4))));
     }
 
     @Test
     public void testDeleteBeerById() throws Exception {
         final String token = signInAsCustomer();
+        willReturn(true).given(beerRepository).existsById(3);
+
         mockMvc.perform(delete("/api/beers/3").header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())

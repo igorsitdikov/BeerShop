@@ -25,6 +25,13 @@ public class CustomersMock {
             .email("petr.petrov@yandex.ru")
             .phone("+375337654321")
             .build());
+        put(3, Customer.builder()
+            .id(3)
+            .name("Алексей Алексеев")
+            .email("alex.alexeevov@yandex.ru")
+            .password("password")
+            .phone("+375337654321")
+            .build());
     }};
 
     public static Customer getById(final Integer id) {

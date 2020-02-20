@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -20,13 +22,23 @@ public class RegistrationControllerTest extends AbstractControllerTest {
         // when
         mockMvc.perform(post("/api/user/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(
-                                mapper.writeValueAsString(
-                                    CustomersMock.getById(1)
-                                                         )))
+                            .content(mapper.writeValueAsString(
+                                CustomersMock.getById(3))))
             // then
             .andExpect(status().isCreated())
-            .andExpect(content().json(mapper.writeValueAsString(1)));
+            .andExpect(content().json(mapper.writeValueAsString(3)));
+    }
+
+    @Test
+    public void testCustomerSignUpWhenUserAlreadyExists() throws Exception {
+        // given
+        // when
+        mockMvc.perform(post("/api/user/sign-up")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsString(
+                                CustomersMock.getById(1))))
+            // then
+            .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -40,7 +52,9 @@ public class RegistrationControllerTest extends AbstractControllerTest {
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(
-                CustomersMock.getAllValues())));
+                List.of(
+                    CustomersMock.getById(1),
+                    CustomersMock.getById(2)))));
     }
 
     @Test

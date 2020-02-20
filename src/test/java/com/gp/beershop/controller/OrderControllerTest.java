@@ -1,8 +1,6 @@
 package com.gp.beershop.controller;
 
 
-import com.gp.beershop.dto.Goods;
-import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
@@ -23,7 +21,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,20 +46,20 @@ public class OrderControllerTest extends AbstractControllerTest {
     private UserRepository userRepository;
 
     @BeforeEach
-    public void initAithorizedUser() {
+    public void initAuthorizedUser() {
         final UserEntity customer = new UserEntity();
         customer.setEmail("ivan.ivanov@mail.ru");
         customer.setPassword(passwordEncoder.encode("123456"));
         customer.setUserRole(UserRole.CUSTOMER);
 
-        willReturn(Optional.of(customer)).given(userRepository).findByEmail("ivan.ivanov@mail.ru");
+        willReturn(Optional.of(customer))
+            .given(userRepository)
+            .findByEmail("ivan.ivanov@mail.ru");
     }
 
 
     @Test
     public void testAddOrder() throws Exception {
-
-
         final String token = signInAsCustomer();
 
         willReturn(Optional.of(userMapper.sourceToDestination(CustomersMock.getById(2))))
@@ -74,7 +71,8 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
             .given(beerRepository)
             .findById(3);
-        willReturn(orderMapper.sourceToDestination(OrderMock.getById(2))).given(orderRepository)
+        willReturn(orderMapper.sourceToDestination(OrderMock.getById(2)))
+            .given(orderRepository)
             .save(any(OrderEntity.class));
         mockMvc.perform(post("/api/orders")
                             .header("Authorization", token)
@@ -85,8 +83,7 @@ public class OrderControllerTest extends AbstractControllerTest {
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
-                    OrderMock.getById(2))
-                                     ));
+                    OrderMock.getById(2))));
     }
 
     @Test
@@ -99,10 +96,8 @@ public class OrderControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(patch("/api/orders/2")
                             .header("Authorization", token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("{\n" +
-                                     "    \"processed\": true\n" +
-                                     "}"))
+            .param("status", "true")
+                            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(2)));
     }
