@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class Customer {
+public class UserDTO {
     private Integer id;
     private String name;
     private String password;

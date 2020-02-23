@@ -1,6 +1,7 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
+import com.gp.beershop.mock.UsersMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -8,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends AbstractControllerTest {
+    private final Integer CUSTOMER = 1;
 
     @Test
     public void testCustomerSignIn() throws Exception {
@@ -19,8 +21,8 @@ public class AuthControllerTest extends AbstractControllerTest {
                 .content(
                     mapper.writeValueAsString(
                         AuthRequest.builder()
-                            .email("ivan.ivanov@mail.ru")
-                            .password("123456")
+                            .email(UsersMock.getById(CUSTOMER).getEmail())
+                            .password(UsersMock.getById(CUSTOMER).getPassword())
                             .build())))
             .andExpect(status().isOk());
     }

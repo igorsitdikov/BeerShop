@@ -6,7 +6,7 @@ import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.entity.CustomerOrderEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
-import com.gp.beershop.mock.CustomersMock;
+import com.gp.beershop.mock.UsersMock;
 import com.gp.beershop.mock.OrderMock;
 import com.gp.beershop.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -46,9 +46,9 @@ public class OrderTestMapperMockTest {
         assertEquals(ordersExpected.getId(), orderEntityActual.getId());
         assertEquals(ordersExpected.getTotal(), orderEntityActual.getTotal());
         assertEquals(ordersExpected.getProcessed(), orderEntityActual.getProcessed());
-        assertEquals(ordersExpected.getCustomer().getEmail(), orderEntityActual.getUser().getEmail());
-        assertEquals(ordersExpected.getCustomer().getName(), orderEntityActual.getUser().getName());
-        assertEquals(ordersExpected.getCustomer().getPhone(), orderEntityActual.getUser().getPhone());
+        assertEquals(ordersExpected.getUserDTO().getEmail(), orderEntityActual.getUser().getEmail());
+        assertEquals(ordersExpected.getUserDTO().getName(), orderEntityActual.getUser().getName());
+        assertEquals(ordersExpected.getUserDTO().getPhone(), orderEntityActual.getUser().getPhone());
         assertEquals(ordersExpected.getCustomerOrders().size(), orderEntityActual.getCustomerOrders().size());
     }
 
@@ -57,7 +57,7 @@ public class OrderTestMapperMockTest {
     public void testConvertOrderEntityToOrdersDto() {
         final Orders ordersExpected = OrderMock.getById(ID);
 
-        final UserEntity userEntity = userMapper.sourceToDestination(CustomersMock.getById(ID));
+        final UserEntity userEntity = userMapper.sourceToDestination(UsersMock.getById(ID));
 
         final CustomerOrder customerOrder1 = ordersExpected.getCustomerOrders().get(0);
         final CustomerOrder customerOrder2 = ordersExpected.getCustomerOrders().get(1);
@@ -85,9 +85,9 @@ public class OrderTestMapperMockTest {
         assertEquals(ordersExpected.getId(), ordersActual.getId());
         assertEquals(ordersExpected.getTotal(), ordersActual.getTotal());
         assertEquals(ordersExpected.getProcessed(), ordersActual.getProcessed());
-        assertEquals(ordersExpected.getCustomer().getEmail(), ordersActual.getCustomer().getEmail());
-        assertEquals(ordersExpected.getCustomer().getName(), ordersActual.getCustomer().getName());
-        assertEquals(ordersExpected.getCustomer().getPhone(), ordersActual.getCustomer().getPhone());
+        assertEquals(ordersExpected.getUserDTO().getEmail(), ordersActual.getUserDTO().getEmail());
+        assertEquals(ordersExpected.getUserDTO().getName(), ordersActual.getUserDTO().getName());
+        assertEquals(ordersExpected.getUserDTO().getPhone(), ordersActual.getUserDTO().getPhone());
         assertEquals(ordersExpected.getCustomerOrders().size(), ordersActual.getCustomerOrders().size());
     }
 }

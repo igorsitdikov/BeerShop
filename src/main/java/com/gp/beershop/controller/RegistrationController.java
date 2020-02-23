@@ -1,6 +1,8 @@
 package com.gp.beershop.controller;
 
-import com.gp.beershop.dto.Customer;
+import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.UserSignInResponse;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.service.RegistrationService;
 import lombok.Data;
@@ -25,13 +27,14 @@ public class RegistrationController {
 
     @PostMapping(value = "/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public final Integer singUp(@RequestBody final Customer customer) throws SuchUserAlreadyExistException {
-        return registrationService.signUp(customer);
+    public final UserSignInResponse singUp(@RequestBody final UserDTO userDTO)
+        throws SuchUserAlreadyExistException, NoSuchUserException {
+        return registrationService.signUp(userDTO);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public final List<Customer> customers() {
+    public final List<UserDTO> customers() {
         return registrationService.customers();
     }
 }

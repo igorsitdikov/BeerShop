@@ -2,6 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.UserSignInResponse;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.service.AuthService;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -18,7 +19,7 @@ public class AuthController {
 
     @PostMapping(value = "/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    public final UserSignInResponse singIn(@RequestBody final AuthRequest request) {
+    public final UserSignInResponse singIn(@RequestBody final AuthRequest request) throws NoSuchUserException {
         return authService.signIn(request);
     }
 }

@@ -73,7 +73,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testNewBeer() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsAdmin();
         final Beer beer = BeerMock.getById(3);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
@@ -89,7 +89,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdateBeerById() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsAdmin();
         willReturn(
             beerMapper.sourceToDestination(BeerMock.getById(3)))
             .given(beerRepository)
@@ -99,22 +99,22 @@ public class BeerControllerTest extends AbstractControllerTest {
             .existsById(3);
         mockMvc.perform(put("/api/beers/3")
                             .header("Authorization", token)
-                            .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(
-                                mapper.writeValueAsString(BeerMock.getById(4))))
+                            .content(mapper.writeValueAsString(
+                                BeerMock.getById(4))))
             .andExpect(status().isOk())
             .andExpect(content()
-                           .json(
-                               mapper.writeValueAsString(BeerMock.getById(4))));
+                           .json(mapper.writeValueAsString(
+                               BeerMock.getById(4))));
     }
 
     @Test
     public void testDeleteBeerById() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsAdmin();
         willReturn(true).given(beerRepository).existsById(3);
 
-        mockMvc.perform(delete("/api/beers/3").header("Authorization", token)
+        mockMvc.perform(delete("/api/beers/3")
+                            .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(

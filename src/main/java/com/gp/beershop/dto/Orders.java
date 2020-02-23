@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 @Builder
 public class Orders {
     private Integer id;
-    private Customer customer;
+    private UserDTO userDTO;
     private Boolean processed;
     private Double total;
     private List<CustomerOrder> customerOrders;

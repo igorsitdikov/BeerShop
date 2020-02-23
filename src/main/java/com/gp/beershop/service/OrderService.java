@@ -7,7 +7,7 @@ import com.gp.beershop.entity.CustomerOrderEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
-import com.gp.beershop.exception.NoSuchCustomerException;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
@@ -36,10 +36,10 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final UserMapper userMapper;
 
-    public Orders addOrder(final OrderRequest orderRequest) throws NoSuchCustomerException, NoSuchBeerException {
+    public Orders addOrder(final OrderRequest orderRequest) throws NoSuchUserException, NoSuchBeerException {
 
         final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
-            .orElseThrow(() -> new NoSuchCustomerException(
+            .orElseThrow(() -> new NoSuchUserException(
                 "No customer with id = " + orderRequest.getCustomerId() + " was found."));
 
         final Set<Goods> goodsIds = orderRequest.getGoods();

@@ -1,7 +1,7 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.exception.NoSuchBeerException;
-import com.gp.beershop.exception.NoSuchCustomerException;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.logging.Level;
 @Log
 public class ExceptionControllerAdvice {
     @ExceptionHandler({
-        NoSuchCustomerException.class, NoSuchOrderException.class, NoSuchBeerException.class,
+        NoSuchUserException.class, NoSuchOrderException.class, NoSuchBeerException.class,
         UsernameNotFoundException.class, SuchUserAlreadyExistException.class
     })
     private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {

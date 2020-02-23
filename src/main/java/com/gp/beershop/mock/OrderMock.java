@@ -16,7 +16,7 @@ public final class OrderMock {
     private static Map<Integer, Orders> ordersMap = new HashMap<>() {{
         put(1, Orders.builder()
             .id(1)
-            .customer(CustomersMock.getById(1))
+            .userDTO(UsersMock.getById(1))
             .processed(true)
             .total(25D)
             .customerOrders(
@@ -33,7 +33,7 @@ public final class OrderMock {
             .build());
         put(2, Orders.builder()
             .id(2)
-            .customer(CustomersMock.getById(2))
+            .userDTO(UsersMock.getById(2))
             .processed(false)
             .total(27D)
             .customerOrders(

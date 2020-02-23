@@ -1,10 +1,13 @@
 package com.gp.beershop.service;
 
-import com.gp.beershop.dto.Customer;
+import com.gp.beershop.dto.AuthRequest;
+import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.entity.UserEntity;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.mapper.UserMapper;
-import com.gp.beershop.mock.CustomersMock;
+import com.gp.beershop.mock.UsersMock;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
 import lombok.Data;
@@ -23,45 +26,51 @@ public class RegistrationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
     @PostConstruct
     public void init() {
-        final UserEntity ivan = userMapper.sourceToDestination(CustomersMock.getById(1));
+        final UserEntity ivan = userMapper.sourceToDestination(UsersMock.getById(1));
         ivan.setPassword(passwordEncoder.encode("123456"));
         ivan.setUserRole(UserRole.CUSTOMER);
         userRepository.save(ivan);
-        userRepository.save(
-            userMapper.sourceToDestination(
-                CustomersMock.getById(2)));
+
+        final UserEntity petr = userMapper.sourceToDestination(UsersMock.getById(2));
+        petr.setPassword(passwordEncoder.encode("123456"));
+        petr.setUserRole(UserRole.CUSTOMER);
+        userRepository.save(petr);
+
+        final UserEntity admin = userMapper.sourceToDestination(UsersMock.getById(3));
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        admin.setUserRole(UserRole.ADMIN);
+        userRepository.save(admin);
     }
 
-    public Integer signUp(final Customer customer) throws SuchUserAlreadyExistException {
+    public UserSignInResponse signUp(final UserDTO userDTO)
+        throws SuchUserAlreadyExistException, NoSuchUserException {
 
-        if (userRepository.findByEmail(customer.getEmail()).isPresent()) {
-            throw new SuchUserAlreadyExistException("User with email " + customer.getEmail() + " already exists");
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            throw new SuchUserAlreadyExistException("User with email " + userDTO.getEmail() + " already exists");
         }
-        return saveUser(customer);
+        saveUser(userDTO);
+        return authService.signIn(
+            new AuthRequest(userDTO.getEmail(), userDTO.getPassword()));
     }
 
-    private Integer saveUser(final Customer customer) {
-        final UserEntity userEntity = userMapper.sourceToDestination(customer);
+    private Integer saveUser(final UserDTO userDTO) {
+        final UserEntity userEntity = userMapper.sourceToDestination(userDTO);
         userEntity.setUserRole(UserRole.CUSTOMER);
-        userEntity.setPassword(passwordEncoder.encode(customer.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(userEntity);
 
         return userEntity.getId();
     }
 
-    public List<Customer> customers() {
+    public List<UserDTO> customers() {
         return userRepository.findAll()
             .stream()
+            .filter(el -> el.getUserRole().equals(UserRole.CUSTOMER))
             .map(userMapper::destinationToSource)
-            .map(user -> Customer.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .phone(user.getPhone())
-                .build())
             .collect(Collectors.toList());
     }
 }

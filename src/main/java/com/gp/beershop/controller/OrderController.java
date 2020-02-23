@@ -3,7 +3,7 @@ package com.gp.beershop.controller;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchBeerException;
-import com.gp.beershop.exception.NoSuchCustomerException;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.service.OrderService;
 import lombok.Data;
@@ -31,7 +31,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public final Orders addOrder(@RequestBody final OrderRequest orderRequest)
-        throws NoSuchCustomerException, NoSuchBeerException {
+        throws NoSuchUserException, NoSuchBeerException {
         return orderService.addOrder(orderRequest);
     }
 

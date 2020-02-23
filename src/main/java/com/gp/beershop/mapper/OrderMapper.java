@@ -11,7 +11,7 @@ public interface OrderMapper {
     @Mappings({
         @Mapping(target = "id", source = "source.id"),
         @Mapping(target = "customerOrders", source = "source.customerOrders"),
-        @Mapping(target = "user", source = "source.customer"),
+        @Mapping(target = "user", source = "source.userDTO"),
         @Mapping(target = "processed", source = "source.processed"),
         @Mapping(target = "total", source = "source.total")
     })
@@ -20,7 +20,7 @@ public interface OrderMapper {
     @Mappings({
         @Mapping(target = "id", source = "destination.id"),
         @Mapping(target = "customerOrders", source = "destination.customerOrders"),
-        @Mapping(target = "customer", source = "destination.user"),
+        @Mapping(target = "userDTO", source = "destination.user"),
         @Mapping(target = "processed", source = "destination.processed"),
         @Mapping(target = "total", source = "destination.total")
     })

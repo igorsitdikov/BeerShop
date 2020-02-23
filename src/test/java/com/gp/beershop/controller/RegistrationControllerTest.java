@@ -1,7 +1,9 @@
 package com.gp.beershop.controller;
 
-import com.gp.beershop.mock.CustomersMock;
+import com.gp.beershop.mock.UsersMock;
+import com.gp.beershop.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 
@@ -15,18 +17,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:application-test.properties")
 public class RegistrationControllerTest extends AbstractControllerTest {
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void testCustomerSignUpIsCreated() throws Exception {
         // given
+        userRepository.deleteById(3);
         // when
         mockMvc.perform(post("/api/user/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                CustomersMock.getById(3))))
+                                UsersMock.getById(3))))
             // then
-            .andExpect(status().isCreated())
-            .andExpect(content().json(mapper.writeValueAsString(3)));
+            .andExpect(status().isCreated());
     }
 
     @Test
@@ -36,7 +40,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
         mockMvc.perform(post("/api/user/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                CustomersMock.getById(1))))
+                                UsersMock.getById(1))))
             // then
             .andExpect(status().isBadRequest());
     }
@@ -44,7 +48,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     @Test
     public void testShowCustomers() throws Exception {
         // given
-        final String token = signInAsCustomer();
+        final String token = signInAsAdmin();
         // when
         mockMvc.perform(get("/api/user")
                             .header("Authorization", token)
@@ -53,8 +57,8 @@ public class RegistrationControllerTest extends AbstractControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(
                 List.of(
-                    CustomersMock.getById(1),
-                    CustomersMock.getById(2)))));
+                    UsersMock.convertToUserWithoutPassword(UsersMock.getById(1)),
+                    UsersMock.convertToUserWithoutPassword(UsersMock.getById(2))))));
     }
 
     @Test
