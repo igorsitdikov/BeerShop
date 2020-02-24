@@ -13,13 +13,12 @@ databaseChangeLog:
                                     autoIncrement: true
                                     constraints:
                                         primaryKey: true
-                                        nullable: false
                             -   column:
                                     name: type
                                     type: varchar(512)
                             -   column:
                                     name: in_stock
-                                    type: bool
+                                    type: TINYINT(1)
                             -   column:
                                     name: name
                                     type: varchar(512)
