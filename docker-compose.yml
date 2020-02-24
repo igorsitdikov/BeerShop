@@ -9,6 +9,8 @@ services:
             MYSQL_DATABASE: beershop
             MYSQL_USER: app_user
             MYSQL_PASSWORD: password
+#        volumes:
+#        - /opt/beershop_db:/var/lib/mysql
     app:
         build:
             context: .
