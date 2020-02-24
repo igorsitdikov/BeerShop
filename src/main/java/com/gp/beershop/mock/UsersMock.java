@@ -2,9 +2,7 @@ package com.gp.beershop.mock;
 
 import com.gp.beershop.dto.UserDTO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UsersMock {
@@ -47,9 +45,5 @@ public class UsersMock {
 
     public static UserDTO getById(final Integer id) {
         return userMap.get(id);
-    }
-
-    public static List<UserDTO> getAllValues() {
-        return new ArrayList<>(userMap.values());
     }
 }

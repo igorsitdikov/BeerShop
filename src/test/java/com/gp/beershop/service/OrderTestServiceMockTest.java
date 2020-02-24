@@ -1,14 +1,15 @@
 package com.gp.beershop.service;
 
-import com.gp.beershop.dto.UserDTO;
 import com.gp.beershop.dto.OrderRequest;
+import com.gp.beershop.dto.UserDTO;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
-import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
+import com.gp.beershop.exception.NoSuchUserException;
+import com.gp.beershop.exception.OrderIsEmptyException;
 import com.gp.beershop.mapper.UserMapperImpl;
-import com.gp.beershop.mock.UsersMock;
 import com.gp.beershop.mock.OrderRequestMock;
+import com.gp.beershop.mock.UsersMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
@@ -20,6 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,7 +44,6 @@ public class OrderTestServiceMockTest {
 
     @Test
     public void testChangeStatusOrderNotFound() {
-//        final Orders orders = OrderMock.getById(ID);
         Mockito.doReturn(Optional.empty()).when(orderRepository).findById(ID);
         assertThrows(NoSuchOrderException.class, () -> orderService.changeOrderStatus(ID, Boolean.TRUE));
     }
@@ -53,6 +54,18 @@ public class OrderTestServiceMockTest {
         final Integer userId = orderRequest.getCustomerId();
         Mockito.doReturn(Optional.empty()).when(userRepository).findById(userId);
         assertThrows(NoSuchUserException.class, () -> orderService.addOrder(orderRequest));
+    }
+
+    @Test
+    public void testAddOrderEmptyOrder() {
+        final OrderRequest orderRequest = OrderRequest.builder()
+            .customerId(ID)
+            .goods(new HashSet<>())
+            .build();
+        Mockito.doReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(ID))))
+            .when(userRepository)
+            .findById(ID);
+        assertThrows(OrderIsEmptyException.class, () -> orderService.addOrder(orderRequest));
     }
 
     @Test

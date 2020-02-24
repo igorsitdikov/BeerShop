@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.willReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,5 +40,11 @@ public class BeerTestServiceMockTest {
 
         final Beer beerActual = beerService.getBeerById(ID);
         assertEquals(beerExpected, beerActual);
+    }
+
+    @Test
+    public void testNoSuchBeerException() {
+        Mockito.doReturn(false).when(beerRepository).existsById(ID);
+        assertThrows(NoSuchBeerException.class, () -> beerService.deleteBeerById(ID));
     }
 }
