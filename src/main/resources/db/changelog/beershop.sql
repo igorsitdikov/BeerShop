@@ -35,7 +35,8 @@ CREATE TABLE user
 
 INSERT INTO user (name, password, email, phone, user_role)
 VALUES ('Иван Иванов', '123456', 'ivan.ivanov@mail.ru', '+375331234567', 1),
-       ('Петр Петров', '654321', 'petr.petrov@yandex.ru', '+375337654321', 1);
+       ('Петр Петров', '654321', 'petr.petrov@yandex.ru', '+375337654321', 1),
+       ('Алексей Алексеев', 'password', 'alexeev@gmail.com', '+375333021232', 2);
 
 # DROP TABLE IF EXISTS orders;
 CREATE TABLE orders
