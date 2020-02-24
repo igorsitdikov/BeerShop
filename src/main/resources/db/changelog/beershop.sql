@@ -2,18 +2,18 @@
 # CREATE DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # USE beershop;
 # DROP TABLE IF EXISTS beer;
-CREATE TABLE beer
-(
-    id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    type        VARCHAR(512),
-    in_stock    BOOL,
-    name        VARCHAR(512),
-    description VARCHAR(512),
-    alcohol     DOUBLE,
-    density     DOUBLE,
-    country     VARCHAR(512),
-    price       DOUBLE
-);
+# CREATE TABLE beer
+# (
+#     id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+#     type        VARCHAR(512),
+#     in_stock    BOOL,
+#     name        VARCHAR(512),
+#     description VARCHAR(512),
+#     alcohol     DOUBLE,
+#     density     DOUBLE,
+#     country     VARCHAR(512),
+#     price       DOUBLE
+# );
 # ) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # ALTER TABLE beer
 #     CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;

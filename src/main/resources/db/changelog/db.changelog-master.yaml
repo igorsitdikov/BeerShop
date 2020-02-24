@@ -4,6 +4,44 @@ databaseChangeLog:
             id: 1
             author: sitdikov_igor
             changes:
+                -   createTable:
+                        tableName: beer
+                        columns:
+                            -   column:
+                                    name: id
+                                    type: INT
+                                    autoIncrement: true
+                                    constraints:
+                                        primaryKey: true
+                                        nullable: false
+                            -   column:
+                                    name: type
+                                    type: varchar(512)
+                            -   column:
+                                    name: in_stock
+                                    type: bool
+                            -   column:
+                                    name: name
+                                    type: varchar(512)
+                            -   column:
+                                    name: description
+                                    type: varchar(512)
+                            -   column:
+                                    name: alcohol
+                                    type: DOUBLE
+                            -   column:
+                                    name: density
+                                    type: DOUBLE
+                            -   column:
+                                    name: country
+                                    type: varchar(512)
+                            -   column:
+                                    name: price
+                                    type: DOUBLE
+    -   changeSet:
+            id: 2
+            author: sitdikov_igor
+            changes:
                 -   sqlFile:
                         dbms: mysql
                         encoding: UTF-8
