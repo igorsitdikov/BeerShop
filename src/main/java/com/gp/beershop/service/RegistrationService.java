@@ -57,13 +57,11 @@ public class RegistrationService {
             new AuthRequest(userDTO.getEmail(), userDTO.getPassword()));
     }
 
-    private Integer saveUser(final UserDTO userDTO) {
+    private void saveUser(final UserDTO userDTO) {
         final UserEntity userEntity = userMapper.sourceToDestination(userDTO);
         userEntity.setUserRole(UserRole.CUSTOMER);
         userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.save(userEntity);
-
-        return userEntity.getId();
     }
 
     public List<UserDTO> customers() {

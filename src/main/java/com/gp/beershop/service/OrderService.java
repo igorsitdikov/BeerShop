@@ -9,6 +9,7 @@ import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
+import com.gp.beershop.exception.OrderIsEmptyException;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
 import com.gp.beershop.repository.BeerRepository;
@@ -36,18 +37,18 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final UserMapper userMapper;
 
-    public Orders addOrder(final OrderRequest orderRequest) throws NoSuchUserException, NoSuchBeerException {
+    public Orders addOrder(final OrderRequest orderRequest)
+        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException {
 
         final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
             .orElseThrow(() -> new NoSuchUserException(
                 "No customer with id = " + orderRequest.getCustomerId() + " was found."));
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
-        final Set<CustomerOrderEntity> customerOrders = findAllCustomerOrders(goodsIds);
+        final OrderEntity orderEntity = new OrderEntity();
+        final Set<CustomerOrderEntity> customerOrders = findAllCustomerOrders(goodsIds, orderEntity);
 
         final Double total = calculateTotalCostOrder(customerOrders);
-        final OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setProcessed(false);
         orderEntity.setUser(userEntity);
         orderEntity.setTotal(total);
         orderEntity.setCustomerOrders(customerOrders);
@@ -79,8 +80,13 @@ public class OrderService {
             .sum();
     }
 
-    private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet) throws NoSuchBeerException {
+    private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet, final OrderEntity orderEntity)
+        throws NoSuchBeerException, OrderIsEmptyException {
         final Set<CustomerOrderEntity> customerOrders = new HashSet<>();
+
+        if (goodsSet.isEmpty()) {
+            throw new OrderIsEmptyException("Order is empty!");
+        }
 
         for (final Goods goods : goodsSet) {
             final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
@@ -88,6 +94,7 @@ public class OrderService {
             customerOrderEntity.setBeer(
                 beerRepository.findById(goods.getId()).orElseThrow(
                     () -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
+            customerOrderEntity.setOrders(orderEntity);
             customerOrders.add(customerOrderEntity);
         }
         return customerOrders;

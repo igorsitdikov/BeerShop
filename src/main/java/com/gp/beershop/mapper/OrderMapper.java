@@ -22,7 +22,8 @@ public interface OrderMapper {
         @Mapping(target = "customerOrders", source = "destination.customerOrders"),
         @Mapping(target = "userDTO", source = "destination.user"),
         @Mapping(target = "processed", source = "destination.processed"),
-        @Mapping(target = "total", source = "destination.total")
+        @Mapping(target = "total", source = "destination.total"),
+        @Mapping(target = "userDTO.password", ignore = true)
     })
     Orders destinationToSource(OrderEntity destination);
 }

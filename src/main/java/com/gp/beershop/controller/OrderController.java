@@ -5,6 +5,7 @@ import com.gp.beershop.dto.Orders;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
+import com.gp.beershop.exception.OrderIsEmptyException;
 import com.gp.beershop.service.OrderService;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -31,7 +32,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public final Orders addOrder(@RequestBody final OrderRequest orderRequest)
-        throws NoSuchUserException, NoSuchBeerException {
+        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException {
         return orderService.addOrder(orderRequest);
     }
 
