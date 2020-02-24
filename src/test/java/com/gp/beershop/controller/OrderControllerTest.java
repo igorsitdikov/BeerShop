@@ -1,6 +1,8 @@
 package com.gp.beershop.controller;
 
 
+import com.gp.beershop.dto.Orders;
+import com.gp.beershop.dto.UserDTO;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
@@ -72,7 +74,7 @@ public class OrderControllerTest extends AbstractControllerTest {
     @Test
     public void testAddOrderAsCustomer() throws Exception {
         final String token = signInAsCustomer();
-
+        final Orders order = OrderMock.getById(2);
         willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
             .given(userRepository)
             .findById(2);
@@ -82,7 +84,7 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
             .given(beerRepository)
             .findById(3);
-        willReturn(orderMapper.sourceToDestination(OrderMock.getById(2)))
+        willReturn(orderMapper.sourceToDestination(order))
             .given(orderRepository)
             .save(any(OrderEntity.class));
         mockMvc.perform(post("/api/orders")
@@ -94,12 +96,25 @@ public class OrderControllerTest extends AbstractControllerTest {
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
-                    OrderMock.getById(2))));
+                    Orders.builder()
+                        .id(order.getId())
+                        .userDTO(
+                            UserDTO.builder()
+                                .id(order.getUserDTO().getId())
+                                .name(order.getUserDTO().getName())
+                                .email(order.getUserDTO().getEmail())
+                                .phone(order.getUserDTO().getPhone())
+                                .build())
+                        .processed(order.getProcessed())
+                        .total(order.getTotal())
+                        .customerOrders(order.getCustomerOrders())
+                        .build())));
     }
     @Test
     public void testAddOrderAsAdmin() throws Exception {
         final String token = signInAsAdmin();
 
+        final Orders order = OrderMock.getById(2);
         willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
             .given(userRepository)
             .findById(2);
@@ -109,7 +124,7 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
             .given(beerRepository)
             .findById(3);
-        willReturn(orderMapper.sourceToDestination(OrderMock.getById(2)))
+        willReturn(orderMapper.sourceToDestination(order))
             .given(orderRepository)
             .save(any(OrderEntity.class));
         mockMvc.perform(post("/api/orders")
@@ -121,7 +136,19 @@ public class OrderControllerTest extends AbstractControllerTest {
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
-                    OrderMock.getById(2))));
+                    Orders.builder()
+                        .id(order.getId())
+                        .userDTO(
+                            UserDTO.builder()
+                                .id(order.getUserDTO().getId())
+                                .name(order.getUserDTO().getName())
+                                .email(order.getUserDTO().getEmail())
+                                .phone(order.getUserDTO().getPhone())
+                                .build())
+                        .processed(order.getProcessed())
+                        .total(order.getTotal())
+                        .customerOrders(order.getCustomerOrders())
+                        .build())));
     }
 
     @Test

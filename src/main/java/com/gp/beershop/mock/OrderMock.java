@@ -2,11 +2,12 @@ package com.gp.beershop.mock;
 
 import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Orders;
+import com.gp.beershop.dto.UserDTO;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class OrderMock {
 
@@ -55,6 +56,20 @@ public final class OrderMock {
     }
 
     public static List<Orders> getAllValues() {
-        return new ArrayList<>(ordersMap.values());
+        return ordersMap.values()
+            .stream()
+            .map(order -> Orders.builder()
+                .id(order.getId())
+                .userDTO(
+                    UserDTO.builder()
+                        .id(order.getUserDTO().getId())
+                        .name(order.getUserDTO().getName())
+                        .email(order.getUserDTO().getEmail())
+                        .phone(order.getUserDTO().getPhone())
+                        .build())
+                .processed(order.getProcessed())
+                .total(order.getTotal())
+                .customerOrders(order.getCustomerOrders())
+                .build()).collect(Collectors.toList());
     }
 }
