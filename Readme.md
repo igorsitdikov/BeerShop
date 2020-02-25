@@ -147,6 +147,12 @@ Request:
 ```
 Response: `200 OK`
 
+```
+{
+    token: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0"
+}
+```
+
 ### BS-5 Как "Покупатель", я хочу выбрать, интресующие меня наименования пива с указанием объема, и оформить заказ, и если я авторизован, оформляю заказ
 
 Request: 
@@ -241,7 +247,7 @@ Response: `201 CREATED`
    "id" : 3
 }
 ```
-### BS-7 Как "Администратор", я хочу изменить цену пива, и если такого наименования есть, изменяю ему цену
+### BS-7 Как "Администратор", я хочу изменить цену пива, и если такое наименование есть, изменяю ему цену
 
 Request: 
     
@@ -392,6 +398,37 @@ Request:
 `PATCH /api/orders/${orderId}?status=${status}`
 
 `Headers: orderId=2, status=true`
+    
+Response: `200 OK`
+
+```
+{
+    "id": 2
+}
+```
+#### Сергей
+### BS-11 Как "Администратор", я хочу удалить заказ, и если заказ обработан удаляю его
+
+Request: 
+    
+`DELETE /api/orders/${orderId}`
+
+`Headers: orderId=2`
+    
+Response: `200 OK`
+
+```
+{
+    "id": 2
+}
+```
+
+#### Владислав
+### BS-12 Как "Администратор", я хочу удалить "Пользователя", и если у пользователя нет открытых заказов, удаляю
+
+Request: order
+    
+`DELETE /api/users/${orderId}`
     
 Response: `200 OK`
 
