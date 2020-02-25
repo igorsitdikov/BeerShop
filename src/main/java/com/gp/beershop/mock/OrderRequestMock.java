@@ -15,11 +15,11 @@ public class OrderRequestMock {
             .goods(Set.of(
                 Goods.builder()
                     .id(2)
-                    .count(1)
+                    .amount(1)
                     .build(),
                 Goods.builder()
                     .id(3)
-                    .count(3)
+                    .amount(3)
                     .build()))
             .build();
     }

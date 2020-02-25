@@ -38,7 +38,7 @@ public class CustomerOrderMapperMockTest {
 
         final CustomerOrderEntity customerOrderEntity = customerOrderMapper.sourceToDestination(customerOrder);
 
-        assertEquals(customerOrder.getCount(), customerOrderEntity.getCount());
+        assertEquals(customerOrder.getAmount(), customerOrderEntity.getAmount());
         assertEquals(customerOrder.getBeer().getId(), customerOrderEntity.getBeer().getId());
         assertEquals(customerOrder.getBeer().getAlcohol(), customerOrderEntity.getBeer().getAlcohol());
         assertEquals(customerOrder.getBeer().getName(), customerOrderEntity.getBeer().getName());
@@ -71,7 +71,7 @@ public class CustomerOrderMapperMockTest {
         orderRepository.save(orderEntity);
 
         final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
-        customerOrderEntity.setCount(customerOrderExpected.getCount());
+        customerOrderEntity.setAmount(customerOrderExpected.getAmount());
         customerOrderEntity.setBeer(beerEntity);
         orderEntity.setCustomerOrders(Set.of(customerOrderEntity));
         customerOrderEntity.setOrders(orderEntity);

@@ -12,5 +12,5 @@ public class Goods {
     @ApiModelProperty(notes = "Goods ID")
     private Integer id;
     @ApiModelProperty(notes = "Good amount")
-    private Integer count;
+    private Integer amount;
 }

@@ -23,5 +23,5 @@ public class CustomerOrderEntity {
     @ManyToOne
     @JoinColumn(name = "beer_id", nullable = false)
     private BeerEntity beer;
-    private Integer count;
+    private Integer amount;
 }

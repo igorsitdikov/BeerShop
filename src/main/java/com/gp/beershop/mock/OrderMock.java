@@ -23,11 +23,11 @@ public final class OrderMock {
                 List.of(
                     CustomerOrder.builder()
                         .beer(BeerMock.getById(1))
-                        .count(2)
+                        .amount(2)
                         .build(),
                     CustomerOrder.builder()
                         .beer(BeerMock.getById(2))
-                        .count(5)
+                        .amount(5)
                         .build()
                        ))
             .build());
@@ -40,11 +40,11 @@ public final class OrderMock {
                 List.of(
                     CustomerOrder.builder()
                         .beer(BeerMock.getById(2))
-                        .count(1)
+                        .amount(1)
                         .build(),
                     CustomerOrder.builder()
                         .beer(BeerMock.getById(3))
-                        .count(3)
+                        .amount(3)
                         .build()
                        ))
             .build());

@@ -54,9 +54,10 @@
 
 Request: 
 
-`GET /api/beer`
+`GET /api/beers`
 
 Response: `200 OK`
+
 ```
 [
     {
@@ -88,7 +89,7 @@ Response: `200 OK`
 
 Request: 
 
-`GET /api/beer?type=${beerType}`
+`GET /api/beers?type=${beerType}`
 
 `Headers: beerType="темное"`
 
@@ -131,6 +132,7 @@ Response: `201 CREATED`
    "id" : 1
 }
 ```
+
 ### BS-4 Как "Покупатель", будучи зарегистрированным пользователем, я хочу войти в систему, и, если такой пользователь существует и пароль совпадает, войти в систему
 
 Request: 
@@ -157,11 +159,11 @@ Request:
     "goods": [
         {
             "id": 2,
-            "count": 1
+            "amount": 1
         },
         {
             "id": 3,
-            "count": 3
+            "amount": 3
         }
     ]
 }
@@ -193,7 +195,7 @@ Response: `201 CREATED`
                 "country": "Республика Беларусь",
                 "price": 3.0
             },
-            "count": 1
+            "amount": 1
         },
         {
             "beer": {
@@ -207,7 +209,7 @@ Response: `201 CREATED`
                 "country": "Чехия",
                 "price": 8.0
             },
-            "count": 3
+            "amount": 3
         }
     ]
 }
@@ -217,7 +219,7 @@ Response: `201 CREATED`
 
 Request: 
     
-`POST /api/beer`
+`POST /api/beers`
     
 ```    
 {
@@ -243,7 +245,7 @@ Response: `201 CREATED`
 
 Request: 
     
-`PUT /api/beer/${beerId}`
+`PUT /api/beers/${beerId}`
 
 `Headers: beerId=3`
     
@@ -281,7 +283,7 @@ Response: `200 OK`
 
 Request: 
     
-`DELETE /api/beer/${beerId}`
+`DELETE /api/beers/${beerId}`
 
 `Headers: beerId=3`
 
@@ -321,7 +323,7 @@ Response: `200 OK`
                     "country": "Республика Беларусь",
                     "price": 3.0
                 },
-                "count": 5
+                "amount": 5
             },
             {
                 "beer": {
@@ -335,7 +337,7 @@ Response: `200 OK`
                     "country": "Чехия",
                     "price": 8.0
                 },
-                "count": 2
+                "amount": 2
             }
         ]
     },
@@ -362,7 +364,7 @@ Response: `200 OK`
                     "country": "Республика Беларусь",
                     "price": 3.0
                 },
-                "count": 1
+                "amount": 1
             },
             {
                 "beer": {
@@ -376,7 +378,7 @@ Response: `200 OK`
                     "country": "Чехия",
                     "price": 8.0
                 },
-                "count": 3
+                "amount": 3
             }
         ]
     }

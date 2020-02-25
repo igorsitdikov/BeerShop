@@ -22,7 +22,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/users/sign-up", "/api/users/sign-in").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/users/sign-up", "/api/sign-in").permitAll()
             .antMatchers(HttpMethod.GET, "/api/beers").permitAll()
             .antMatchers(HttpMethod.POST, "/api/orders")
             .hasAnyRole(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())

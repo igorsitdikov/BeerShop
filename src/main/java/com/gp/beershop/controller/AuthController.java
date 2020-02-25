@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Data
 @RestController
 @BasePathAwareController
-@RequestMapping("/users")
 @Api(value = "User Authentication System")
 public class AuthController {
 

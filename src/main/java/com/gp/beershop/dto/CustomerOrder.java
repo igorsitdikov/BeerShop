@@ -14,5 +14,5 @@ public class CustomerOrder {
     @ApiModelProperty(notes = "Kind of beer")
     private Beer beer;
     @ApiModelProperty(notes = "Amount of beer in liters")
-    private Integer count;
+    private Integer amount;
 }

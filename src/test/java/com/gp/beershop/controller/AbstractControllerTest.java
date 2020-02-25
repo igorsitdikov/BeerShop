@@ -40,7 +40,7 @@ public abstract class AbstractControllerTest {
             .build();
 
         final String response = mockMvc.perform(
-            post("/api/users/sign-in")
+            post("/api/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request)))
             .andExpect(status().isOk())

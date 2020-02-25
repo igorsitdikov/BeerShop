@@ -75,7 +75,7 @@ public class OrderService {
     private Double calculateTotalCostOrder(final Set<CustomerOrderEntity> customerOrders) {
         return customerOrders
             .stream()
-            .mapToDouble(order -> order.getBeer().getPrice() * order.getCount())
+            .mapToDouble(order -> order.getBeer().getPrice() * order.getAmount())
             .sum();
     }
 
@@ -89,7 +89,7 @@ public class OrderService {
 
         for (final Goods goods : goodsSet) {
             final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
-            customerOrderEntity.setCount(goods.getCount());
+            customerOrderEntity.setAmount(goods.getAmount());
             customerOrderEntity.setBeer(
                 beerRepository.findById(goods.getId()).orElseThrow(
                     () -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
