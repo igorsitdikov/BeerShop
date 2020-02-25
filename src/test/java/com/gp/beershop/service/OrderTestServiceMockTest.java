@@ -29,8 +29,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderTestServiceMockTest {
-
     private static final int ID = 1;
+
     @Mock
     private OrderRepository orderRepository;
     @Spy

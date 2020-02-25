@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class UserSignInTestServiceMockTest {
     private static final String EMAIL = "admin@mail.ru";
+
     @Mock
     private UserRepository userRepository;
     @InjectMocks

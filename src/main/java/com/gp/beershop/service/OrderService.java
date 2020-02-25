@@ -7,8 +7,8 @@ import com.gp.beershop.entity.CustomerOrderEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
-import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.OrderIsEmptyException;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Log
 @Service
 public class OrderService {
-
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final BeerRepository beerRepository;

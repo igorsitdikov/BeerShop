@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CustomerOrderMapper {
-
     CustomerOrderEntity sourceToDestination(CustomerOrder source);
 
     CustomerOrder destinationToSource(CustomerOrderEntity destination);

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Log
 @Data
 @Service
-public class RegistrationService {
+public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;

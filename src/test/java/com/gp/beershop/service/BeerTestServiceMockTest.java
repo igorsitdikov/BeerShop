@@ -22,8 +22,8 @@ import static org.mockito.BDDMockito.willReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class BeerTestServiceMockTest {
-
     private static final int ID = 1;
+
     @Mock
     private BeerRepository beerRepository;
     @InjectMocks

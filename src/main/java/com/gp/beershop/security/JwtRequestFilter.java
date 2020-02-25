@@ -22,7 +22,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private static final Integer BEARER = 7;
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
+    protected void doFilterInternal(final HttpServletRequest request,
+                                    final HttpServletResponse response,
+                                    final FilterChain chain)
         throws ServletException, IOException {
 
         final String authorizationHeader = request.getHeader("Authorization");

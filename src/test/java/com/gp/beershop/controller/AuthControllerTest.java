@@ -13,9 +13,9 @@ public class AuthControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCustomerSignIn() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsUser(false);
         mockMvc.perform(
-            post("/api/user/sign-in")
+            post("/api/users/sign-in")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(

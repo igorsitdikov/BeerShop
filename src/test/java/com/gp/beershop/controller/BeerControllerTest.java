@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Log
 public class BeerControllerTest extends AbstractControllerTest {
-
     @MockBean
     private BeerRepository beerRepository;
     @SpyBean
@@ -53,7 +52,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testBeerFilter() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsUser(false);
         willReturn(List.of(
             BeerMock.getById(1),
             BeerMock.getById(2))
@@ -73,7 +72,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testNewBeer() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
         final Beer beer = BeerMock.getById(3);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
@@ -89,7 +88,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdateBeerById() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
         willReturn(
             beerMapper.sourceToDestination(BeerMock.getById(3)))
             .given(beerRepository)
@@ -110,7 +109,7 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testDeleteBeerById() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
         willReturn(true).given(beerRepository).existsById(3);
 
         mockMvc.perform(delete("/api/beers/3")

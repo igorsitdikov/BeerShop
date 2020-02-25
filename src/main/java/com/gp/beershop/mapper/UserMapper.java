@@ -4,7 +4,6 @@ import com.gp.beershop.dto.UserDTO;
 import com.gp.beershop.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

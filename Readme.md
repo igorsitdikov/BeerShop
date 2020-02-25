@@ -114,7 +114,7 @@ Response: `200 OK`
 
 Request: 
     
-`POST /api/user/sign-up`
+`POST /api/users/sign-up`
     
 ```    
 {
@@ -135,7 +135,7 @@ Response: `201 CREATED`
 
 Request: 
     
-`POST /api/user/sign-in`
+`POST /api/sign-in`
     
 ```    
 {
@@ -144,12 +144,6 @@ Request:
 }
 ```
 Response: `200 OK`
-
-```
-{
-   "id" : 1
-}
-```
 
 ### BS-5 Как "Покупатель", я хочу выбрать, интресующие меня наименования пива с указанием объема, и оформить заказ, и если я авторизован, оформляю заказ
 

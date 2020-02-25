@@ -15,8 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("classpath:application-test.properties")
-public class RegistrationControllerTest extends AbstractControllerTest {
-
+public class UserControllerTest extends AbstractControllerTest {
     @Autowired
     private UserRepository userRepository;
 
@@ -25,7 +24,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
         // given
         userRepository.deleteById(3);
         // when
-        mockMvc.perform(post("/api/user/sign-up")
+        mockMvc.perform(post("/api/users/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
                                 UsersMock.getById(3))))
@@ -37,7 +36,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     public void testCustomerSignUpWhenUserAlreadyExists() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/api/user/sign-up")
+        mockMvc.perform(post("/api/users/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
                                 UsersMock.getById(1))))
@@ -48,9 +47,9 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     @Test
     public void testShowCustomers() throws Exception {
         // given
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
         // when
-        mockMvc.perform(get("/api/user")
+        mockMvc.perform(get("/api/users")
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
@@ -65,7 +64,7 @@ public class RegistrationControllerTest extends AbstractControllerTest {
     public void testShowCustomersWithoutToken() throws Exception {
         // given
         // when
-        mockMvc.perform(get("/api/user")
+        mockMvc.perform(get("/api/users")
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isForbidden());

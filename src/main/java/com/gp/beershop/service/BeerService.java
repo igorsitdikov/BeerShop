@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Log
 @Service
 public class BeerService {
-
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 

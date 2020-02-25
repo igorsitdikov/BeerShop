@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class OrderControllerTest extends AbstractControllerTest {
-
     private final Integer CUSTOMER = 1;
     private final Integer ADMIN = 3;
 
@@ -73,7 +72,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     public void testAddOrderAsCustomer() throws Exception {
-        final String token = signInAsCustomer();
+        final String token = signInAsUser(false);
         final Orders order = OrderMock.getById(2);
         willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
             .given(userRepository)
@@ -110,9 +109,10 @@ public class OrderControllerTest extends AbstractControllerTest {
                         .customerOrders(order.getCustomerOrders())
                         .build())));
     }
+
     @Test
     public void testAddOrderAsAdmin() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
 
         final Orders order = OrderMock.getById(2);
         willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
@@ -153,7 +153,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     public void testChangeOrderStatusById() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
         final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(2));
 
         willReturn(Optional.of(orderEntity)).given(orderRepository).findById(2);
@@ -161,7 +161,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(patch("/api/orders/2")
                             .header("Authorization", token)
-            .param("status", "true")
+                            .param("status", "true")
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(2)));
@@ -169,7 +169,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     public void testShowAllOrders() throws Exception {
-        final String token = signInAsAdmin();
+        final String token = signInAsUser(true);
 
         willReturn(OrderMock.getAllValues()
                        .stream()
