@@ -27,6 +27,7 @@
 - Статус
 - Количество
 - Общая стоимость
+- Аннулирован
 - Список заказа
 
 Связи:
@@ -194,6 +195,7 @@ Response: `201 CREATED`
     },
     "processed": false,
     "total": 27.0,
+    "canceled": false,
     "customerOrder": [
         {
             "beer": {
@@ -347,6 +349,7 @@ Response: `200 OK`
         },
         "processed": true,
         "total": 31.0,
+        "canceled": false,
         "customerOrder": [
             {
                 "beer": {
@@ -388,6 +391,7 @@ Response: `200 OK`
         },
         "processed": false,
         "total": 27.0,
+        "canceled": false,
         "customerOrder": [
             {
                 "beer": {
@@ -463,16 +467,33 @@ Response: `200 OK`
 #### Владислав
 ### BS-12 Как "Администратор", я хочу удалить "Пользователя", и если у пользователя нет открытых заказов, удаляю
 
-Request: order
+Request: 
     
-`DELETE /api/users/${orderId}`
+`DELETE /api/users/${userId}`
+
+`Где: userId=2`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
+    
+Response: `200 OK`
+
+#### Олег
+### BS-13 Как "Покупатель", я хочу аннулировать заказ, и если у заказа статус не обработан, удаляю его
+
+Request: 
+    
+`PATCH /api/orders/${orderId}`
 
 `Где: orderId=2`
 
 ```
 Headers: 
 
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0
 ```
     
 Response: `200 OK`
