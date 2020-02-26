@@ -10,11 +10,13 @@ import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.OrderIsEmptyException;
+import com.gp.beershop.exception.SuchUserHasNoPermissionsException;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
+import com.gp.beershop.security.JwtUtil;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
@@ -30,19 +32,29 @@ import java.util.stream.Collectors;
 @Log
 @Service
 public class OrderService {
+    private static final Integer BEARER = 7;
+
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final BeerRepository beerRepository;
     private final BeerService beerService;
     private final OrderMapper orderMapper;
     private final UserMapper userMapper;
+    private final JwtUtil jwtUtil;
 
-    public Orders addOrder(final OrderRequest orderRequest)
-        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException {
+    public Orders addOrder(final OrderRequest orderRequest, final String token)
+        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
 
         final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
             .orElseThrow(() -> new NoSuchUserException(
                 "No customer with id = " + orderRequest.getCustomerId() + " was found."));
+
+        final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
+
+        if (!userEntity.getEmail().equals(userEmailFromToken)) {
+            throw new SuchUserHasNoPermissionsException(
+                "Customer with email = " + userEmailFromToken + " tried add order to other account.");
+        }
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
         final OrderEntity orderEntity = new OrderEntity();
@@ -92,8 +104,9 @@ public class OrderService {
             final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
             customerOrderEntity.setAmount(goods.getAmount());
             customerOrderEntity.setBeer(
-                beerRepository.findById(goods.getId()).orElseThrow(
-                    () -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
+                beerRepository
+                    .findById(goods.getId())
+                    .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
             customerOrderEntity.setOrders(orderEntity);
             customerOrders.add(customerOrderEntity);
         }

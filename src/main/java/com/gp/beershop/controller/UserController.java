@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping(value = "/sign-up")
     @ApiOperation(value = "Add user")
     @ResponseStatus(HttpStatus.CREATED)
-    public final UserSignInResponse singUp(
+    public UserSignInResponse singUp(
         @ApiParam(value = "User object store in database table", required = true)
         @RequestBody final UserDTO userDTO)
         throws SuchUserAlreadyExistException, NoSuchUserException {
@@ -50,7 +50,7 @@ public class UserController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
-    public final List<UserDTO> customers() {
+    public List<UserDTO> customers() {
         return userService.customers();
     }
 }

@@ -3,6 +3,7 @@ package com.gp.beershop.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtUtil {
     private static final String SECRET_KEY = "secret-key-gen";
     private static final Integer TEN_HOURS = 1000 * 60 * 60 * 10;

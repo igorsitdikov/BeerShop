@@ -5,6 +5,7 @@ import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.exception.OrderIsEmptyException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
+import com.gp.beershop.exception.SuchUserHasNoPermissionsException;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,8 @@ import java.util.logging.Level;
 public class ExceptionControllerAdvice {
     @ExceptionHandler({
         NoSuchUserException.class, NoSuchOrderException.class, NoSuchBeerException.class,
-        UsernameNotFoundException.class, SuchUserAlreadyExistException.class, OrderIsEmptyException.class
+        UsernameNotFoundException.class, SuchUserAlreadyExistException.class, OrderIsEmptyException.class,
+        SuchUserHasNoPermissionsException.class
     })
     private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {
         log.log(Level.SEVERE, e.getMessage(), e);

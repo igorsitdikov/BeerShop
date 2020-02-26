@@ -34,7 +34,7 @@ public class AuthController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
-    public final UserSignInResponse singIn(@RequestBody final AuthRequest request) throws NoSuchUserException {
+    public UserSignInResponse singIn(@RequestBody final AuthRequest request) throws NoSuchUserException {
         return authService.signIn(request);
     }
 }

@@ -69,7 +69,7 @@ Response: `200 OK`
         "alcohol": 5.0,
         "density": 11.5,
         "country": "Республика Беларусь",
-        "price": 5.0
+        "price": 5.00
     },
     {
         "id": 2,
@@ -80,7 +80,7 @@ Response: `200 OK`
         "alcohol": 4.6,
         "density": 10.2,
         "country": "Республика Беларусь",
-        "price": 3.0
+        "price": 3.00
     }
 ]
 ```
@@ -91,7 +91,7 @@ Request:
 
 `GET /api/beers?type=${beerType}`
 
-`Headers: beerType="темное"`
+`Где: beerType="темное"`
 
 Response: `200 OK`
 
@@ -106,7 +106,7 @@ Response: `200 OK`
         "alcohol": 4.6,
         "density": 10.2,
         "country": "Республика Беларусь",
-        "price": 3.0
+        "price": 3.00
     }
 ]
 ```
@@ -157,7 +157,13 @@ Response: `200 OK`
 
 Request: 
 
-```POST /api/orders```
+`POST /api/orders`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0
+```
 
 ```
 {
@@ -199,7 +205,7 @@ Response: `201 CREATED`
                 "alcohol": 4.6,
                 "density": 10.2,
                 "country": "Республика Беларусь",
-                "price": 3.0
+                "price": 3.00
             },
             "amount": 1
         },
@@ -213,7 +219,7 @@ Response: `201 CREATED`
                 "alcohol": 4.2,
                 "density": 12.0,
                 "country": "Чехия",
-                "price": 8.0
+                "price": 8.00
             },
             "amount": 3
         }
@@ -226,6 +232,12 @@ Response: `201 CREATED`
 Request: 
     
 `POST /api/beers`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
     
 ```    
 {
@@ -236,7 +248,7 @@ Request:
     "alcohol": 4.2,
     "density": 12.0,
     "country": "Чехия",
-    "price": 8.0
+    "price": 8.00
 }
 ```
 
@@ -247,13 +259,20 @@ Response: `201 CREATED`
    "id" : 3
 }
 ```
+
 ### BS-7 Как "Администратор", я хочу изменить цену пива, и если такое наименование есть, изменяю ему цену
 
 Request: 
     
 `PUT /api/beers/${beerId}`
 
-`Headers: beerId=3`
+`Где: beerId=3`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
     
 ```    
 {
@@ -265,7 +284,7 @@ Request:
     "alcohol": 4.5,
     "density": 12.2,
     "country": "Чехия",
-    "price": 8.3
+    "price": 8.30
 }
 ```
 
@@ -281,7 +300,7 @@ Response: `200 OK`
     "alcohol": 4.5,
     "density": 12.2,
     "country": "Чехия",
-    "price": 8.3
+    "price": 8.30
 }
 ```
 
@@ -291,7 +310,13 @@ Request:
     
 `DELETE /api/beers/${beerId}`
 
-`Headers: beerId=3`
+`Где: beerId=3`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
 
 Response: `200 OK`
 
@@ -301,7 +326,13 @@ Response: `200 OK`
 Request: 
     
 `GET /api/orders`
-    
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
+
 Response: `200 OK`
 
 ```   
@@ -327,7 +358,7 @@ Response: `200 OK`
                     "alcohol": 4.6,
                     "density": 10.2,
                     "country": "Республика Беларусь",
-                    "price": 3.0
+                    "price": 3.00
                 },
                 "amount": 5
             },
@@ -341,7 +372,7 @@ Response: `200 OK`
                     "alcohol": 4.2,
                     "density": 12.0,
                     "country": "Чехия",
-                    "price": 8.0
+                    "price": 8.00
                 },
                 "amount": 2
             }
@@ -368,7 +399,7 @@ Response: `200 OK`
                     "alcohol": 4.6,
                     "density": 10.2,
                     "country": "Республика Беларусь",
-                    "price": 3.0
+                    "price": 3.00
                 },
                 "amount": 1
             },
@@ -382,7 +413,7 @@ Response: `200 OK`
                     "alcohol": 4.2,
                     "density": 12.0,
                     "country": "Чехия",
-                    "price": 8.0
+                    "price": 8.00
                 },
                 "amount": 3
             }
@@ -397,7 +428,13 @@ Request:
     
 `PATCH /api/orders/${orderId}?status=${status}`
 
-`Headers: orderId=2, status=true`
+`Где: orderId=2, status=true`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
     
 Response: `200 OK`
 
@@ -413,7 +450,13 @@ Request:
     
 `DELETE /api/orders/${orderId}`
 
-`Headers: orderId=2`
+`Где: orderId=2`
+ 
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
     
 Response: `200 OK`
 
@@ -429,6 +472,14 @@ Response: `200 OK`
 Request: order
     
 `DELETE /api/users/${orderId}`
+
+`Где: orderId=2`
+
+```
+Headers: 
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
+```
     
 Response: `200 OK`
 

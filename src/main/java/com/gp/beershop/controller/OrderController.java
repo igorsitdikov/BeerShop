@@ -6,6 +6,7 @@ import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchOrderException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.OrderIsEmptyException;
+import com.gp.beershop.exception.SuchUserHasNoPermissionsException;
 import com.gp.beershop.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.Data;
+import lombok.extern.java.Log;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,6 +35,7 @@ import java.util.List;
 @BasePathAwareController
 @RequestMapping(value = "/orders")
 @Api(value = "Order Management System")
+@Log
 public class OrderController {
 
     private final OrderService orderService;
@@ -45,7 +49,7 @@ public class OrderController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
-    public final List<Orders> showOrders() {
+    public List<Orders> showOrders() {
         return orderService.showOrders();
     }
 
@@ -53,17 +57,18 @@ public class OrderController {
     @PostMapping
     @ApiOperation(value = "Add an order")
     @ResponseStatus(HttpStatus.CREATED)
-    public final Orders addOrder(
+    public Orders addOrder(
+        @RequestHeader("Authorization") final String token,
         @ApiParam(value = "Order object store in database table", required = true)
         @RequestBody final OrderRequest orderRequest)
-        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException {
-        return orderService.addOrder(orderRequest);
+        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
+        return orderService.addOrder(orderRequest, token);
     }
 
     @PatchMapping(value = "/{orderId}")
     @ApiOperation(value = "Change status of order")
     @ResponseStatus(HttpStatus.OK)
-    public final Integer changeOrderStatus(
+    public Integer changeOrderStatus(
         @ApiParam(value = "Order ID to change order object", required = true)
         @PathVariable final Integer orderId,
         @ApiParam(value = "Change status of order", required = true)
