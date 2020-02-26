@@ -39,7 +39,7 @@ public class BeerService {
     }
 
     public Beer getBeerById(final Integer id) throws NoSuchBeerException {
-        isFoundEntity(id);
+        checkExisting(id);
         return beerRepository.findById(id)
             .map(beerMapper::destinationToSource)
             .get();
@@ -61,36 +61,22 @@ public class BeerService {
     }
 
     public Beer updateBeerById(final Integer id, final Beer beer) throws NoSuchBeerException {
-        isFoundEntity(id);
-        final BeerEntity beerEntity = beerRepository.getOne(id);
+        checkExisting(id);
 
-        beerEntity.setType(beerEntity.getType().equals(beer.getType()) ? beerEntity.getType() : beer.getType());
-        beerEntity.setInStock(
-            beerEntity.getInStock().equals(beer.getInStock()) ? beerEntity.getInStock() : beer.getInStock());
-        beerEntity.setName(beerEntity.getName().equals(beer.getName()) ? beerEntity.getName() : beer.getName());
-        beerEntity.setDescription(
-            beerEntity.getDescription().equals(beer.getDescription()) ? beerEntity.getDescription()
-                                                                      : beer.getDescription());
-        beerEntity.setAlcohol(
-            beerEntity.getAlcohol().equals(beer.getAlcohol()) ? beerEntity.getAlcohol() : beer.getAlcohol());
-        beerEntity.setDensity(
-            beerEntity.getDensity().equals(beer.getDensity()) ? beerEntity.getDensity() : beer.getDensity());
-        beerEntity.setCountry(
-            beerEntity.getCountry().equals(beer.getCountry()) ? beerEntity.getCountry() : beer.getCountry());
-        beerEntity.setPrice(beerEntity.getPrice().equals(beer.getPrice()) ? beerEntity.getPrice() : beer.getPrice());
+        beer.setId(id);
+        final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
         beerRepository.save(beerEntity);
 
         return beerMapper.destinationToSource(beerEntity);
     }
 
-    public Integer deleteBeerById(final Integer id) throws NoSuchBeerException {
-        isFoundEntity(id);
+    public void deleteBeerById(final Integer id) throws NoSuchBeerException {
+        checkExisting(id);
         beerRepository.deleteById(id);
-        return id;
     }
 
-    private void isFoundEntity(final Integer id) throws NoSuchBeerException {
+    private void checkExisting(final Integer id) throws NoSuchBeerException {
         final boolean isFound = beerRepository.existsById(id);
         if (!isFound) {
             throw new NoSuchBeerException("No beer with id = " + id + " was found.");

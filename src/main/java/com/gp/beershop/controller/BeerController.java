@@ -76,9 +76,9 @@ public class BeerController {
     @DeleteMapping(value = "/{beerId}")
     @ApiOperation(value = "Delete an employee")
     @ResponseStatus(HttpStatus.OK)
-    public Integer deleteBeerById(
+    public void deleteBeerById(
         @ApiParam(value = "Beer Id from which beer object will delete from database table", required = true)
         @PathVariable final Integer beerId) throws NoSuchBeerException {
-        return beerService.deleteBeerById(beerId);
+        beerService.deleteBeerById(beerId);
     }
 }

@@ -27,7 +27,7 @@ public class UsersMock {
         put(3, UserDTO.builder()
             .id(3)
             .name("Алексей Алексеев")
-            .email("alex.alexeevov@yandex.ru")
+            .email("alex.alexeev@gmail.com")
             .password("password")
             .phone("+375337654321")
             .build());

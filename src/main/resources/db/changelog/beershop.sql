@@ -6,7 +6,7 @@ VALUES ('светлое', true, 'Лидское', 'Лучшее пиво по б
 INSERT INTO user (name, password, email, phone, user_role)
 VALUES ('Иван Иванов', '123456', 'ivan.ivanov@mail.ru', '+375331234567', 0),
        ('Петр Петров', '654321', 'petr.petrov@yandex.ru', '+375337654321', 0),
-       ('Алексей Алексеев', 'password', 'alexeev@gmail.com', '+375333021232', 1);
+       ('Алексей Алексеев', 'password', 'alex.alexeev@gmail.com', '+375333021232', 1);
 
 INSERT INTO orders (user_id, processed, total)
 VALUES (1, true, 25.0),

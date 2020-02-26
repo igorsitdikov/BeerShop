@@ -1,6 +1,12 @@
 databaseChangeLog:
     -   logicalFilePath: classpath:/db/changelog/db.changelog-master.yaml
     -   changeSet:
+            id: set to db default CHARSET
+            author: sitdikov_igor
+            changes:
+                -   sql:
+                        sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+    -   changeSet:
             id: create tables beer, orders, user, customer_order
             author: sitdikov_igor
             changes:
@@ -128,6 +134,7 @@ databaseChangeLog:
                         newDataType: DECIMAL(4,2)
                         schemaName: public
                         tableName: orders
+
     -   changeSet:
             id: add records to database
             author: sitdikov_igor
