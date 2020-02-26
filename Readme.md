@@ -460,12 +460,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZ
     
 Response: `200 OK`
 
-```
-{
-    "id": 2
-}
-```
-
 #### Владислав
 ### BS-12 Как "Администратор", я хочу удалить "Пользователя", и если у пользователя нет открытых заказов, удаляю
 
@@ -482,9 +476,3 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZ
 ```
     
 Response: `200 OK`
-
-```
-{
-    "id": 2
-}
-```
