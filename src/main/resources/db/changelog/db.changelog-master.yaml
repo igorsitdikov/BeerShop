@@ -134,7 +134,18 @@ databaseChangeLog:
                         newDataType: DECIMAL(4,2)
                         schemaName: public
                         tableName: orders
-
+    -   changeSet:
+            id: add field 'canceled' to table orders
+            author: sitdikov_igor
+            changes:
+                -   addColumn:
+                        catalogName: beershop
+                        columns:
+                            -   column:
+                                    name: canceled
+                                    type: TINYINT(1)
+                        schemaName: public
+                        tableName: orders
     -   changeSet:
             id: add records to database
             author: sitdikov_igor
