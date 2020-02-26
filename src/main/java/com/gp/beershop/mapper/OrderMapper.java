@@ -13,6 +13,7 @@ public interface OrderMapper {
         @Mapping(target = "customerOrders", source = "source.customerOrders"),
         @Mapping(target = "user", source = "source.userDTO"),
         @Mapping(target = "processed", source = "source.processed"),
+        @Mapping(target = "canceled", source = "source.canceled"),
         @Mapping(target = "total", source = "source.total")
     })
     OrderEntity sourceToDestination(Orders source);
@@ -22,6 +23,7 @@ public interface OrderMapper {
         @Mapping(target = "customerOrders", source = "destination.customerOrders"),
         @Mapping(target = "userDTO", source = "destination.user"),
         @Mapping(target = "processed", source = "destination.processed"),
+        @Mapping(target = "canceled", source = "destination.canceled"),
         @Mapping(target = "total", source = "destination.total"),
         @Mapping(target = "userDTO.password", ignore = true)
     })

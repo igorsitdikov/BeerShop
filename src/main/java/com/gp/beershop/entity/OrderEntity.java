@@ -28,6 +28,7 @@ public class OrderEntity {
     @JoinColumn
     private UserEntity user;
     private Boolean processed = false;
+    private Boolean canceled = false;
     private BigDecimal total;
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CustomerOrderEntity> customerOrders;

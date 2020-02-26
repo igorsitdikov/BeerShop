@@ -18,6 +18,8 @@ public class Orders {
     private UserDTO userDTO;
     @ApiModelProperty(notes = "Order status")
     private Boolean processed;
+    @ApiModelProperty(notes = "Order canceled")
+    private Boolean canceled;
     @ApiModelProperty(notes = "Order cost")
     private BigDecimal total;
     @ApiModelProperty(notes = "List of goods and their amounts")

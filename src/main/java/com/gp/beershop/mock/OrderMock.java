@@ -20,6 +20,7 @@ public final class OrderMock {
             .userDTO(UsersMock.getById(1))
             .processed(true)
             .total(BigDecimal.valueOf(25))
+            .canceled(false)
             .customerOrders(
                 List.of(
                     CustomerOrder.builder()
@@ -36,6 +37,7 @@ public final class OrderMock {
             .id(2)
             .userDTO(UsersMock.getById(2))
             .processed(false)
+            .canceled(false)
             .total(BigDecimal.valueOf(27))
             .customerOrders(
                 List.of(
@@ -68,6 +70,7 @@ public final class OrderMock {
                         .phone(order.getUserDTO().getPhone())
                         .build())
                 .processed(order.getProcessed())
+                .canceled(order.getCanceled())
                 .total(order.getTotal())
                 .customerOrders(order.getCustomerOrders())
                 .build()).collect(Collectors.toList());

@@ -52,7 +52,6 @@ public class BeerControllerTest extends AbstractControllerTest {
 
     @Test
     public void testBeerFilter() throws Exception {
-        final String token = signInAsUser(false);
         willReturn(List.of(
             BeerMock.getById(1),
             BeerMock.getById(2))
@@ -62,7 +61,6 @@ public class BeerControllerTest extends AbstractControllerTest {
             .given(beerRepository).findAll();
 
         mockMvc.perform(get("/api/beers")
-                            .header("Authorization", token)
                             .param("type", "темное")
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
@@ -115,8 +113,6 @@ public class BeerControllerTest extends AbstractControllerTest {
         mockMvc.perform(delete("/api/beers/3")
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().json(
-                mapper.writeValueAsString(3)));
+            .andExpect(status().isOk());
     }
 }

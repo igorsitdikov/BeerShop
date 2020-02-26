@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Log
 public abstract class AbstractControllerTest {
-    private final Integer CUSTOMER = 1;
+    private final Integer CUSTOMER = 2;
     private final Integer ADMIN = 3;
 
     @Autowired

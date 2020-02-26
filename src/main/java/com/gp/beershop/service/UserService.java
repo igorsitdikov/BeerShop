@@ -31,12 +31,12 @@ public class UserService {
     @PostConstruct
     public void init() {
         final UserEntity ivan = userMapper.sourceToDestination(UsersMock.getById(1));
-        ivan.setPassword(passwordEncoder.encode("123456"));
+        ivan.setPassword(passwordEncoder.encode(ivan.getPassword()));
         ivan.setUserRole(UserRole.CUSTOMER);
         userRepository.save(ivan);
 
         final UserEntity petr = userMapper.sourceToDestination(UsersMock.getById(2));
-        petr.setPassword(passwordEncoder.encode("123456"));
+        petr.setPassword(passwordEncoder.encode(petr.getPassword()));
         petr.setUserRole(UserRole.CUSTOMER);
         userRepository.save(petr);
 

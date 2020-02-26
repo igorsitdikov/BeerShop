@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class OrderControllerTest extends AbstractControllerTest {
-    private final Integer CUSTOMER = 1;
+    private final Integer CUSTOMER = 2;
     private final Integer ADMIN = 3;
 
     @MockBean
@@ -91,7 +91,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(
                                 mapper.writeValueAsString(
-                                    OrderRequestMock.getOrderRequest())))
+                                    OrderRequestMock.getOrderRequestByPetr())))
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
@@ -105,6 +105,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                 .phone(order.getUserDTO().getPhone())
                                 .build())
                         .processed(order.getProcessed())
+                        .canceled(order.getCanceled())
                         .total(order.getTotal())
                         .customerOrders(order.getCustomerOrders())
                         .build())));
@@ -115,9 +116,9 @@ public class OrderControllerTest extends AbstractControllerTest {
         final String token = signInAsUser(true);
 
         final Orders order = OrderMock.getById(2);
-        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(3))))
             .given(userRepository)
-            .findById(2);
+            .findById(3);
         willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(2))))
             .given(beerRepository)
             .findById(2);
@@ -132,7 +133,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(
                                 mapper.writeValueAsString(
-                                    OrderRequestMock.getOrderRequest())))
+                                    OrderRequestMock.getOrderRequestByAdmin())))
             .andExpect(status().isCreated())
             .andExpect(content().json(
                 mapper.writeValueAsString(
@@ -146,6 +147,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                 .phone(order.getUserDTO().getPhone())
                                 .build())
                         .processed(order.getProcessed())
+                        .canceled(order.getCanceled())
                         .total(order.getTotal())
                         .customerOrders(order.getCustomerOrders())
                         .build())));
