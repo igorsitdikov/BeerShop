@@ -1,7 +1,7 @@
 databaseChangeLog:
-    -   logicalFilePath: classpath:db/changelog/db.changelog-master.yaml
+    -   logicalFilePath: classpath:/db/changelog/db.changelog-master.yaml
     -   changeSet:
-            id: 1
+            id: create tables beer, orders, user, customer_order
             author: sitdikov_igor
             changes:
                 -   createTable:
@@ -13,9 +13,10 @@ databaseChangeLog:
                                     autoIncrement: true
                                     constraints:
                                         primaryKey: true
+                                        nullable: false
                             -   column:
                                     name: type
-                                    type: varchar(512)
+                                    type: varchar(64)
                             -   column:
                                     name: in_stock
                                     type: TINYINT(1)
@@ -33,12 +34,102 @@ databaseChangeLog:
                                     type: DOUBLE
                             -   column:
                                     name: country
-                                    type: varchar(512)
+                                    type: varchar(128)
                             -   column:
                                     name: price
                                     type: DOUBLE
+                -   createTable:
+                        tableName: user
+                        columns:
+                            -   column:
+                                    name: id
+                                    type: INT
+                                    autoIncrement: true
+                                    constraints:
+                                        primaryKey: true
+                                        nullable: false
+                            -   column:
+                                    name: name
+                                    type: varchar(128)
+                            -   column:
+                                    name: password
+                                    type: varchar(64)
+                            -   column:
+                                    name: email
+                                    type: varchar(64)
+                            -   column:
+                                    name: phone
+                                    type: varchar(64)
+                            -   column:
+                                    name: user_role
+                                    type: INT
+                -   createTable:
+                        tableName: orders
+                        columns:
+                            -   column:
+                                    name: id
+                                    type: INT
+                                    autoIncrement: true
+                                    constraints:
+                                        primaryKey: true
+                                        nullable: false
+                            -   column:
+                                    name: user_id
+                                    type: INT
+                                    constraints:
+                                        nullable: false
+                                        foreignKeyName: fk_user_id
+                                        references: user(id)
+                            -   column:
+                                    name: processed
+                                    type: TINYINT(1)
+                            -   column:
+                                    name: total
+                                    type: DOUBLE
+                -   createTable:
+                        tableName: customer_order
+                        columns:
+                            -   column:
+                                    name: id
+                                    type: INT
+                                    autoIncrement: true
+                                    constraints:
+                                        primaryKey: true
+                            -   column:
+                                    name: beer_id
+                                    type: INT
+                                    constraints:
+                                        nullable: false
+                                        foreignKeyName: fk_beer_id
+                                        references: beer(id)
+                            -   column:
+                                    name: order_id
+                                    type: INT
+                                    constraints:
+                                        nullable: false
+                                        foreignKeyName: fk_order_id
+                                        references: orders(id)
+                            -   column:
+                                    name: amount
+                                    type: INT
     -   changeSet:
-            id: 2
+            id: changed DOUBLE to DECIMAL in price fields
+            author: sitdikov_igor
+            changes:
+                -   modifyDataType:
+                        catalogName: beershop
+                        columnName: price
+                        newDataType: DECIMAL(4,2)
+                        schemaName: public
+                        tableName: beer
+                -   modifyDataType:
+                        catalogName: beershop
+                        columnName: total
+                        newDataType: DECIMAL(4,2)
+                        schemaName: public
+                        tableName: orders
+    -   changeSet:
+            id: add records to database
             author: sitdikov_igor
             changes:
                 -   sqlFile:

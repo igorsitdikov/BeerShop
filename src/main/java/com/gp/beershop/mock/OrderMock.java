@@ -4,6 +4,7 @@ import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.dto.UserDTO;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public final class OrderMock {
             .id(1)
             .userDTO(UsersMock.getById(1))
             .processed(true)
-            .total(25D)
+            .total(BigDecimal.valueOf(25))
             .customerOrders(
                 List.of(
                     CustomerOrder.builder()
@@ -35,7 +36,7 @@ public final class OrderMock {
             .id(2)
             .userDTO(UsersMock.getById(2))
             .processed(false)
-            .total(27D)
+            .total(BigDecimal.valueOf(27))
             .customerOrders(
                 List.of(
                     CustomerOrder.builder()

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -32,5 +34,5 @@ public class Beer {
     @ApiModelProperty(notes = "The country where beer was created")
     private String country;
     @ApiModelProperty(notes = "The beer price")
-    private Double price;
+    private BigDecimal price;
 }

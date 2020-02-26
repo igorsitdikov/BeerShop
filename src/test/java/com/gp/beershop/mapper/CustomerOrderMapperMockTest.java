@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.TestPropertySource;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,7 +68,7 @@ public class CustomerOrderMapperMockTest {
 
         final OrderEntity orderEntity = new OrderEntity();
         orderEntity.setProcessed(false);
-        orderEntity.setTotal(25D);
+        orderEntity.setTotal(BigDecimal.valueOf(25D));
         orderRepository.save(orderEntity);
 
         final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();

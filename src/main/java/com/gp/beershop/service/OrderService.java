@@ -20,6 +20,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class OrderService {
         final OrderEntity orderEntity = new OrderEntity();
         final Set<CustomerOrderEntity> customerOrders = findAllCustomerOrders(goodsIds, orderEntity);
 
-        final Double total = calculateTotalCostOrder(customerOrders);
+        final BigDecimal total = calculateTotalCostOrder(customerOrders);
         orderEntity.setUser(userEntity);
         orderEntity.setTotal(total);
         orderEntity.setCustomerOrders(customerOrders);
@@ -72,11 +73,11 @@ public class OrderService {
             .collect(Collectors.toList());
     }
 
-    private Double calculateTotalCostOrder(final Set<CustomerOrderEntity> customerOrders) {
+    private BigDecimal calculateTotalCostOrder(final Set<CustomerOrderEntity> customerOrders) {
         return customerOrders
             .stream()
-            .mapToDouble(order -> order.getBeer().getPrice() * order.getAmount())
-            .sum();
+            .map(order -> order.getBeer().getPrice().multiply(BigDecimal.valueOf(order.getAmount())))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet, final OrderEntity orderEntity)

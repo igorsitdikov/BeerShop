@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class BeerEntity {
     private Double alcohol;
     private Double density;
     private String country;
-    private Double price;
+    private BigDecimal price;
     @OneToMany(mappedBy = "beer")
     private Set<CustomerOrderEntity> customerOrders = new HashSet<>();
 }

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -27,7 +28,7 @@ public class OrderEntity {
     @JoinColumn
     private UserEntity user;
     private Boolean processed = false;
-    private Double total;
+    private BigDecimal total;
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CustomerOrderEntity> customerOrders;
 }

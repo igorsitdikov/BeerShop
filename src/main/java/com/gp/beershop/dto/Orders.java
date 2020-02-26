@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,7 @@ public class Orders {
     @ApiModelProperty(notes = "Order status")
     private Boolean processed;
     @ApiModelProperty(notes = "Order cost")
-    private Double total;
+    private BigDecimal total;
     @ApiModelProperty(notes = "List of goods and their amounts")
     private List<CustomerOrder> customerOrders;
 }
