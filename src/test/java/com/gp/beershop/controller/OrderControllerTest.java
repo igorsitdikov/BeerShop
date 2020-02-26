@@ -22,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -112,6 +113,103 @@ public class OrderControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testAddOrderAsCustomer_CustomerNotFound() throws Exception {
+        final String token = signInAsUser(false);
+        final Orders order = OrderMock.getById(2);
+
+        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(2))))
+            .given(beerRepository)
+            .findById(2);
+        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
+            .given(beerRepository)
+            .findById(3);
+        willReturn(orderMapper.sourceToDestination(order))
+            .given(orderRepository)
+            .save(any(OrderEntity.class));
+        mockMvc.perform(post("/api/orders")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    OrderRequestMock.getOrderRequestByPetr())))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"No customer with id = 2 was found.\"}"));
+    }
+
+    @Test
+    public void testAddOrderAsCustomer_EmptyOrder() throws Exception {
+        final String token = signInAsUser(false);
+        final Orders order = OrderMock.getById(2);
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(order);
+        orderEntity.setCustomerOrders(new HashSet<>());
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
+            .given(userRepository)
+            .findById(2);
+        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(2))))
+            .given(beerRepository)
+            .findById(2);
+        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
+            .given(beerRepository)
+            .findById(3);
+        willReturn(orderEntity)
+            .given(orderRepository)
+            .save(any(OrderEntity.class));
+        mockMvc.perform(post("/api/orders")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    OrderRequestMock.getOrderRequestWithEmptyOrder())))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"Order is empty!\"}"));
+    }
+
+    @Test
+    public void testAddOrderAsCustomer_CustomerHasNoPermissions() throws Exception {
+        final String token = signInAsUser(false);
+
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(1))))
+            .given(userRepository)
+            .findById(1);
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
+            .given(userRepository)
+            .findById(2);
+
+        mockMvc.perform(post("/api/orders")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    OrderRequestMock.getOrderRequestByIvan())))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(
+                "{\"errorMessage\":\"Customer with email = petr.petrov@yandex.ru tried add order to other account.\"}"));
+    }
+
+    @Test
+    public void testAddOrderAsCustomer_BeerNotFound() throws Exception {
+        final String token = signInAsUser(false);
+        final Orders order = OrderMock.getById(2);
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(2))))
+            .given(userRepository)
+            .findById(2);
+        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(3))))
+            .given(beerRepository)
+            .findById(3);
+        willReturn(orderMapper.sourceToDestination(order))
+            .given(orderRepository)
+            .save(any(OrderEntity.class));
+        mockMvc.perform(post("/api/orders")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(
+                                mapper.writeValueAsString(
+                                    OrderRequestMock.getOrderRequestByPetr())))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"No beer with id = 2 was found.\"}"));
+    }
+
+    @Test
     public void testAddOrderAsAdmin() throws Exception {
         final String token = signInAsUser(true);
 
@@ -167,6 +265,22 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(2)));
+    }
+
+    @Test
+    public void testChangeOrderStatusById_OrderNotFound() throws Exception {
+        final String token = signInAsUser(true);
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(2));
+
+//        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(2);
+        willReturn(orderEntity).given(orderRepository).save(any(OrderEntity.class));
+
+        mockMvc.perform(patch("/api/orders/2")
+                            .header("Authorization", token)
+                            .param("status", "true")
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"No order with id = 2 was found.\"}"));
     }
 
     @Test

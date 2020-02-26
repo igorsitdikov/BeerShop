@@ -2,6 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.entity.UserEntity;
+import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
@@ -15,11 +16,14 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("classpath:application-test.properties")
@@ -53,4 +57,21 @@ public class AuthControllerTest extends AbstractControllerTest {
                             .build())))
             .andExpect(status().isOk());
     }
+
+
+    @Test
+    public void testCustomerSignInNoSuchUser() throws Exception {
+        mockMvc.perform(
+            post("/api/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    mapper.writeValueAsString(
+                        AuthRequest.builder()
+                            .email(UsersMock.getById(CUSTOMER).getEmail())
+                            .password(UsersMock.getById(CUSTOMER).getPassword())
+                            .build())))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"No user with email = petr.petrov@yandex.ru was found.\"}"));
+    }
+
 }

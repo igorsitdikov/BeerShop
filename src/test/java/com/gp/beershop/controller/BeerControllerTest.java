@@ -115,4 +115,18 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
+
+    @Test
+    public void testDeleteBeerById_BeerNotExists() throws Exception {
+        final String token = signInAsUser(true);
+        willReturn(false).given(beerRepository).existsById(3);
+
+        mockMvc.perform(delete("/api/beers/3")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"errorMessage\":\"No beer with id = 3 was found.\"}"))
+        ;
+    }
+
 }

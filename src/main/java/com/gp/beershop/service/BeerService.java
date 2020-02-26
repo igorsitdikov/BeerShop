@@ -39,7 +39,7 @@ public class BeerService {
     }
 
     public Beer getBeerById(final Integer id) throws NoSuchBeerException {
-        checkExisting(id);
+        checkExistingBeer(id);
         return beerRepository.findById(id)
             .map(beerMapper::destinationToSource)
             .get();
@@ -61,7 +61,7 @@ public class BeerService {
     }
 
     public Beer updateBeerById(final Integer id, final Beer beer) throws NoSuchBeerException {
-        checkExisting(id);
+        checkExistingBeer(id);
 
         beer.setId(id);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
@@ -72,11 +72,11 @@ public class BeerService {
     }
 
     public void deleteBeerById(final Integer id) throws NoSuchBeerException {
-        checkExisting(id);
+        checkExistingBeer(id);
         beerRepository.deleteById(id);
     }
 
-    private void checkExisting(final Integer id) throws NoSuchBeerException {
+    private void checkExistingBeer(final Integer id) throws NoSuchBeerException {
         final boolean isFound = beerRepository.existsById(id);
         if (!isFound) {
             throw new NoSuchBeerException("No beer with id = " + id + " was found.");
