@@ -3,17 +3,20 @@ package com.gp.beershop.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @Builder
 @ApiModel(description = "All details about the user")
+@EqualsAndHashCode
 public class UserDTO {
     @ApiModelProperty(notes = "The database generated order ID")
     private Integer id;
     @ApiModelProperty(notes = "User's name")
     private String name;
     @ApiModelProperty(notes = "User's password")
+    @EqualsAndHashCode.Exclude
     private String password;
     @ApiModelProperty(notes = "User's email")
     private String email;

@@ -5,7 +5,6 @@ import com.gp.beershop.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestPropertySource("classpath:application-test.properties")
 public class UserControllerTest extends AbstractControllerTest {
     @Autowired
     private UserRepository userRepository;
@@ -54,10 +52,9 @@ public class UserControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(
-                List.of(
-                    UsersMock.convertToUserWithoutPassword(UsersMock.getById(1)),
-                    UsersMock.convertToUserWithoutPassword(UsersMock.getById(2))))));
+            .andExpect(content().json(mapper.writeValueAsString(List.of(
+                UsersMock.convertToUserWithoutPassword(UsersMock.getById(1)),
+                UsersMock.convertToUserWithoutPassword(UsersMock.getById(2))))));
     }
 
     @Test

@@ -4,13 +4,11 @@ import com.gp.beershop.dto.Beer;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mapper.BeerMapper;
-import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
