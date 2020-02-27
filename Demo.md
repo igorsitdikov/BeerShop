@@ -1,0 +1,357 @@
+### Получаю список доступных наименований пива
+
+Request: 
+
+`GET /api/beers`
+
+Response: `200 OK`
+
+```
+[
+    {
+        "id": 1,
+        "type": "светлое",
+        "inStock": true,
+        "name": "Лидское",
+        "description": "Лучшее пиво по бабушкиным рецептам",
+        "alcohol": 5.0,
+        "density": 11.5,
+        "country": "Республика Беларусь",
+        "price": 5.00
+    },
+    {
+        "id": 2,
+        "type": "темное",
+        "inStock": true,
+        "name": "Аливария",
+        "description": "Пиво номер 1 в Беларуси",
+        "alcohol": 4.6,
+        "density": 10.2,
+        "country": "Республика Беларусь",
+        "price": 3.00
+    },
+    {
+        "id": 3,
+        "type": "светлое осветлённое",
+        "inStock": true,
+        "name": "Pilsner Urquell",
+        "description": "непастеризованное",
+        "alcohol": 4.2,
+        "density": 12.0,
+        "country": "Чехия",
+        "price": 8.00
+    }
+]
+```
+
+### Получаю список доступных наименований пива отсортированных по типу темное
+
+
+`GET /api/beers?type=${beerType}`
+
+`Headers: beerType="темное"`
+
+Response: `200 OK`
+
+``` 
+[
+    {
+        "id": 2,
+        "type": "темное",
+        "inStock": true,
+        "name": "Аливария",
+        "description": "Пиво номер 1 в Беларуси",
+        "alcohol": 4.6,
+        "density": 10.2,
+        "country": "Республика Беларусь",
+        "price": 3.00
+    }
+]
+```
+
+### Вхожу в систему как администратор
+
+Request: `POST /api/sign-in`
+    
+```    
+{
+    "email": "alex.alexeevov@yandex.ru",
+    "password": "password"
+}
+```
+Response: `200 OK`
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28"
+}
+```
+
+### Как администратор добавляю новое наименование пива
+
+Request: `POST /api/beers`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+    
+```    
+{
+    "type": "светлое",
+    "inStock": true,
+    "name": "Крынiца Pilsner",
+    "description": "Мягкое пиво с чистым гармоничным вкусом, искрящимся золотистым цветом и плотной белоснежной пеной. Этот сорт придется по вкусу тем, кто ищет легкое пиво, сохраняющее при этом свежий букет ароматного хмеля и деликатную горчинку во вкусе.",
+    "alcohol": 4.4,
+    "density": 10.5,
+    "country": "Республика Беларусь",
+    "price": 3.20
+}
+```
+
+Response: `201 CREATED`
+
+```
+4
+```
+
+### Как администратор обновляю информацию о пиве с id = 4, меняю цену
+
+Request: `PUT /api/beers/4`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+    
+```    
+{
+    "type": "светлое",
+    "inStock": true,
+    "name": "Крынiца Pilsner",
+    "description": "Мягкое пиво с чистым гармоничным вкусом, искрящимся золотистым цветом и плотной белоснежной пеной. Этот сорт придется по вкусу тем, кто ищет легкое пиво, сохраняющее при этом свежий букет ароматного хмеля и деликатную горчинку во вкусе.",
+    "alcohol": 4.4,
+    "density": 10.5,
+    "country": "Республика Беларусь",
+    "price": 5.20
+}
+```
+
+Response: `201 CREATED`
+
+```
+{
+    "id": 4,
+    "type": "светлое",
+    "inStock": true,
+    "name": "Крынiца Pilsner",
+    "description": "Мягкое пиво с чистым гармоничным вкусом, искрящимся золотистым цветом и плотной белоснежной пеной. Этот сорт придется по вкусу тем, кто ищет легкое пиво, сохраняющее при этом свежий букет ароматного хмеля и деликатную горчинку во вкусе.",
+    "alcohol": 4.4,
+    "density": 10.5,
+    "country": "Республика Беларусь",
+    "price": 5.20
+}
+```
+
+### Как администратор удаляю пиво с id = 4
+
+Request: `DELETE /api/beers/4`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
+
+### Регистрируюсь, как покупатель
+
+Request: 
+    
+`POST /api/users/sign-up`
+    
+```    
+{
+    "name": "Антон Антонов",
+    "email": "anton.antonov@mail.ru",
+    "password": "anton",
+    "phone": "+375331234567"
+}
+```
+Response: `201 CREATED`
+
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28"
+}
+```
+
+### Оформляю заказ как аутентифированный пользователь 
+
+Request: `POST /api/orders`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+```
+{
+    "customerId": 4,
+    "goods": [
+        {
+            "id": 2,
+            "amount": 1
+        },
+        {
+            "id": 3,
+            "amount": 3
+        }
+    ]
+}
+```
+
+Response: `201 CREATED`
+
+```
+{
+    "id": 3,
+    "userDTO": {
+        "id": 4,
+        "name": "Антон Антонов",
+        "password": null,
+        "email": "anton.antonov@mail.ru",
+        "phone": "+375331234567"
+    },
+    "processed": false,
+    "canceled": false,
+    "total": 27.00,
+    "customerOrders": [
+        {
+            "beer": {
+                "id": 3,
+                "type": "светлое осветлённое",
+                "inStock": true,
+                "name": "Pilsner Urquell",
+                "description": "непастеризованное",
+                "alcohol": 4.2,
+                "density": 12.0,
+                "country": "Чехия",
+                "price": 8.00
+            },
+            "amount": 3
+        },
+        {
+            "beer": {
+                "id": 2,
+                "type": "темное",
+                "inStock": true,
+                "name": "Аливария",
+                "description": "Пиво номер 1 в Беларуси",
+                "alcohol": 4.6,
+                "density": 10.2,
+                "country": "Республика Беларусь",
+                "price": 3.00
+            },
+            "amount": 1
+        }
+    ]
+}
+```
+
+### Как администратор просматриваю список заказов
+
+Response: `/api/orders`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Request: `200 OK`
+
+```
+[
+    {
+        "id": 1,
+        "userDTO": {
+            "id": 1,
+            "name": "Иван Иванов",
+            "password": null,
+            "email": "ivan.ivanov@mail.ru",
+            "phone": "+375331234567"
+        },
+        "processed": true,
+        "canceled": false,
+        "total": 25.00,
+        "customerOrders": [
+            {
+            "beer": {
+                "id": 1,
+                "type": "светлое",
+                "inStock": true,
+                "name": "Лидское",
+                "description": "Лучшее пиво по бабушкиным рецептам",
+                "alcohol": 5.0,
+                "density": 11.5,
+                "country": "Республика Беларусь",
+                "price": 5.00
+            },
+            "amount": 2
+            },
+            {
+            "beer": {
+                "id": 2,
+                "type": "темное",
+                "inStock": true,
+                "name": "Аливария",
+                "description": "Пиво номер 1 в Беларуси",
+                "alcohol": 4.6,
+                "density": 10.2,
+                "country": "Республика Беларусь",
+                "price": 3.00
+            },
+            "amount": 5
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "userDTO": {
+            "id": 4,
+            "name": "Антон Антонов",
+            "password": null,
+            "email": "anton.antonov@mail.ru",
+            "phone": "+375331234567"
+        },
+        "processed": false,
+        "canceled": false,
+        "total": 27.00,
+        "customerOrders": [
+            {
+                "beer": {
+                    "id": 2,
+                    "type": "темное",
+                    "inStock": true,
+                    "name": "Аливария",
+                    "description": "Пиво номер 1 в Беларуси",
+                    "alcohol": 4.6,
+                    "density": 10.2,
+                    "country": "Республика Беларусь",
+                    "price": 3.00
+                },
+                "amount": 1
+            },
+            {
+                "beer": {
+                    "id": 3,
+                    "type": "светлое осветлённое",
+                    "inStock": true,
+                    "name": "Pilsner Urquell",
+                    "description": "непастеризованное",
+                    "alcohol": 4.2,
+                    "density": 12.0,
+                    "country": "Чехия",
+                    "price": 8.00
+                },
+                "amount": 3
+            }
+        ]
+    }
+]
+```
+### Как администратор меняю статус у заказа с id = 2
+
+Request: `/api/orders/2?status=true`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
+
+```
+2
+```
