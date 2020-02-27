@@ -9,8 +9,7 @@ VALUES ('Иван Иванов', '123456', 'ivan.ivanov@mail.ru', '+375331234567
        ('Алексей Алексеев', 'password', 'alex.alexeev@gmail.com', '+375333021232', 1);
 
 INSERT INTO orders (user_id, processed, total, canceled)
-VALUES (1, true, 25.0, false),
-       (2, false, 27.0, false);
+VALUES (1, true, 25.0, false);
 
 INSERT INTO customer_order (order_id, beer_id, amount)
 VALUES (1, 1, 2),

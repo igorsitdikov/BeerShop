@@ -1,8 +1,6 @@
 ### Получаю список доступных наименований пива
 
-Request: 
-
-`GET /api/beers`
+Request: `GET /api/beers`
 
 Response: `200 OK`
 
@@ -46,10 +44,7 @@ Response: `200 OK`
 
 ### Получаю список доступных наименований пива отсортированных по типу темное
 
-
-`GET /api/beers?type=${beerType}`
-
-`Headers: beerType="темное"`
+Request: `GET /api/beers?type=темное`
 
 Response: `200 OK`
 
@@ -156,9 +151,7 @@ Response: `200 OK`
 
 ### Регистрируюсь, как покупатель
 
-Request: 
-    
-`POST /api/users/sign-up`
+Request: `POST /api/users/sign-up`
     
 ```    
 {
@@ -248,7 +241,7 @@ Response: `201 CREATED`
 
 ### Как администратор просматриваю список заказов
 
-Response: `/api/orders`
+Response: `GET /api/orders`
 
 Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
 
@@ -346,7 +339,7 @@ Request: `200 OK`
 ```
 ### Как администратор меняю статус у заказа с id = 2
 
-Request: `/api/orders/2?status=true`
+Request: `PATCH /api/orders/2?status=true`
 
 Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
 
@@ -355,3 +348,27 @@ Response: `200 OK`
 ```
 2
 ```
+
+### Как администратор удаляю заказ если он обработан
+
+Request: `DELETE /api/orders/2`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
+
+### Как администратор удаляю пользователя если у него нет открытых заказов
+
+Request: `DELETE /api/users/2`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
+
+### Как пользователь аннулирую свой заказ
+
+Request: `PATCH /api/orders/2`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
