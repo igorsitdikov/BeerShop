@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -74,7 +75,7 @@ public class BeerControllerTest extends AbstractControllerTest {
         final Beer beer = BeerMock.getById(3);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
-        when(beerRepository.save(any(BeerEntity.class))).thenReturn(beerEntity);
+        willReturn(beerEntity).given(beerRepository).save(any(BeerEntity.class));
 
         mockMvc.perform(post("/api/beers")
                             .header("Authorization", token)
@@ -87,10 +88,6 @@ public class BeerControllerTest extends AbstractControllerTest {
     @Test
     public void testUpdateBeerById() throws Exception {
         final String token = signInAsUser(true);
-        willReturn(
-            beerMapper.sourceToDestination(BeerMock.getById(3)))
-            .given(beerRepository)
-            .getOne(3);
         willReturn(true)
             .given(beerRepository)
             .existsById(3);
@@ -98,11 +95,10 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                BeerMock.getById(4))))
+                                BeerMock.getById(5))))
             .andExpect(status().isOk())
-            .andExpect(content()
-                           .json(mapper.writeValueAsString(
-                               BeerMock.getById(4))));
+            .andExpect(content().json(mapper.writeValueAsString(
+                BeerMock.getById(5))));
     }
 
     @Test

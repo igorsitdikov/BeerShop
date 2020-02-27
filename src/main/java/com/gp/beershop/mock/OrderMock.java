@@ -51,6 +51,24 @@ public final class OrderMock {
                         .build()
                        ))
             .build());
+        put(4, Orders.builder()
+            .id(2)
+            .userDTO(UsersMock.getById(4))
+            .processed(false)
+            .canceled(false)
+            .total(BigDecimal.valueOf(27))
+            .customerOrders(
+                List.of(
+                    CustomerOrder.builder()
+                        .beer(BeerMock.getById(2))
+                        .amount(1)
+                        .build(),
+                    CustomerOrder.builder()
+                        .beer(BeerMock.getById(3))
+                        .amount(3)
+                        .build()
+                       ))
+            .build());
     }};
 
     public static Orders getById(final Integer id) {
@@ -60,6 +78,26 @@ public final class OrderMock {
     public static List<Orders> getAllValues() {
         return ordersMap.values()
             .stream()
+            .map(order -> Orders.builder()
+                .id(order.getId())
+                .userDTO(
+                    UserDTO.builder()
+                        .id(order.getUserDTO().getId())
+                        .name(order.getUserDTO().getName())
+                        .email(order.getUserDTO().getEmail())
+                        .phone(order.getUserDTO().getPhone())
+                        .build())
+                .processed(order.getProcessed())
+                .canceled(order.getCanceled())
+                .total(order.getTotal())
+                .customerOrders(order.getCustomerOrders())
+                .build()).collect(Collectors.toList());
+    }
+
+    public static List<Orders> getAllValuesBusinessLogic() {
+        return ordersMap.entrySet().stream()
+            .filter(order -> order.getKey() == 1 || order.getKey() == 4)
+            .map(Map.Entry::getValue)
             .map(order -> Orders.builder()
                 .id(order.getId())
                 .userDTO(

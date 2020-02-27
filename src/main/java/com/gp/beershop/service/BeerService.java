@@ -22,15 +22,6 @@ public class BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
-    @PostConstruct
-    @Transactional
-    public void init() {
-        beerRepository.save(
-            beerMapper.sourceToDestination(BeerMock.getById(1)));
-        beerRepository.save(
-            beerMapper.sourceToDestination(BeerMock.getById(2)));
-    }
-
     public List<Beer> getBeers() {
         return beerRepository.findAll()
             .stream()

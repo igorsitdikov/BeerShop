@@ -31,6 +31,13 @@ public class UsersMock {
             .password("password")
             .phone("+375337654321")
             .build());
+        put(4, UserDTO.builder()
+            .id(4)
+            .name("Антон Антонов")
+            .email("anton.antonov@mail.ru")
+            .password("anton")
+            .phone("+375331234567")
+            .build());
     }};
 
     public static UserDTO convertToUserWithoutPassword(final UserDTO user) {

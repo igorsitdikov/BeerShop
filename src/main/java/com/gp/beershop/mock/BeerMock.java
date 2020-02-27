@@ -42,6 +42,20 @@ public final class BeerMock {
             .country("Чехия")
             .price(BigDecimal.valueOf(8D)).build());
         put(4, Beer.builder()
+            .id(4)
+            .type("светлое")
+            .inStock(true)
+            .name("Крынiца Pilsner")
+            .description("Мягкое пиво с чистым гармоничным вкусом, " +
+                         "искрящимся золотистым цветом и плотной белоснежной пеной. " +
+                         "Этот сорт придется по вкусу тем, кто ищет легкое пиво, " +
+                         "сохраняющее при этом свежий букет ароматного хмеля и деликатную " +
+                         "горчинку во вкусе.")
+            .alcohol(4.4)
+            .density(10.5)
+            .country("Республика Беларусь")
+            .price(BigDecimal.valueOf(3.2)).build());
+        put(5, Beer.builder()
             .id(3)
             .type("светлое осветлённое")
             .inStock(false)
@@ -51,6 +65,20 @@ public final class BeerMock {
             .density(12.2)
             .country("Чехия")
             .price(BigDecimal.valueOf(8.3)).build());
+        put(6, Beer.builder()
+            .id(4)
+            .type("светлое")
+            .inStock(true)
+            .name("Крынiца Pilsner")
+            .description("Мягкое пиво с чистым гармоничным вкусом, " +
+                         "искрящимся золотистым цветом и плотной белоснежной пеной. " +
+                         "Этот сорт придется по вкусу тем, кто ищет легкое пиво, " +
+                         "сохраняющее при этом свежий букет ароматного хмеля и деликатную " +
+                         "горчинку во вкусе.")
+            .alcohol(4.4)
+            .density(10.5)
+            .country("Республика Беларусь")
+            .price(BigDecimal.valueOf(5.2)).build());
     }};
 
     public static Beer getById(final Integer id) {

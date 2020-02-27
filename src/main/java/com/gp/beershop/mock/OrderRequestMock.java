@@ -57,4 +57,18 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+    public static OrderRequest getOrderRequestByAnton() {
+        return OrderRequest.builder()
+            .customerId(4)
+            .goods(Set.of(
+                Goods.builder()
+                    .id(2)
+                    .amount(1)
+                    .build(),
+                Goods.builder()
+                    .id(3)
+                    .amount(3)
+                    .build()))
+            .build();
+    }
 }
