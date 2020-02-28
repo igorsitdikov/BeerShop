@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Data
@@ -27,6 +29,7 @@ import java.util.List;
 @BasePathAwareController
 @RequestMapping("/users")
 @Api(value = "User Management System")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -35,6 +38,7 @@ public class UserController {
     @ApiOperation(value = "Add user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserSignInResponse singUp(
+        @Valid
         @ApiParam(value = "User object store in database table", required = true)
         @RequestBody final UserDTO userDTO)
         throws SuchUserAlreadyExistException, NoSuchUserException {

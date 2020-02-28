@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Data
 @RestController
 @RequestMapping("/beers")
 @BasePathAwareController
+@Validated
 @Api(value = "Beer Management System")
 public class BeerController {
 
@@ -55,6 +58,7 @@ public class BeerController {
     @ApiOperation(value = "Add a beer")
     @ResponseStatus(HttpStatus.CREATED)
     public Integer addBeer(
+        @Valid
         @ApiParam(value = "Beer object store in database table", required = true)
         @RequestBody final Beer request) {
         return beerService.addBeer(request);
@@ -64,6 +68,7 @@ public class BeerController {
     @ApiOperation(value = "Update a beer")
     @ResponseStatus(HttpStatus.OK)
     public Beer updateBeerById(
+        @Valid
         @ApiParam(value = "Beer Id to update beer object", required = true)
         @PathVariable final Integer beerId,
         @ApiParam(value = "Update beer object", required = true)

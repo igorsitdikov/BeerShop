@@ -14,9 +14,9 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Data
@@ -35,7 +36,7 @@ import java.util.List;
 @BasePathAwareController
 @RequestMapping(value = "/orders")
 @Api(value = "Order Management System")
-@Log
+@Validated
 public class OrderController {
 
     private final OrderService orderService;
@@ -58,6 +59,7 @@ public class OrderController {
     @ApiOperation(value = "Add an order")
     @ResponseStatus(HttpStatus.CREATED)
     public Orders addOrder(
+        @Valid
         @RequestHeader("Authorization") final String token,
         @ApiParam(value = "Order object store in database table", required = true)
         @RequestBody final OrderRequest orderRequest)

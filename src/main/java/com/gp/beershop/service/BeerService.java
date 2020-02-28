@@ -6,7 +6,6 @@ import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.Data;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Log
 @Service
 public class BeerService {
     private final BeerRepository beerRepository;
