@@ -115,7 +115,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .content(mapper.writeValueAsString(
                                 OrderRequestMock.getOrderRequestByPetr())))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().json("{\"errorMessage\":\"No customer with id = " +
                                       CUSTOMER + " was found.\"}"));
         verify(userRepository, times(1)).findById(CUSTOMER);
@@ -155,7 +155,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .content(mapper.writeValueAsString(
                                 OrderRequestMock.getOrderRequestByIvan())))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isForbidden())
             .andExpect(content().json("{" +
                                       "\"errorMessage\":\"Customer with email = petr.petrov@yandex.ru " +
                                       "tried add order to other account.\"" +
@@ -178,7 +178,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(OrderRequestMock.getOrderRequestByPetr())))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().json("{\"errorMessage\":\"No beer with id = " +
                                       ALIVARIA + " was found.\"}"));
     }
@@ -239,7 +239,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                             .param("status", "true")
                             .contentType(MediaType.APPLICATION_JSON))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().json("{\"errorMessage\":\"No order with id = " +
                                       ORDER_ID + " was found.\"}"));
     }

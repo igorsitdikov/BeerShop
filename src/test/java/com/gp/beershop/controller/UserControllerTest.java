@@ -31,7 +31,7 @@ public class UserControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testCustomerSignUpWhenUserAlreadyExists() throws Exception {
+    public void testCustomerSignUp_UserAlreadyExists() throws Exception {
         // given
         // when
         mockMvc.perform(post("/api/users/sign-up")
@@ -39,7 +39,7 @@ public class UserControllerTest extends AbstractControllerTest {
                             .content(mapper.writeValueAsString(
                                 UsersMock.getById(1))))
             // then
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isConflict());
     }
 
     @Test

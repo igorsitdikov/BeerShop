@@ -50,7 +50,7 @@ public class AuthControllerTest extends AbstractControllerTest {
 
 
     @Test
-    public void testCustomerSignInNoSuchUser() throws Exception {
+    public void testCustomerSignIn_NoSuchUser() throws Exception {
         // given
         // when
         mockMvc.perform(
@@ -61,7 +61,7 @@ public class AuthControllerTest extends AbstractControllerTest {
                         new AuthRequest(UsersMock.getById(CUSTOMER).getEmail(),
                                         UsersMock.getById(CUSTOMER).getPassword()))))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().json("{\"errorMessage\":\"No user with email = petr.petrov@yandex.ru was found.\"}"));
     }
 

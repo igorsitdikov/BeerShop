@@ -49,7 +49,10 @@ databaseChangeLog:
                                         primaryKey: true
                                         nullable: false
                             -   column:
-                                    name: name
+                                    name: first_name
+                                    type: varchar(128)
+                            -   column:
+                                    name: second_name
                                     type: varchar(128)
                             -   column:
                                     name: password

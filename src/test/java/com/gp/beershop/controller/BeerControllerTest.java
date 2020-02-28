@@ -99,7 +99,7 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(beer)))
             // then
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isConflict());
         verify(beerRepository, times(1)).findFirstByName(beerEntity.getName());
     }
 
@@ -144,7 +144,7 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
-            .andExpect(status().isBadRequest())
+            .andExpect(status().isNotFound())
             .andExpect(content().json("{\"errorMessage\":\"No beer with id = " +
                                       PILSNER + " was found.\"}"));
         verify(beerRepository, times(1)).existsById(PILSNER);

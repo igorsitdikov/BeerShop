@@ -13,10 +13,10 @@ import java.util.logging.Level;
 @ControllerAdvice
 @Log
 public class ExceptionControllerAdvice {
-    @ExceptionHandler({BusinessLogicException.class})
-    private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {
+    @ExceptionHandler(BusinessLogicException.class)
+    private ResponseEntity<ErrorMessage> handleBadRequest(final BusinessLogicException e) {
         log.log(Level.SEVERE, e.getMessage(), e);
-        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorMessage(e.getMessage()), e.getHttpStatus());
     }
 
     @Data
