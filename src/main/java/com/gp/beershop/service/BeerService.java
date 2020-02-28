@@ -3,6 +3,7 @@ package com.gp.beershop.service;
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
+import com.gp.beershop.exception.SuchBeerAlreadyExistException;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.Data;
@@ -41,8 +42,13 @@ public class BeerService {
     }
 
     @Transactional
-    public Integer addBeer(final Beer beer) {
+    public Integer addBeer(final Beer beer) throws SuchBeerAlreadyExistException {
+        if (beerRepository.findFirstByName(beer.getName()).isPresent()) {
+            throw new SuchBeerAlreadyExistException("Beer with name = " + beer.getName() + " already exists.");
+        }
+
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
+
         final BeerEntity beerEntityOutput = beerRepository.save(beerEntity);
         return beerEntityOutput.getId();
     }

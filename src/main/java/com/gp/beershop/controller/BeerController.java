@@ -2,6 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.exception.NoSuchBeerException;
+import com.gp.beershop.exception.SuchBeerAlreadyExistException;
 import com.gp.beershop.service.BeerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,7 +61,7 @@ public class BeerController {
     public Integer addBeer(
         @Valid
         @ApiParam(value = "Beer object store in database table", required = true)
-        @RequestBody final Beer request) {
+        @RequestBody final Beer request) throws SuchBeerAlreadyExistException {
         return beerService.addBeer(request);
     }
 

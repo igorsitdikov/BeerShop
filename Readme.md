@@ -37,7 +37,8 @@
 ### Покупатель (Customer)
 
 Поля:
-- ФИО
+- Имя
+- Фамилия
 - Email
 - Номер телефона
      
@@ -45,7 +46,8 @@
 Пользователь, который занимается оформлением заказов и добавлением, изменением и удалением наименований пива
 
 Поля:
-- ФИО
+- Имя
+- Фамилия
 - Email
 - Номер телефона
         
@@ -53,9 +55,7 @@
 
 ### BS-1 Как "Покупатель", я хочу получить список всех товаров, имеющихся в магазине с кратким описанием, и в результате получаю его
 
-Request: 
-
-`GET /api/beers`
+Request: `GET /api/beers`
 
 Response: `200 OK`
 
@@ -88,9 +88,7 @@ Response: `200 OK`
 
 ### BS-2 Как "Покупатель", я хочу получить список товаров, отфильтрованных по критерию "Тип" (темное) , и в результате получаю список наименований темного пива
 
-Request: 
-
-`GET /api/beers?type=${beerType}`
+Request: `GET /api/beers?type=${beerType}`
 
 `Где: beerType="темное"`
 
@@ -114,13 +112,12 @@ Response: `200 OK`
 
 ### BS-3 Как "Покупатель", хочу зарегистрироваться, и если пользователя с таким E-mail не найдено, регистрируюсь
 
-Request: 
-    
-`POST /api/users/sign-up`
+Request: `POST /api/users/sign-up`
     
 ```    
 {
-    "name": "Иван Иванов",
+    "firstName": "Иван",
+    "secondName": "Иванов",
     "email": "ivan.ivanov@mail.ru",
     "password": "123456",
     "phone": "+375331234567"
@@ -136,9 +133,7 @@ Response: `201 CREATED`
 
 ### BS-4 Как "Покупатель", будучи зарегистрированным пользователем, я хочу войти в систему, и, если такой пользователь существует и пароль совпадает, войти в систему
 
-Request: 
-    
-`POST /api/sign-in`
+Request: `POST /api/sign-in`
     
 ```    
 {
@@ -189,7 +184,8 @@ Response: `201 CREATED`
     "id": 2,
     "customer": {
         "id": 2,
-        "name": "Петр Петров",
+        "firstName": "Петр",
+        "secondName": "Петров",
         "email": "petr.petrov@yandex.ru",
         "phone": "+375337654321"
     },
@@ -231,9 +227,7 @@ Response: `201 CREATED`
 
 ### BS-6 Как "Администратор", я хочу добавить новое наименование пива, и если такого наименования нет, добавляю его
 
-Request: 
-    
-`POST /api/beers`
+Request: `POST /api/beers`
 
 ```
 Headers: 
@@ -264,9 +258,7 @@ Response: `201 CREATED`
 
 ### BS-7 Как "Администратор", я хочу изменить цену пива, и если такое наименование есть, изменяю ему цену
 
-Request: 
-    
-`PUT /api/beers/${beerId}`
+Request: `PUT /api/beers/${beerId}`
 
 `Где: beerId=3`
 
@@ -308,9 +300,7 @@ Response: `200 OK`
 
 ### BS-8 Как "Администратор", я хочу удалить наименование пива, и если такое наименование есть, удаляю его
 
-Request: 
-    
-`DELETE /api/beers/${beerId}`
+Request: `DELETE /api/beers/${beerId}`
 
 `Где: beerId=3`
 
@@ -325,9 +315,7 @@ Response: `200 OK`
 
 ### BS-9 Как "Администратор", хочу получить список заказов, и получаю список с информацией по каждому заказу
 
-Request: 
-    
-`GET /api/orders`
+Request: `GET /api/orders`
 
 ```
 Headers: 
@@ -343,7 +331,8 @@ Response: `200 OK`
         "id": 1,
         "customer": {
             "id": 1,
-            "name": "Иван Иванов",
+            "firstName": "Иван",
+            "secondName": "Иванов",
             "email": "ivan.ivanov@mail.ru",
             "phone": "+375331234567"
         },
@@ -385,7 +374,8 @@ Response: `200 OK`
         "id": 2,
         "customer": {
             "id": 2,
-            "name": "Петр Петров",
+            "firstName": "Петр",
+            "secondName": "Петров",
             "email": "petr.petrov@yandex.ru",
             "phone": "+375337654321"
         },
@@ -428,9 +418,7 @@ Response: `200 OK`
 
 ### BS-10 Как "Администратор", я хочу изменить статус заказа на "Обработано", меняю его
 
-Request: 
-    
-`PATCH /api/orders/${orderId}?status=${status}`
+Request: `PATCH /api/orders/${orderId}?status=${status}`
 
 `Где: orderId=2, status=true`
 
@@ -450,9 +438,7 @@ Response: `200 OK`
 #### Сергей
 ### BS-11 Как "Администратор", я хочу удалить заказ, и если заказ обработан удаляю его
 
-Request: 
-    
-`DELETE /api/orders/${orderId}`
+Request: `DELETE /api/orders/${orderId}`
 
 `Где: orderId=2`
  
@@ -467,9 +453,7 @@ Response: `200 OK`
 #### Владислав
 ### BS-12 Как "Администратор", я хочу удалить "Пользователя", и если у пользователя нет открытых заказов, удаляю
 
-Request: 
-    
-`DELETE /api/users/${userId}`
+Request: `DELETE /api/users/${userId}`
 
 `Где: userId=2`
 
@@ -484,9 +468,7 @@ Response: `200 OK`
 #### Олег
 ### BS-13 Как "Покупатель", я хочу аннулировать заказ, и если у заказа статус не обработан, удаляю его
 
-Request: 
-    
-`PATCH /api/orders/${orderId}`
+Request: `PATCH /api/orders/${orderId}`
 
 `Где: orderId=2`
 

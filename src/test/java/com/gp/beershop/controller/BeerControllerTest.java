@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -83,6 +84,23 @@ public class BeerControllerTest extends AbstractControllerTest {
             .andExpect(status().isCreated())
             .andExpect(content().json(mapper.writeValueAsString(PILSNER)));
         verify(beerRepository, times(1)).save(any(BeerEntity.class));
+    }
+
+    @Test
+    public void testNewBeer_BeerAlreadyExists() throws Exception {
+        //given
+        final String token = signInAsUser(true);
+        final Beer beer = BeerMock.getById(PILSNER);
+        final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
+        willReturn(Optional.of(beerEntity)).given(beerRepository).findFirstByName(beerEntity.getName());
+        // when
+        mockMvc.perform(post("/api/beers")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(mapper.writeValueAsString(beer)))
+            // then
+            .andExpect(status().isBadRequest());
+        verify(beerRepository, times(1)).findFirstByName(beerEntity.getName());
     }
 
     @Test

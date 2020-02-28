@@ -17,9 +17,12 @@ import javax.validation.constraints.Pattern;
 public class UserDTO {
     @ApiModelProperty(notes = "The database generated order ID")
     private Integer id;
-    @ApiModelProperty(notes = "User's name")
-    @NotNull(message = "Should input user name")
-    private String name;
+    @ApiModelProperty(notes = "User's first name")
+    @NotNull(message = "Should input user first name")
+    private String firstName;
+    @ApiModelProperty(notes = "User's second name")
+    @NotNull(message = "Should input user second name")
+    private String secondName;
     @ApiModelProperty(notes = "User's password")
     @EqualsAndHashCode.Exclude
     @NotNull(message = "Should input user password")

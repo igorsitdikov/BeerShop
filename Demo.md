@@ -155,7 +155,8 @@ Request: `POST /api/users/sign-up`
     
 ```    
 {
-    "name": "Антон Антонов",
+    "firstName": "Антон",
+    "secondName": "Антонов",
     "email": "anton.antonov@mail.ru",
     "password": "anton",
     "phone": "+375331234567"
@@ -198,7 +199,8 @@ Response: `201 CREATED`
     "id": 3,
     "userDTO": {
         "id": 4,
-        "name": "Антон Антонов",
+        "firstName": "Антон",
+        "secondName": "Антонов",
         "password": null,
         "email": "anton.antonov@mail.ru",
         "phone": "+375331234567"
@@ -253,7 +255,8 @@ Request: `200 OK`
         "id": 1,
         "userDTO": {
             "id": 1,
-            "name": "Иван Иванов",
+            "firstName": "Иван",
+            "secondName": "Иванов",
             "password": null,
             "email": "ivan.ivanov@mail.ru",
             "phone": "+375331234567"
@@ -296,7 +299,8 @@ Request: `200 OK`
         "id": 2,
         "userDTO": {
             "id": 4,
-            "name": "Антон Антонов",
+            "firstName": "Антон",
+            "secondName": "Антонов",
             "password": null,
             "email": "anton.antonov@mail.ru",
             "phone": "+375331234567"

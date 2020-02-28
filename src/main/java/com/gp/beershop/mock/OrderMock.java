@@ -83,7 +83,8 @@ public final class OrderMock {
                 .userDTO(
                     UserDTO.builder()
                         .id(order.getUserDTO().getId())
-                        .name(order.getUserDTO().getName())
+                        .firstName(order.getUserDTO().getFirstName())
+                        .secondName(order.getUserDTO().getSecondName())
                         .email(order.getUserDTO().getEmail())
                         .phone(order.getUserDTO().getPhone())
                         .build())
@@ -103,7 +104,8 @@ public final class OrderMock {
                 .userDTO(
                     UserDTO.builder()
                         .id(order.getUserDTO().getId())
-                        .name(order.getUserDTO().getName())
+                        .firstName(order.getUserDTO().getFirstName())
+                        .secondName(order.getUserDTO().getSecondName())
                         .email(order.getUserDTO().getEmail())
                         .phone(order.getUserDTO().getPhone())
                         .build())
