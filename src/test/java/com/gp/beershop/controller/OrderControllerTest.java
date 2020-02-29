@@ -30,9 +30,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -261,5 +259,37 @@ public class OrderControllerTest extends AbstractControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(OrderMock.getAllValues())));
         verify(orderRepository, times(1)).findAll();
+    }
+
+    @Test
+    public void testDeleteOrderByIdIsOk() throws Exception {
+        // given
+        final String token = signInAsUser(true);
+        willReturn(true).given(orderRepository).existsById(ORDER_ID);
+        // when
+        mockMvc.perform(delete("/api/orders/" + ORDER_ID)
+                .header("Authorization", token)
+                .param("status", "true")
+                .contentType(MediaType.APPLICATION_JSON))
+                // then
+                .andExpect(status().isOk());
+        verify(orderRepository, times(1)).existsById(ORDER_ID);
+        verify(orderRepository, times(1)).deleteById(ORDER_ID);
+    }
+
+    @Test
+    public void testDeleteOrderById_OrderNotFound() throws Exception {
+        // given
+        final String token = signInAsUser(true);
+        willReturn(false).given(orderRepository).existsById(ORDER_ID);
+        // when
+        mockMvc.perform(delete("/api/orders/" + ORDER_ID)
+                .header("Authorization", token)
+                .param("status", "true")
+                .contentType(MediaType.APPLICATION_JSON))
+                // then
+                .andExpect(status().isNotFound());
+        verify(orderRepository, times(1)).existsById(ORDER_ID);
+        verify(orderRepository, times(0)).deleteById(ORDER_ID);
     }
 }

@@ -78,6 +78,15 @@ public class OrderService {
         return orderEntity.getId();
     }
 
+    @Transactional
+    public void deleteOrder(final Integer orderId) throws NoSuchOrderException {
+            final boolean isFound = orderRepository.existsById(orderId);
+            if (!isFound){
+                throw new NoSuchOrderException("No order with id = " + orderId + " was found.");
+            }
+        orderRepository.deleteById(orderId);
+    }
+
     public List<Orders> showOrders() {
         return orderRepository.findAll()
             .stream()
