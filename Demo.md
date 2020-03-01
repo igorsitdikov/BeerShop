@@ -70,7 +70,7 @@ Request: `POST /api/sign-in`
     
 ```    
 {
-    "email": "alex.alexeevov@yandex.ru",
+    "email": "alex.alexeev@gmail.com",
     "password": "password"
 }
 ```
