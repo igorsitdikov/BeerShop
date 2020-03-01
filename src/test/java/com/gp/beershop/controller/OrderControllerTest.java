@@ -292,4 +292,38 @@ public class OrderControllerTest extends AbstractControllerTest {
         verify(orderRepository, times(1)).existsById(ORDER_ID);
         verify(orderRepository, times(0)).deleteById(ORDER_ID);
     }
+
+    @Test
+    public void testCancelOrder() throws Exception {
+        //given
+        final String token = signInAsUser(false);
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(ORDER_ID));
+        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(ORDER_ID);
+        //when
+        mockMvc.perform(patch("/api/orders/" + ORDER_ID)
+                .param("canceled", "true")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testCancelOrder_UserHasNoPermissions() throws Exception {
+        //given
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(1));
+        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(1);
+        final UserEntity ivan = userMapper.sourceToDestination(UsersMock.getById(1));
+        ivan.setUserRole(UserRole.CUSTOMER);
+        willReturn(Optional.of(ivan)).given(userRepository).findByEmail(ivan.getEmail());
+        willReturn(Optional.of(ivan)).given(userRepository).findById(ivan.getId());
+        final String token = signInAsUser(false);
+        //when
+        mockMvc.perform(patch("/api/orders/" + 1)
+                .param("canceled", "true")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().isForbidden());
+    }
 }
