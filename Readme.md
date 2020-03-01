@@ -90,7 +90,7 @@ Response: `200 OK`
 
 Request: `GET /api/beers?type=${beerType}`
 
-`Где: beerType="темное"`
+Где: `beerType="темное"`
 
 Response: `200 OK`
 
@@ -126,9 +126,7 @@ Request: `POST /api/users/sign-up`
 Response: `201 CREATED`
 
 ```
-{
-   "id" : 1
-}
+1
 ```
 
 ### BS-4 Как "Покупатель", будучи зарегистрированным пользователем, я хочу войти в систему, и, если такой пользователь существует и пароль совпадает, войти в систему
@@ -155,11 +153,7 @@ Request:
 
 `POST /api/orders`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0`
 
 ```
 {
@@ -229,13 +223,9 @@ Response: `201 CREATED`
 
 Request: `POST /api/beers`
 
-```
-Headers: 
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`    
 
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
 ```
-    
-```    
 {
     "type": "светлое осветлённое",
     "inStock": true,
@@ -251,22 +241,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZ
 Response: `201 CREATED`
 
 ```
-{
-   "id" : 3
-}
+3
 ```
 
 ### BS-7 Как "Администратор", я хочу изменить цену пива, и если такое наименование есть, изменяю ему цену
 
 Request: `PUT /api/beers/${beerId}`
 
-`Где: beerId=3`
+Где: `beerId=3`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
     
 ```    
 {
@@ -302,26 +286,17 @@ Response: `200 OK`
 
 Request: `DELETE /api/beers/${beerId}`
 
-`Где: beerId=3`
+Где: `beerId=3`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
 
 Response: `200 OK`
-
 
 ### BS-9 Как "Администратор", хочу получить список заказов, и получаю список с информацией по каждому заказу
 
 Request: `GET /api/orders`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
 
 Response: `200 OK`
 
@@ -420,62 +395,42 @@ Response: `200 OK`
 
 Request: `PATCH /api/orders/${orderId}?status=${status}`
 
-`Где: orderId=2, status=true`
+Где: `orderId=2, status=true`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
     
 Response: `200 OK`
 
 ```
-{
-    "id": 2
-}
+2
 ```
-#### Сергей
+
 ### BS-11 Как "Администратор", я хочу удалить заказ, и если заказ обработан удаляю его
 
 Request: `DELETE /api/orders/${orderId}`
 
-`Где: orderId=2`
+Где: `orderId=2`
  
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
     
 Response: `200 OK`
 
-#### Владислав
 ### BS-12 Как "Администратор", я хочу удалить "Пользователя", и если у пользователя нет открытых заказов, удаляю
 
 Request: `DELETE /api/users/${userId}`
 
-`Где: userId=2`
+Где: `userId=2`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI3NDEyMTAsImlhdCI6MTU4MjcwNTIxMH0.yfCxFB_f7U7-YTF6npRWAgZK5O_M1alWbq63gq2diuk`
     
 Response: `200 OK`
 
-#### Олег
 ### BS-13 Как "Покупатель", я хочу аннулировать заказ, и если у заказа статус не обработан, удаляю его
 
 Request: `PATCH /api/orders/${orderId}`
 
-`Где: orderId=2`
+Где: `orderId=2`
 
-```
-Headers: 
-
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0
-```
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGV4LmFsZXhlZXZvdkB5YW5kZXgucnUiLCJleHAiOjE1ODI2ODA3MjgsImlhdCI6MTU4MjY0NDcyOH0.oxNyf3jOPRoTuywoe2-oibyVxcisvOaPTWCaX56v9-0`
     
 Response: `200 OK`

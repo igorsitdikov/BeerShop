@@ -44,17 +44,17 @@ public class OrderService {
     private final JwtUtil jwtUtil;
 
     public Orders addOrder(final OrderRequest orderRequest, final String token)
-            throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
+        throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
 
         final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
-                .orElseThrow(() -> new NoSuchUserException(
-                        "No customer with id = " + orderRequest.getCustomerId() + " was found."));
+            .orElseThrow(() -> new NoSuchUserException(
+                "No customer with id = " + orderRequest.getCustomerId() + " was found."));
 
         final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
 
         if (!userEntity.getEmail().equals(userEmailFromToken)) {
             throw new SuchUserHasNoPermissionsException(
-                    "Customer with email = " + userEmailFromToken + " tried add order to other account.");
+                "Customer with email = " + userEmailFromToken + " tried add order to other account.");
         }
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
@@ -71,13 +71,13 @@ public class OrderService {
 
     private BigDecimal calculateTotalCostOrder(final Set<CustomerOrderEntity> customerOrders) {
         return customerOrders
-                .stream()
-                .map(order -> order.getBeer().getPrice().multiply(BigDecimal.valueOf(order.getAmount())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .stream()
+            .map(order -> order.getBeer().getPrice().multiply(BigDecimal.valueOf(order.getAmount())))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Set<CustomerOrderEntity> findAllCustomerOrders(final Set<Goods> goodsSet, final OrderEntity orderEntity)
-            throws NoSuchBeerException, OrderIsEmptyException {
+        throws NoSuchBeerException, OrderIsEmptyException {
         final Set<CustomerOrderEntity> customerOrders = new HashSet<>();
 
         if (goodsSet.isEmpty()) {
@@ -88,9 +88,9 @@ public class OrderService {
             final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
             customerOrderEntity.setAmount(goods.getAmount());
             customerOrderEntity.setBeer(
-                    beerRepository
-                            .findById(goods.getId())
-                            .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
+                beerRepository
+                    .findById(goods.getId())
+                    .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
             customerOrderEntity.setOrders(orderEntity);
             customerOrders.add(customerOrderEntity);
         }
@@ -99,17 +99,17 @@ public class OrderService {
 
     @Transactional
     public Integer changeOrderStatus(final Integer id, final String token, final Boolean status, final Boolean canceled)
-            throws NoSuchOrderException, SuchUserHasNoPermissionsException {
+        throws NoSuchOrderException, SuchUserHasNoPermissionsException {
         final OrderEntity orderEntity = orderRepository.findById(id)
-                .orElseThrow(() -> new NoSuchOrderException("No order with id = " + id + " was found."));
+            .orElseThrow(() -> new NoSuchOrderException("No order with id = " + id + " was found."));
         final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
         final UserEntity userEntity = userRepository.findByEmail(userEmailFromToken).get();
         final UserEntity userEntityFromOrder = userRepository.findById(orderEntity.getUser().getId()).get();
 
         if (!userEntityFromOrder.getEmail().equals(userEntity.getEmail()) &&
-                userEntity.getUserRole() != UserRole.ADMIN) {
+            userEntity.getUserRole() != UserRole.ADMIN) {
             throw new SuchUserHasNoPermissionsException(
-                    "Customer with email = " + userEmailFromToken + " tried cancel order, but has no permissions.");
+                "Customer with email = " + userEmailFromToken + " tried cancel order, but has no permissions.");
         }
 
         if (userEntity.getUserRole() == UserRole.CUSTOMER && !orderEntity.getProcessed()) {
@@ -134,14 +134,14 @@ public class OrderService {
 
     public List<Orders> showOrders() {
         return orderRepository.findAll()
-                .stream()
-                .map(orderMapper::destinationToSource)
-                .collect(Collectors.toList());
+            .stream()
+            .map(orderMapper::destinationToSource)
+            .collect(Collectors.toList());
     }
 
     public void cancelOrder(final Integer orderId) throws NoSuchOrderException {
         final OrderEntity orderEntity = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoSuchOrderException("No order with id = " + orderId + " was found."));
+            .orElseThrow(() -> new NoSuchOrderException("No order with id = " + orderId + " was found."));
         orderEntity.setCanceled(true);
         orderRepository.save(orderEntity);
     }

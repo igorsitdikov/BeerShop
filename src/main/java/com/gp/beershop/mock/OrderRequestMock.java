@@ -43,6 +43,20 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+    public static OrderRequest getOrderRequestByPetrIntegration() {
+        return OrderRequest.builder()
+            .customerId(2)
+            .goods(Set.of(
+                Goods.builder()
+                    .id(3)
+                    .amount(4)
+                    .build(),
+                Goods.builder()
+                    .id(1)
+                    .amount(5)
+                    .build()))
+            .build();
+    }
     public static OrderRequest getOrderRequestByAdmin() {
         return OrderRequest.builder()
             .customerId(3)

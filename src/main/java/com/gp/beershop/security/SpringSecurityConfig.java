@@ -20,19 +20,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/users/sign-up", "/api/sign-in").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/beers").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/orders")
-                .hasAnyRole(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
-                .antMatchers(HttpMethod.PATCH, "/api/orders/**")
-                .hasAnyRole(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
-                .antMatchers("/api/orders/**", "/api/beers/**", "/api/users/**").hasRole(UserRole.ADMIN.name())
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable();
+            .csrf().disable()
+            .authorizeRequests()
+            .antMatchers(HttpMethod.POST, "/api/users/sign-up", "/api/sign-in").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/beers").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/orders")
+            .hasAnyRole(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
+            .antMatchers(HttpMethod.PATCH, "/api/orders/**")
+            .hasAnyRole(UserRole.CUSTOMER.name(), UserRole.ADMIN.name())
+            .antMatchers("/api/orders/**", "/api/beers/**", "/api/users/**").hasRole(UserRole.ADMIN.name())
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .formLogin().disable();
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

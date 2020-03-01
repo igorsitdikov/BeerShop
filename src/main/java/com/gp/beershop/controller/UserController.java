@@ -2,6 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.UserDTO;
 import com.gp.beershop.dto.UserSignInResponse;
+import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.service.UserService;
@@ -14,7 +15,9 @@ import lombok.Data;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,4 +60,14 @@ public class UserController {
     public List<UserDTO> customers() {
         return userService.customers();
     }
+
+    @DeleteMapping(value = "/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(
+        @Valid
+        @ApiParam(value = "User Id from which user entity will delete from database table", required = true)
+        @PathVariable final Integer userId) throws NoSuchUserException {
+        userService.deleteUser(userId);
+    }
+
 }

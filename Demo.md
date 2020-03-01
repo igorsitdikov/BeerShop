@@ -170,7 +170,7 @@ Response: `201 CREATED`
 }
 ```
 
-### Оформляю заказ как аутентифированный пользователь 
+### Оформляю заказ как аутентифицированный пользователь 
 
 Request: `POST /api/orders`
 
@@ -236,6 +236,106 @@ Response: `201 CREATED`
                 "price": 3.00
             },
             "amount": 1
+        }
+    ]
+}
+```
+
+### Отменяю заказ как авторизованный пользователь
+
+Request: `/api/orders/2?canceled=true`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
+
+Response: `200 OK`
+
+```
+2
+```
+
+### Вхожу в систему как зарегистрированный пользователь
+
+Request: `POST /api/sign-in`
+    
+```    
+{
+    "email": "petr.petrov@yandex.ru",
+    "password": "654321"
+}
+```
+Response: `200 OK`
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXRyLnBldHJvdkB5YW5kZXgucnUiLCJleHAiOjE1ODMxMTUzNjksImlhdCI6MTU4MzA3OTM2OX0.1g_o0h5fvEobgZ5JGABbqrxA9X6Sds4bRa7CaAnOfJE"
+}
+```
+
+### Оформляю заказ как аутентифицированный пользователь 
+
+Request: `POST /api/orders`
+
+Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXRyLnBldHJvdkB5YW5kZXgucnUiLCJleHAiOjE1ODMxMTUzNjksImlhdCI6MTU4MzA3OTM2OX0.1g_o0h5fvEobgZ5JGABbqrxA9X6Sds4bRa7CaAnOfJE`
+
+```
+{
+    "customerId": 2,
+    "goods": [
+        {
+            "id": 1,
+            "amount": 5
+        },
+        {
+            "id": 3,
+            "amount": 4
+        }
+    ]
+}
+```
+
+Response: `201 CREATED`
+
+```
+{
+    "id": 3,
+    "userDTO": {
+        "id": 2,
+        "firstName": "Петр",
+        "secondName": "Петров",
+        "password": null,
+        "email": "petr.petrov@yandex.ru",
+        "phone": "+375337654321"
+    },
+    "processed": false,
+    "canceled": false,
+    "total": 57.00,
+    "customerOrders": [
+    {
+        "beer": {
+            "id": 3,
+            "type": "светлое осветлённое",
+            "inStock": true,
+            "name": "Pilsner Urquell",
+            "description": "непастеризованное",
+            "alcohol": 4.2,
+            "density": 12.0,
+            "country": "Чехия",
+            "price": 8.00
+        },
+        "amount": 4
+    },
+    {
+        "beer": {
+            "id": 1,
+            "type": "светлое",
+            "inStock": true,
+            "name": "Лидское",
+            "description": "Лучшее пиво по бабушкиным рецептам",
+            "alcohol": 5.0,
+            "density": 11.5,
+            "country": "Республика Беларусь",
+            "price": 5.00
+            },
+        "amount": 5
         }
     ]
 }
@@ -338,12 +438,57 @@ Request: `200 OK`
                 "amount": 3
             }
         ]
+    },
+    {
+        "id": 3,
+        "userDTO": {
+            "id": 2,
+            "firstName": "Петр",
+            "secondName": "Петров",
+            "password": null,
+            "email": "petr.petrov@yandex.ru",
+            "phone": "+375337654321"
+        },
+        "processed": false,
+        "canceled": false,
+        "total": 57.00,
+        "customerOrders": [
+        {
+            "beer": {
+                "id": 3,
+                "type": "светлое осветлённое",
+                "inStock": true,
+                "name": "Pilsner Urquell",
+                "description": "непастеризованное",
+                "alcohol": 4.2,
+                "density": 12.0,
+                "country": "Чехия",
+                "price": 8.00
+            },
+            "amount": 4
+        },
+        {
+            "beer": {
+                "id": 1,
+                "type": "светлое",
+                "inStock": true,
+                "name": "Лидское",
+                "description": "Лучшее пиво по бабушкиным рецептам",
+                "alcohol": 5.0,
+                "density": 11.5,
+                "country": "Республика Беларусь",
+                "price": 5.00
+                },
+            "amount": 5
+            }
+        ]
     }
 ]
 ```
-### Как администратор меняю статус у заказа с id = 2
 
-Request: `PATCH /api/orders/2?status=true`
+### Как администратор меняю статус у заказа с id = 3
+
+Request: `PATCH /api/orders/3?status=true`
 
 Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
 

@@ -62,14 +62,14 @@ public class OrderController {
     @ApiOperation(value = "Change status of order")
     @ResponseStatus(HttpStatus.OK)
     public Integer changeOrderStatus(
-            @RequestHeader("Authorization") final String token,
-            @ApiParam(value = "Order ID to change order object", required = true)
-            @PathVariable final Integer orderId,
-            @ApiParam(value = "Change status of order", required = true)
-            @RequestParam(name = "status", defaultValue = "false") final Boolean status,
-            @ApiParam(value = "Cancel order", required = true)
-            @RequestParam(name = "canceled", defaultValue = "false") final Boolean canceled)
-            throws NoSuchOrderException, SuchUserHasNoPermissionsException {
+        @RequestHeader("Authorization") final String token,
+        @ApiParam(value = "Order ID to change order object", required = true)
+        @PathVariable final Integer orderId,
+        @ApiParam(value = "Change status of order", required = true)
+        @RequestParam(name = "status", defaultValue = "false") final Boolean status,
+        @ApiParam(value = "Cancel order", required = true)
+        @RequestParam(name = "canceled", defaultValue = "false") final Boolean canceled)
+        throws NoSuchOrderException, SuchUserHasNoPermissionsException {
         return orderService.changeOrderStatus(orderId, token, status, canceled);
     }
 

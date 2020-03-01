@@ -51,4 +51,12 @@ public class UserService {
             .map(userMapper::destinationToSource)
             .collect(Collectors.toList());
     }
+
+    public void deleteUser(final Integer userId) throws NoSuchUserException {
+        final boolean isFound = userRepository.existsById(userId);
+        if (!isFound) {
+            throw new NoSuchUserException("No customer with id = " + userId + " was found.");
+        }
+        userRepository.deleteById(userId);
+    }
 }

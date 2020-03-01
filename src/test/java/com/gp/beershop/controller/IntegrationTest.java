@@ -28,14 +28,18 @@ public class IntegrationTest extends AbstractControllerTest {
     @Test
     public void testBusinessLogic() throws Exception {
         showAllBeers();
-        showAllFilterdByTypeBeers();
-        final String adminToken = signInAsAdmin();
-        final Integer newBeerId = addBeerKrynica(adminToken);
+        showAllBeersFilteredByType();
+        final String adminToken = signInAsUser(true);
+        final Integer newBeerId = addNewBeerToShop(adminToken);
         updateBeerById(adminToken, newBeerId);
         deleteBeerById(adminToken, newBeerId);
-        final String customerToken = signUpAsCustomer();
-        addOrder(customerToken);
+        final String customerSignUpToken = signUpAsCustomer();
+        addOrderAsNewUser(customerSignUpToken);
+        changeOrderStatusCanceled(customerSignUpToken);
+        final String customerSignInToken = signInAsUser(false);
+        addOrderAsRegisteredUser(customerSignInToken);
         showAllOrders(adminToken);
+        changeOrderStatusProcessed(adminToken);
     }
 
 
@@ -50,7 +54,8 @@ public class IntegrationTest extends AbstractControllerTest {
 
     }
 
-    private void showAllFilterdByTypeBeers() throws Exception {
+    private void showAllBeersFilteredByType() throws Exception {
+        // when
         mockMvc.perform(get("/api/beers")
                             .param("type", "темное")
                             .contentType(MediaType.APPLICATION_JSON))
@@ -59,20 +64,22 @@ public class IntegrationTest extends AbstractControllerTest {
             .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2)))));
     }
 
-    private String signInAsAdmin() throws Exception {
+    private String signInAsUser(final Boolean admin) throws Exception {
+        // given
+        final Integer user = admin ? ADMIN : CUSTOMER;
         // when
-        final String responseAdmin = mockMvc.perform(
+        final String responseUser = mockMvc.perform(
             post("/api/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(
-                    new AuthRequest(UsersMock.getById(ADMIN).getEmail(), UsersMock.getById(ADMIN).getPassword()))))
+                    new AuthRequest(UsersMock.getById(user).getEmail(), UsersMock.getById(user).getPassword()))))
             // then
             .andExpect(status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        return "Bearer " + mapper.readValue(responseAdmin, UserSignInResponse.class).getToken();
+        return "Bearer " + mapper.readValue(responseUser, UserSignInResponse.class).getToken();
     }
 
-    private Integer addBeerKrynica(final String token) throws Exception {
+    private Integer addNewBeerToShop(final String token) throws Exception {
         // given
         final Beer beerKrynica = BeerMock.getById(KRYNICA);
         // when
@@ -123,7 +130,7 @@ public class IntegrationTest extends AbstractControllerTest {
         return "Bearer " + mapper.readValue(responseAnton, UserSignInResponse.class).getToken();
     }
 
-    private void addOrder(final String token) throws Exception {
+    private void addOrderAsNewUser(final String token) throws Exception {
         // given
         final Integer ANTON = 4;
         final Orders orderAntonExpected = OrderMock.getById(ANTON);
@@ -144,6 +151,38 @@ public class IntegrationTest extends AbstractControllerTest {
         assertEquals(sortCustomerOrders(orderAntonExpected), sortCustomerOrders(orderAntonActual));
     }
 
+    private void changeOrderStatusCanceled(final String token) throws Exception {
+        // when
+        mockMvc.perform(patch("/api/orders/" + ORDER_ID)
+                            .header("Authorization", token)
+                            .param("canceled", "true")
+                            .contentType(MediaType.APPLICATION_JSON))
+            // then
+            .andExpect(status().isOk())
+            .andExpect(content().json(mapper.writeValueAsString(ORDER_ID)));
+    }
+
+    private void addOrderAsRegisteredUser(final String token) throws Exception {
+        // given
+        final Integer PETR = 3;
+        final Orders orderPetrExpected = OrderMock.getById(PETR);
+        // when
+        final String responseOrderPetr =
+            mockMvc.perform(post("/api/orders")
+                                .header("Authorization", token)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(
+                                    OrderRequestMock.getOrderRequestByPetrIntegration())))
+                // then
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        final Orders orderPetrActual = mapper.readValue(responseOrderPetr, Orders.class);
+
+        assertEquals(orderPetrExpected, orderPetrActual);
+        assertEquals(sortCustomerOrders(orderPetrExpected), sortCustomerOrders(orderPetrActual));
+    }
+
     private void showAllOrders(final String token) throws Exception {
         // when
         mockMvc.perform(get("/api/orders").header("Authorization", token)
@@ -154,14 +193,14 @@ public class IntegrationTest extends AbstractControllerTest {
                 mapper.writeValueAsString(OrderMock.getAllValuesBusinessLogic())));
     }
 
-    private void changeOrderStatus(final String token) throws Exception {
+    private void changeOrderStatusProcessed(final String token) throws Exception {
         // when
-        mockMvc.perform(patch("/api/orders/" + ORDER_ID)
+        mockMvc.perform(patch("/api/orders/3")
                             .header("Authorization", token)
                             .param("status", "true")
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(ORDER_ID)));
+            .andExpect(content().json(mapper.writeValueAsString(3)));
     }
 }
