@@ -5,12 +5,10 @@ import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.SuchBeerAlreadyExistException;
 import com.gp.beershop.mapper.BeerMapper;
-import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.repository.BeerRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,17 +18,6 @@ import java.util.stream.Collectors;
 public class BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
-
-    @PostConstruct
-    @Transactional
-    public void init() {
-        final BeerEntity lidskoe = beerMapper.sourceToDestination(BeerMock.getById(1));
-        beerRepository.save(lidskoe);
-        final BeerEntity alivaria = beerMapper.sourceToDestination(BeerMock.getById(2));
-        beerRepository.save(alivaria);
-        final BeerEntity pilsner = beerMapper.sourceToDestination(BeerMock.getById(3));
-        beerRepository.save(pilsner);
-    }
 
     public List<Beer> getBeers() {
         return beerRepository.findAll()

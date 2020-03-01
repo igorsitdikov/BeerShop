@@ -4,36 +4,17 @@ import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.dto.UserSignInResponse;
-import com.gp.beershop.entity.BeerEntity;
-import com.gp.beershop.entity.OrderEntity;
-import com.gp.beershop.entity.UserEntity;
-import com.gp.beershop.mapper.BeerMapper;
-import com.gp.beershop.mapper.OrderMapper;
-import com.gp.beershop.mapper.UserMapper;
 import com.gp.beershop.mock.BeerMock;
 import com.gp.beershop.mock.OrderMock;
 import com.gp.beershop.mock.OrderRequestMock;
 import com.gp.beershop.mock.UsersMock;
-import com.gp.beershop.repository.BeerRepository;
-import com.gp.beershop.repository.OrderRepository;
-import com.gp.beershop.repository.UserRepository;
-import com.gp.beershop.security.UserRole;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -42,76 +23,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AllControllersTest extends AbstractControllerTest {
-    private final Integer ANTON = 4;
-
-    @MockBean
-    private BeerRepository beerRepository;
-    @MockBean
-    private OrderRepository orderRepository;
-    @MockBean
-    private UserRepository userRepository;
-    @SpyBean
-    private BeerMapper beerMapper;
-    @SpyBean
-    private OrderMapper orderMapper;
-    @SpyBean
-    private UserMapper userMapper;
-
-    @BeforeEach
-    public void initRepository() {
-        final UserEntity admin = userMapper.sourceToDestination(UsersMock.getById(ADMIN));
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        admin.setUserRole(UserRole.ADMIN);
-
-        final UserEntity anton = userMapper.sourceToDestination(UsersMock.getById(ANTON));
-        anton.setPassword(passwordEncoder.encode(anton.getPassword()));
-        anton.setUserRole(UserRole.CUSTOMER);
-
-        final Beer beerKrynica = BeerMock.getById(KRYNICA);
-        final BeerEntity beerEntity = beerMapper.sourceToDestination(beerKrynica);
-        final Orders orderAnton = OrderMock.getById(ANTON);
-        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(4));
-
-        willReturn(List.of(BeerMock.getById(ALIVARIA), BeerMock.getById(PILSNER), BeerMock.getById(LIDSKOE))
-                       .stream()
-                       .map(beerMapper::sourceToDestination)
-                       .collect(Collectors.toList()))
-            .given(beerRepository).findAll();
-
-        willReturn(Optional.of(admin)).given(userRepository).findByEmail(admin.getEmail());
-
-        willReturn(Optional.empty(), Optional.of(anton)).given(userRepository).findByEmail(anton.getEmail());
-        willReturn(Optional.of(anton)).given(userRepository).findById(ANTON);
-        willReturn(beerEntity).given(beerRepository).save(any(BeerEntity.class));
-
-        willReturn(true).given(beerRepository).existsById(KRYNICA);
-
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA))))
-            .given(beerRepository)
-            .findById(ALIVARIA);
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(PILSNER))))
-            .given(beerRepository)
-            .findById(PILSNER);
-
-        willReturn(orderMapper.sourceToDestination(orderAnton))
-            .given(orderRepository)
-            .save(any(OrderEntity.class));
-
-        willReturn(List.of(OrderMock.getById(1), OrderMock.getById(4))
-                       .stream()
-                       .map(orderMapper::sourceToDestination)
-                       .collect(Collectors.toList()))
-            .given(orderRepository).findAll();
-
-        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(ORDER_ID);
-    }
+public class IntegrationTest extends AbstractControllerTest {
 
     @Test
     public void testBusinessLogic() throws Exception {
-        // given
-        final Beer beerKrynica = BeerMock.getById(KRYNICA);
-        final Orders orderAntonExpected = OrderMock.getById(ANTON);
+        showAllBeers();
+        showAllFilterdByTypeBeers();
+        final String adminToken = signInAsAdmin();
+        final Integer newBeerId = addBeerKrynica(adminToken);
+        updateBeerById(adminToken, newBeerId);
+        deleteBeerById(adminToken, newBeerId);
+        final String customerToken = signUpAsCustomer();
+        addOrder(customerToken);
+        showAllOrders(adminToken);
+    }
+
+
+    private void showAllBeers() throws Exception {
         // when
         mockMvc.perform(get("/api/beers").contentType(MediaType.APPLICATION_JSON))
             // then
@@ -120,16 +48,18 @@ public class AllControllersTest extends AbstractControllerTest {
                 mapper.writeValueAsString(
                     List.of(BeerMock.getById(LIDSKOE), BeerMock.getById(PILSNER), BeerMock.getById(ALIVARIA)))));
 
-        verify(beerRepository, times(1)).findAll();
-        // when
+    }
+
+    private void showAllFilterdByTypeBeers() throws Exception {
         mockMvc.perform(get("/api/beers")
                             .param("type", "темное")
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2)))));
+    }
 
-        verify(beerRepository, times(2)).findAll();
+    private String signInAsAdmin() throws Exception {
         // when
         final String responseAdmin = mockMvc.perform(
             post("/api/sign-in")
@@ -139,14 +69,16 @@ public class AllControllersTest extends AbstractControllerTest {
             // then
             .andExpect(status().isOk())
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        return "Bearer " + mapper.readValue(responseAdmin, UserSignInResponse.class).getToken();
+    }
 
-        verify(userRepository, times(2)).findByEmail(UsersMock.getById(ADMIN).getEmail());
+    private Integer addBeerKrynica(final String token) throws Exception {
         // given
-        final String tokenAdmin = "Bearer " + mapper.readValue(responseAdmin, UserSignInResponse.class).getToken();
+        final Beer beerKrynica = BeerMock.getById(KRYNICA);
         // when
         final String responseKrynicaId =
             mockMvc.perform(post("/api/beers")
-                                .header("Authorization", tokenAdmin)
+                                .header("Authorization", token)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(beerKrynica)))
                 // then
@@ -154,26 +86,31 @@ public class AllControllersTest extends AbstractControllerTest {
                 .andExpect(content().json(mapper.writeValueAsString(KRYNICA)))
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        verify(beerRepository, times(1)).save(any(BeerEntity.class));
+        return Integer.valueOf(responseKrynicaId);
+    }
+
+    private void updateBeerById(final String token, final Integer beerId) throws Exception {
         // when
-        mockMvc.perform(put("/api/beers/" + responseKrynicaId)
-                            .header("Authorization", tokenAdmin)
+        mockMvc.perform(put("/api/beers/" + beerId)
+                            .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
                                 BeerMock.getById(6))))
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(6))));
+    }
 
-        verify(beerRepository, times(2)).save(any(BeerEntity.class));
+    private void deleteBeerById(final String token, final Integer beerId) throws Exception {
         // when
-        mockMvc.perform(delete("/api/beers/" + responseKrynicaId)
-                            .header("Authorization", tokenAdmin)
+        mockMvc.perform(delete("/api/beers/" + beerId)
+                            .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk());
+    }
 
-        verify(beerRepository, times(1)).deleteById(KRYNICA);
+    private String signUpAsCustomer() throws Exception {
         // when
         final String responseAnton =
             mockMvc.perform(post("/api/users/sign-up")
@@ -183,15 +120,17 @@ public class AllControllersTest extends AbstractControllerTest {
                 // then
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
+        return "Bearer " + mapper.readValue(responseAnton, UserSignInResponse.class).getToken();
+    }
 
+    private void addOrder(final String token) throws Exception {
         // given
-        final String tokenAnton = "Bearer " + mapper.readValue(responseAnton, UserSignInResponse.class).getToken();
-
-        verify(userRepository, times(1)).save(any(UserEntity.class));
+        final Integer ANTON = 4;
+        final Orders orderAntonExpected = OrderMock.getById(ANTON);
         // when
         final String responseOrderAnton =
             mockMvc.perform(post("/api/orders")
-                                .header("Authorization", tokenAnton)
+                                .header("Authorization", token)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(
                                     OrderRequestMock.getOrderRequestByAnton())))
@@ -203,25 +142,26 @@ public class AllControllersTest extends AbstractControllerTest {
 
         assertEquals(orderAntonExpected, orderAntonActual);
         assertEquals(sortCustomerOrders(orderAntonExpected), sortCustomerOrders(orderAntonActual));
-        verify(orderRepository, times(1)).save(any(OrderEntity.class));
+    }
+
+    private void showAllOrders(final String token) throws Exception {
         // when
-        mockMvc.perform(get("/api/orders").header("Authorization", tokenAdmin)
+        mockMvc.perform(get("/api/orders").header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(
                 mapper.writeValueAsString(OrderMock.getAllValuesBusinessLogic())));
+    }
 
-        verify(orderRepository, times(1)).findAll();
+    private void changeOrderStatus(final String token) throws Exception {
         // when
         mockMvc.perform(patch("/api/orders/" + ORDER_ID)
-                            .header("Authorization", tokenAdmin)
+                            .header("Authorization", token)
                             .param("status", "true")
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(ORDER_ID)));
-
-        verify(orderRepository, times(2)).save(any(OrderEntity.class));
     }
 }

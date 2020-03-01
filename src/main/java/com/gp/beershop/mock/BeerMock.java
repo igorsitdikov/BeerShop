@@ -20,7 +20,7 @@ public final class BeerMock {
             .alcohol(5.0)
             .density(11.5)
             .country("Республика Беларусь")
-            .price(BigDecimal.valueOf(5D)).build());
+            .price(BigDecimal.valueOf(5).setScale(2)).build());
         put(2, Beer.builder()
             .id(2)
             .type("темное")
@@ -30,7 +30,7 @@ public final class BeerMock {
             .alcohol(4.6)
             .density(10.2)
             .country("Республика Беларусь")
-            .price(BigDecimal.valueOf(3D)).build());
+            .price(BigDecimal.valueOf(3).setScale(2)).build());
         put(3, Beer.builder()
             .id(3)
             .type("светлое осветлённое")
@@ -40,7 +40,7 @@ public final class BeerMock {
             .alcohol(4.2)
             .density(12.0)
             .country("Чехия")
-            .price(BigDecimal.valueOf(8D)).build());
+            .price(BigDecimal.valueOf(8).setScale(2)).build());
         put(4, Beer.builder()
             .id(4)
             .type("светлое")
@@ -54,7 +54,7 @@ public final class BeerMock {
             .alcohol(4.4)
             .density(10.5)
             .country("Республика Беларусь")
-            .price(BigDecimal.valueOf(3.2)).build());
+            .price(BigDecimal.valueOf(3.2).setScale(2)).build());
         put(5, Beer.builder()
             .id(3)
             .type("светлое осветлённое")
@@ -64,7 +64,7 @@ public final class BeerMock {
             .alcohol(4.5)
             .density(12.2)
             .country("Чехия")
-            .price(BigDecimal.valueOf(8.3)).build());
+            .price(BigDecimal.valueOf(8.3).setScale(2)).build());
         put(6, Beer.builder()
             .id(4)
             .type("светлое")
@@ -78,7 +78,7 @@ public final class BeerMock {
             .alcohol(4.4)
             .density(10.5)
             .country("Республика Беларусь")
-            .price(BigDecimal.valueOf(5.2)).build());
+            .price(BigDecimal.valueOf(5.2).setScale(2)).build());
     }};
 
     public static Beer getById(final Integer id) {

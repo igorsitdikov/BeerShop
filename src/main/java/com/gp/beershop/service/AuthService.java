@@ -28,16 +28,15 @@ public class AuthService {
 
         final UserEntity userEntity = userRepository
             .findByEmail(authRequest.getEmail())
-            .orElseThrow(() -> new NoSuchUserException(
-                "No user with email = " + authRequest.getEmail() + " was found."));
+            .orElseThrow(
+                () -> new NoSuchUserException("No user with email = " + authRequest.getEmail() + " was found."));
 
         final UsernamePasswordAuthenticationToken authentication =
             new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
         authenticationManager.authenticate(authentication);
 
-        final User admin = getUserDetails(userEntity);
-        return new UserSignInResponse(jwtUtil.generateToken(
-            admin));
+        final User user = getUserDetails(userEntity);
+        return new UserSignInResponse(jwtUtil.generateToken(user));
     }
 
     private User getUserDetails(final UserEntity userEntity) {
