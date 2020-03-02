@@ -263,7 +263,9 @@ Request: `POST /api/sign-in`
     "password": "654321"
 }
 ```
+
 Response: `200 OK`
+
 ```
 {
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXRyLnBldHJvdkB5YW5kZXgucnUiLCJleHAiOjE1ODMxMTUzNjksImlhdCI6MTU4MzA3OTM2OX0.1g_o0h5fvEobgZ5JGABbqrxA9X6Sds4bRa7CaAnOfJE"
@@ -406,7 +408,7 @@ Request: `200 OK`
             "phone": "+375331234567"
         },
         "processed": false,
-        "canceled": false,
+        "canceled": true,
         "total": 27.00,
         "customerOrders": [
             {
