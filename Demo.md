@@ -499,19 +499,3 @@ Response: `200 OK`
 ```
 2
 ```
-
-### Как администратор удаляю заказ если он обработан
-
-Request: `DELETE /api/orders/2`
-
-Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
-
-Response: `200 OK`
-
-### Как администратор удаляю пользователя если у него нет открытых заказов
-
-Request: `DELETE /api/users/2`
-
-Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
-
-Response: `200 OK`
