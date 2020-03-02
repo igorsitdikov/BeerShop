@@ -243,7 +243,7 @@ Response: `201 CREATED`
 
 ### Отменяю заказ как авторизованный пользователь
 
-Request: `/api/orders/2?canceled=true`
+Request: `PATCH /api/orders/2?canceled=true`
 
 Headers: `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbnRvbi5hbnRvbm92QG1haWwucnUiLCJleHAiOjE1ODI4MjU2ODgsImlhdCI6MTU4Mjc4OTY4OH0.oz7rblKyHA0jCHaA0BjjguMldkK8z0nfHBg8cWB2K28`
 
