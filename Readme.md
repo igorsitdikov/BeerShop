@@ -427,7 +427,7 @@ Response: `200 OK`
 
 ### BS-13 Как "Покупатель", я хочу аннулировать заказ, и если у заказа статус не обработан, удаляю его
 
-Request: `PATCH /api/orders/${orderId}`
+Request: `PATCH /api/orders/${orderId}?canceled=true`
 
 Где: `orderId=2`
 
