@@ -1,4 +1,4 @@
-package com.gp.beershop.mock;
+package mock;
 
 import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Orders;

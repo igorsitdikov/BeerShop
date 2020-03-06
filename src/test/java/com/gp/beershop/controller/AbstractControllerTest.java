@@ -5,7 +5,7 @@ import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.CustomerOrder;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.dto.UserSignInResponse;
-import com.gp.beershop.mock.UsersMock;
+import mock.UsersMock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:application-test.properties")
 @AutoConfigureMockMvc
 public abstract class AbstractControllerTest {
-    protected final Integer ORDER_ID = 2;
-    protected final Integer CUSTOMER = 2;
-    protected final Integer ADMIN = 3;
-    protected final Integer LIDSKOE = 1;
-    protected final Integer ALIVARIA = 2;
-    protected final Integer PILSNER = 3;
-    protected final Integer KRYNICA = 4;
+    protected final static Integer ORDER_ID = 2;
+    protected final static Integer CUSTOMER = 2;
+    protected final static Integer ADMIN = 3;
+    protected final static Integer LIDSKOE = 1;
+    protected final static Integer ALIVARIA = 2;
+    protected final static Integer PILSNER = 3;
+    protected final static Integer KRYNICA = 4;
 
     @Autowired
     protected MockMvc mockMvc;

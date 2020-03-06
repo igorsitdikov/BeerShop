@@ -3,7 +3,7 @@ package com.gp.beershop.controller;
 import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.UserMapper;
-import com.gp.beershop.mock.UsersMock;
+import mock.UsersMock;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends AbstractControllerTest {
-    private final Integer CUSTOMER = 2;
+    private final static Integer CUSTOMER = 2;
 
     @MockBean
     private UserRepository userRepository;

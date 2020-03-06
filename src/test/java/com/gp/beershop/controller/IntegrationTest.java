@@ -4,10 +4,10 @@ import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.Beer;
 import com.gp.beershop.dto.Orders;
 import com.gp.beershop.dto.UserSignInResponse;
-import com.gp.beershop.mock.BeerMock;
-import com.gp.beershop.mock.OrderMock;
-import com.gp.beershop.mock.OrderRequestMock;
-import com.gp.beershop.mock.UsersMock;
+import mock.BeerMock;
+import mock.OrderMock;
+import mock.OrderRequestMock;
+import mock.UsersMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 

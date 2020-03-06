@@ -10,10 +10,10 @@ import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
-import com.gp.beershop.mock.BeerMock;
-import com.gp.beershop.mock.OrderMock;
-import com.gp.beershop.mock.OrderRequestMock;
-import com.gp.beershop.mock.UsersMock;
+import mock.BeerMock;
+import mock.OrderMock;
+import mock.OrderRequestMock;
+import mock.UsersMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AllControllersTest extends AbstractControllerTest {
-    private final Integer ANTON = 4;
+    private final static Integer ANTON = 4;
 
     @MockBean
     private BeerRepository beerRepository;

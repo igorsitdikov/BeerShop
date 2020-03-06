@@ -2,7 +2,7 @@ package com.gp.beershop.controller;
 
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.UserMapper;
-import com.gp.beershop.mock.UsersMock;
+import mock.UsersMock;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
 import org.junit.jupiter.api.BeforeEach;
