@@ -1,19 +1,19 @@
 package com.gp.beershop.entity;
 
 import com.gp.beershop.security.UserRole;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "user")
 public class UserEntity {
     @Id
@@ -32,7 +32,8 @@ public class UserEntity {
 
     private String phone;
 
-    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<OrderEntity> orders;
 
     private UserRole userRole;

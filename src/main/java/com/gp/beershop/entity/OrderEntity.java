@@ -1,8 +1,7 @@
 package com.gp.beershop.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.java.Log;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,8 +15,7 @@ import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "orders")
 public class OrderEntity {
     @Id
@@ -34,6 +32,7 @@ public class OrderEntity {
 
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<CustomerOrderEntity> customerOrders;
 }

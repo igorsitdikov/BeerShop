@@ -1,19 +1,18 @@
 package com.gp.beershop.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "beer")
 public class BeerEntity {
     @Id
@@ -36,8 +35,9 @@ public class BeerEntity {
 
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "beer")
-    private Set<CustomerOrderEntity> customerOrders = new HashSet<>();
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "beer", fetch = FetchType.LAZY)
+    private Set<CustomerOrderEntity> customerOrders;
 }
 
 
