@@ -78,7 +78,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
         final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
 
-        willReturn(beers).given(beerRepository).findByBeerIds(ids);
+        willReturn(beers).given(beerRepository).findAllById(ids);
     }
 
 
@@ -181,7 +181,7 @@ public class OrderControllerTest extends AbstractControllerTest {
 
         final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
 
-        willReturn(beers).given(beerRepository).findByBeerIds(ids);
+        willReturn(beers).given(beerRepository).findAllById(ids);
         willReturn(orderMapper.sourceToDestination(order)).given(orderRepository).save(any(OrderEntity.class));
         // when
         mockMvc.perform(post("/api/orders")

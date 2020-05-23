@@ -95,7 +95,7 @@ public class AllControllersTest extends AbstractControllerTest {
 
         final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
 
-        willReturn(beers).given(beerRepository).findByBeerIds(ids);
+        willReturn(beers).given(beerRepository).findAllById(ids);
 
         willReturn(orderMapper.sourceToDestination(orderAnton))
             .given(orderRepository)

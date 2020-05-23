@@ -13,6 +13,5 @@ import java.util.Optional;
 public interface BeerRepository extends JpaRepository<BeerEntity, Long> {
     Optional<BeerEntity> findFirstByName(String name);
 
-    @Query("select b from beer b where b.id in :ids")
-    List<BeerEntity> findByBeerIds(@Param("ids") Iterable<Long> ids);
+    List<BeerEntity> findAllById(Iterable<Long> ids);
 }

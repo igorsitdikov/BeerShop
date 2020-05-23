@@ -80,7 +80,7 @@ public class OrderService {
 
         final List<Long> ids = goodsSet.stream().map(Goods::getId).collect(Collectors.toList());
 
-        final Map<Long, BeerEntity> beers = beerRepository.findByBeerIds(ids).stream()
+        final Map<Long, BeerEntity> beers = beerRepository.findAllById(ids).stream()
             .collect(Collectors.toMap(BeerEntity::getId, beer -> beer));
 
         for (final Goods goods : goodsSet) {
