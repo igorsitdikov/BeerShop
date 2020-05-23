@@ -4,7 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Data
 @Service
-@AllArgsConstructor
 public class JwtUtil {
-    private static final String SECRET_KEY = "secret-key-gen";
-    private static final Integer TEN_HOURS = 1000 * 60 * 60 * 10;
+    @Value("${secret-key}")
+    private String secretKey;
+
+    @Value("${expiration}")
+    private Integer expiration;
 
     public String extractUsername(final String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,7 +37,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(final String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(final String token) {
@@ -48,8 +52,8 @@ public class JwtUtil {
     private String createToken(final Map<String, Object> claims, final String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + TEN_HOURS))
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
     public Boolean validateToken(final String token, final UserDetails userDetails) {
