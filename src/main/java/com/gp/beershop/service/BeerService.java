@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -29,10 +30,9 @@ public class BeerService {
 
     @Transactional
     public Beer getBeerById(final Long id) throws NoSuchBeerException {
-        checkExistingBeer(id);
         return beerRepository.findById(id)
             .map(beerMapper::destinationToSource)
-            .get();
+            .orElseThrow(() -> new NoSuchBeerException(String.format("No beer with id = %d was found.", id)));
     }
 
     @Transactional
@@ -59,8 +59,10 @@ public class BeerService {
 
     @Transactional
     public Beer updateBeerById(final Long id, final Beer beer) throws NoSuchBeerException {
-        checkExistingBeer(id);
-
+        final Optional<BeerEntity> isFound = beerRepository.findById(id);
+        if (isFound.isEmpty()) {
+            throw new NoSuchBeerException(String.format("No beer with id = %d was found.", id));
+        }
         beer.setId(id);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
 
@@ -78,7 +80,7 @@ public class BeerService {
     private void checkExistingBeer(final Long id) throws NoSuchBeerException {
         final boolean isFound = beerRepository.existsById(id);
         if (!isFound) {
-            throw new NoSuchBeerException("No beer with id = " + id + " was found.");
+            throw new NoSuchBeerException(String.format("No beer with id = %d was found.", id));
         }
     }
 }

@@ -86,6 +86,7 @@ public class AllControllersTest extends AbstractControllerTest {
         willReturn(beerEntity).given(beerRepository).save(any(BeerEntity.class));
 
         willReturn(true).given(beerRepository).existsById(KRYNICA);
+        willReturn(Optional.of(beerKrynica)).given(beerRepository).findById(KRYNICA);
 
         willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA))))
             .given(beerRepository)

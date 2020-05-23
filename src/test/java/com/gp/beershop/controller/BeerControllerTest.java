@@ -107,7 +107,9 @@ public class BeerControllerTest extends AbstractControllerTest {
     public void testUpdateBeerById() throws Exception {
         // given
         final String token = signInAsUser(true);
-        willReturn(true).given(beerRepository).existsById(PILSNER);
+        final Beer beer = BeerMock.getById(PILSNER);
+        final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);
+        willReturn(Optional.of(beerEntity)).given(beerRepository).findById(PILSNER);
         // when
         mockMvc.perform(put("/api/beers/" + PILSNER)
                             .header("Authorization", token)
@@ -117,7 +119,7 @@ public class BeerControllerTest extends AbstractControllerTest {
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(5L))));
-        verify(beerRepository, times(1)).existsById(PILSNER);
+        verify(beerRepository, times(1)).findById(PILSNER);
     }
 
     @Test
