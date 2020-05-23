@@ -79,7 +79,7 @@ public class OrderController {
         @RequestParam(name = "status", defaultValue = "false") final Boolean status,
         @ApiParam(value = "Cancel order", required = true)
         @RequestParam(name = "canceled", defaultValue = "false") final Boolean canceled)
-        throws NoSuchOrderException, SuchUserHasNoPermissionsException {
+        throws NoSuchOrderException, SuchUserHasNoPermissionsException, NoSuchUserException {
         return orderService.changeOrderStatus(orderId, token, status, canceled);
     }
 

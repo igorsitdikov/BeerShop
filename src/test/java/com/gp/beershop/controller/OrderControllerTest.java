@@ -166,7 +166,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                       "\"errorMessage\":\"Customer with email = petr.petrov@yandex.ru " +
                                       "tried add order to other account.\"" +
                                       "}"));
-        verify(userRepository, times(3)).findByEmail("petr.petrov@yandex.ru");
+        verify(userRepository, times(4)).findByEmail("petr.petrov@yandex.ru");
         verify(userRepository, times(1)).findById(1L);
     }
 

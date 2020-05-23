@@ -4,8 +4,11 @@ import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchUserException;
+import com.gp.beershop.exception.SuchUserAlreadyExistException;
+import com.gp.beershop.exception.SuchUserHasNoPermissionsException;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.JwtUtil;
+import com.gp.beershop.security.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +23,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AuthService {
+    private static final Integer BEARER = 7;
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -46,5 +51,39 @@ public class AuthService {
         final List<SimpleGrantedAuthority> authorities =
             List.of(new SimpleGrantedAuthority(userEntity.getUserRole().name()));
         return new User(email, password, authorities);
+    }
+
+    public UserEntity checkPermissionsAndGetUser(final Long id, final String token, final boolean isAdmin)
+        throws NoSuchUserException, SuchUserHasNoPermissionsException {
+        final String userEmailFromToken = getEmailFromToken(token);
+
+        final UserEntity userEntityFromToken =
+            userRepository.findByEmail(userEmailFromToken).get();
+        final UserEntity userEntity = getUserById(id);
+        if (isAdmin) {
+            if (!userEntity.getEmail().equals(userEntityFromToken.getEmail()) &&
+                userEntityFromToken.getUserRole() != UserRole.ADMIN) {
+                throw new SuchUserHasNoPermissionsException(
+                    String.format("Customer with email = %s tried cancel order, but has no permissions.",
+                                  userEmailFromToken));
+            }
+        } else {
+            if (!userEntity.getEmail().equals(userEntityFromToken.getEmail())) {
+                throw new SuchUserHasNoPermissionsException(
+                    String.format("Customer with email = %s tried add order to other account.", userEmailFromToken));
+            }
+        }
+
+        return userEntityFromToken;
+    }
+
+    public UserEntity getUserById(final Long id) throws NoSuchUserException {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new NoSuchUserException(
+                String.format("No customer with id = %s was found.", id)));
+    }
+
+    private String getEmailFromToken(final String token) {
+        return jwtUtil.extractUsername(token.substring(BEARER));
     }
 }

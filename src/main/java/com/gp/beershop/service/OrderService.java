@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private static final Integer BEARER = 7;
-
+    private final AuthService authService;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final BeerRepository beerRepository;
@@ -48,17 +48,8 @@ public class OrderService {
     @Transactional
     public Orders addOrder(final OrderRequest orderRequest, final String token)
         throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
-
-        final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
-            .orElseThrow(() -> new NoSuchUserException(
-                String.format("No customer with id = %s was found.", orderRequest.getCustomerId())));
-
-        final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
-
-        if (!userEntity.getEmail().equals(userEmailFromToken)) {
-            throw new SuchUserHasNoPermissionsException(
-                String.format("Customer with email = %s tried add order to other account.", userEmailFromToken));
-        }
+        final UserEntity userEntity =
+            authService.checkPermissionsAndGetUser(orderRequest.getCustomerId(), token, false);
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
         final OrderEntity orderEntity = new OrderEntity();
@@ -109,19 +100,11 @@ public class OrderService {
 
     @Transactional
     public Long changeOrderStatus(final Long id, final String token, final Boolean status, final Boolean canceled)
-        throws NoSuchOrderException, SuchUserHasNoPermissionsException {
+        throws NoSuchOrderException, SuchUserHasNoPermissionsException, NoSuchUserException {
         final OrderEntity orderEntity = orderRepository.findById(id)
             .orElseThrow(() -> new NoSuchOrderException(String.format("No order with id = %d was found.", id)));
-        final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
-        final UserEntity userEntity = userRepository.findByEmail(userEmailFromToken).get();
-        final UserEntity userEntityFromOrder = userRepository.findById(orderEntity.getUser().getId()).get();
-
-        if (!userEntityFromOrder.getEmail().equals(userEntity.getEmail()) &&
-            userEntity.getUserRole() != UserRole.ADMIN) {
-            throw new SuchUserHasNoPermissionsException(
-                String.format("Customer with email = %s tried cancel order, but has no permissions.",
-                              userEmailFromToken));
-        }
+        final UserEntity userEntity =
+            authService.checkPermissionsAndGetUser(orderEntity.getUser().getId(), token, true);
 
         if (userEntity.getUserRole() == UserRole.CUSTOMER && !orderEntity.isProcessed()) {
             orderEntity.setCanceled(canceled);
