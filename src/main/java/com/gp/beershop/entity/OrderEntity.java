@@ -27,8 +27,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn
     private UserEntity user;
-    private Boolean processed = false;
-    private Boolean canceled = false;
+    private boolean processed;
+    private boolean canceled;
     private BigDecimal total;
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CustomerOrderEntity> customerOrders;
