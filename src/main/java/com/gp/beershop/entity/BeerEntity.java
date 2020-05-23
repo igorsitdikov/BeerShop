@@ -19,14 +19,23 @@ public class BeerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String type;
+
     private Boolean inStock;
+
     private String name;
+
     private String description;
+
     private Double alcohol;
+
     private Double density;
+
     private String country;
+
     private BigDecimal price;
+
     @OneToMany(mappedBy = "beer")
     private Set<CustomerOrderEntity> customerOrders = new HashSet<>();
 }

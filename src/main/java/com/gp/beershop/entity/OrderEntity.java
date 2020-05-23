@@ -24,12 +24,17 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn
     private UserEntity user;
+
     private boolean processed;
+
     private boolean canceled;
+
     private BigDecimal total;
+
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CustomerOrderEntity> customerOrders;
 }

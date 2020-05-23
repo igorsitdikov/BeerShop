@@ -17,11 +17,14 @@ public class CustomerOrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity orders;
+
     @ManyToOne
     @JoinColumn(name = "beer_id", nullable = false)
     private BeerEntity beer;
+
     private Integer amount;
 }
