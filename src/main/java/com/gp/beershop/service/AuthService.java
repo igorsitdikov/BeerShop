@@ -29,7 +29,8 @@ public class AuthService {
         final UserEntity userEntity = userRepository
             .findByEmail(authRequest.getEmail())
             .orElseThrow(
-                () -> new NoSuchUserException("No user with email = " + authRequest.getEmail() + " was found."));
+                () -> new NoSuchUserException(
+                    String.format("No user with email = %s was found.", authRequest.getEmail())));
 
         final UsernamePasswordAuthenticationToken authentication =
             new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());

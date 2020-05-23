@@ -44,7 +44,8 @@ public class BeerService {
     @Transactional
     public Integer addBeer(final Beer beer) throws SuchBeerAlreadyExistException {
         if (beerRepository.findFirstByName(beer.getName()).isPresent()) {
-            throw new SuchBeerAlreadyExistException("Beer with name = " + beer.getName() + " already exists.");
+            throw new SuchBeerAlreadyExistException(
+                String.format("Beer with name = %s already exists.", beer.getName()));
         }
 
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beer);

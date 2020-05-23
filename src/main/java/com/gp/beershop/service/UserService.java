@@ -30,7 +30,8 @@ public class UserService {
         throws SuchUserAlreadyExistException, NoSuchUserException {
 
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
-            throw new SuchUserAlreadyExistException("User with email " + userDTO.getEmail() + " already exists");
+            throw new SuchUserAlreadyExistException(
+                String.format("User with email %s already exists", userDTO.getEmail()));
         }
         saveUser(userDTO);
         return authService.signIn(
@@ -55,7 +56,7 @@ public class UserService {
     public void deleteUser(final Integer userId) throws NoSuchUserException {
         final boolean isFound = userRepository.existsById(userId);
         if (!isFound) {
-            throw new NoSuchUserException("No customer with id = " + userId + " was found.");
+            throw new NoSuchUserException(String.format("No customer with id = %d was found.", userId));
         }
         userRepository.deleteById(userId);
     }

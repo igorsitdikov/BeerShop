@@ -101,7 +101,7 @@ public class OrderService {
     public Integer changeOrderStatus(final Integer id, final String token, final Boolean status, final Boolean canceled)
         throws NoSuchOrderException, SuchUserHasNoPermissionsException {
         final OrderEntity orderEntity = orderRepository.findById(id)
-            .orElseThrow(() -> new NoSuchOrderException("No order with id = " + id + " was found."));
+            .orElseThrow(() -> new NoSuchOrderException(String.format("No order with id = %d was found.", id)));
         final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
         final UserEntity userEntity = userRepository.findByEmail(userEmailFromToken).get();
         final UserEntity userEntityFromOrder = userRepository.findById(orderEntity.getUser().getId()).get();
@@ -109,10 +109,11 @@ public class OrderService {
         if (!userEntityFromOrder.getEmail().equals(userEntity.getEmail()) &&
             userEntity.getUserRole() != UserRole.ADMIN) {
             throw new SuchUserHasNoPermissionsException(
-                "Customer with email = " + userEmailFromToken + " tried cancel order, but has no permissions.");
+                String.format("Customer with email = %s tried cancel order, but has no permissions.",
+                              userEmailFromToken));
         }
 
-        if (userEntity.getUserRole() == UserRole.CUSTOMER && !orderEntity.getProcessed()) {
+        if (userEntity.getUserRole() == UserRole.CUSTOMER && !orderEntity.isProcessed()) {
             orderEntity.setCanceled(canceled);
         }
         if (userEntity.getUserRole() == UserRole.ADMIN) {
@@ -127,7 +128,7 @@ public class OrderService {
     public void deleteOrder(final Integer orderId) throws NoSuchOrderException {
         final boolean isFound = orderRepository.existsById(orderId);
         if (!isFound) {
-            throw new NoSuchOrderException("No order with id = " + orderId + " was found.");
+            throw new NoSuchOrderException(String.format("No order with id = %d was found.", orderId));
         }
         orderRepository.deleteById(orderId);
     }
@@ -141,7 +142,7 @@ public class OrderService {
 
     public void cancelOrder(final Integer orderId) throws NoSuchOrderException {
         final OrderEntity orderEntity = orderRepository.findById(orderId)
-            .orElseThrow(() -> new NoSuchOrderException("No order with id = " + orderId + " was found."));
+            .orElseThrow(() -> new NoSuchOrderException(String.format("No order with id = %d was found.", orderId)));
         orderEntity.setCanceled(true);
         orderRepository.save(orderEntity);
     }
