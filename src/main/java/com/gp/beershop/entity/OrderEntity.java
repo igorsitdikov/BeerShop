@@ -18,7 +18,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Log
 @Entity(name = "orders")
 public class OrderEntity {
     @Id

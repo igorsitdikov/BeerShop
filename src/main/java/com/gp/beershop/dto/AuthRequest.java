@@ -13,6 +13,7 @@ import lombok.Getter;
 public class AuthRequest {
     @ApiModelProperty(notes = "User's email")
     private String email;
+
     @ApiModelProperty(notes = "User's password")
     private String password;
 }

@@ -9,12 +9,14 @@ import java.util.Set;
 public class OrderRequestMock {
     private OrderRequestMock() {
     }
+
     public static OrderRequest getOrderRequestWithEmptyOrder() {
         return OrderRequest.builder()
             .customerId(2L)
             .goods(new HashSet<>())
             .build();
     }
+
     public static OrderRequest getOrderRequestByIvan() {
         return OrderRequest.builder()
             .customerId(1L)
@@ -29,6 +31,7 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+
     public static OrderRequest getOrderRequestByPetr() {
         return OrderRequest.builder()
             .customerId(2L)
@@ -43,6 +46,7 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+
     public static OrderRequest getOrderRequestByPetrIntegration() {
         return OrderRequest.builder()
             .customerId(2L)
@@ -57,6 +61,7 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+
     public static OrderRequest getOrderRequestByAdmin() {
         return OrderRequest.builder()
             .customerId(3L)
@@ -71,6 +76,7 @@ public class OrderRequestMock {
                     .build()))
             .build();
     }
+
     public static OrderRequest getOrderRequestByAnton() {
         return OrderRequest.builder()
             .customerId(4L)

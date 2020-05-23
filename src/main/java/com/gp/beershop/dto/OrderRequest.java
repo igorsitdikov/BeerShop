@@ -15,6 +15,7 @@ public class OrderRequest {
     @ApiModelProperty(notes = "Customer ID, which database generated")
     @NotNull(message = "Should input user id")
     private Long customerId;
+
     @ApiModelProperty(notes = "Set of goods")
     @NotNull(message = "Should input set of goods")
     private Set<Goods> goods;

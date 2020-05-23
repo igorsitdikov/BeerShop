@@ -4,7 +4,6 @@ import com.gp.beershop.dto.AuthRequest;
 import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchUserException;
-import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.exception.SuchUserHasNoPermissionsException;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.JwtUtil;

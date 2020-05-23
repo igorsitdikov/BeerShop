@@ -11,6 +11,7 @@ import lombok.Data;
 public class Goods {
     @ApiModelProperty(notes = "Goods ID")
     private Long id;
+
     @ApiModelProperty(notes = "Good amount")
     private Integer amount;
 }

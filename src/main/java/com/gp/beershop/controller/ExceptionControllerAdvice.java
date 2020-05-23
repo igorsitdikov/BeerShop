@@ -3,7 +3,6 @@ package com.gp.beershop.controller;
 import com.gp.beershop.exception.BusinessLogicException;
 import lombok.Data;
 import lombok.extern.java.Log;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
