@@ -10,14 +10,14 @@ import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
-import mock.BeerMock;
-import mock.OrderMock;
-import mock.OrderRequestMock;
-import mock.UsersMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
+import mock.BeerMock;
+import mock.OrderMock;
+import mock.OrderRequestMock;
+import mock.UsersMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +25,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,13 +89,13 @@ public class AllControllersTest extends AbstractControllerTest {
 
         willReturn(true).given(beerRepository).existsById(KRYNICA);
         willReturn(Optional.of(beerKrynica)).given(beerRepository).findById(KRYNICA);
+        final BeerEntity alivaria = beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA));
+        final BeerEntity pilsner = beerMapper.sourceToDestination(BeerMock.getById(PILSNER));
+        final List<BeerEntity> beers = new ArrayList<>(Arrays.asList(alivaria, pilsner));
 
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA))))
-            .given(beerRepository)
-            .findById(ALIVARIA);
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(PILSNER))))
-            .given(beerRepository)
-            .findById(PILSNER);
+        final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
+
+        willReturn(beers).given(beerRepository).findByBeerIds(ids);
 
         willReturn(orderMapper.sourceToDestination(orderAnton))
             .given(orderRepository)

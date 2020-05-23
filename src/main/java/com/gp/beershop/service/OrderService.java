@@ -3,6 +3,7 @@ package com.gp.beershop.service;
 import com.gp.beershop.dto.Goods;
 import com.gp.beershop.dto.OrderRequest;
 import com.gp.beershop.dto.Orders;
+import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.entity.CustomerOrderEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
@@ -26,6 +27,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,14 +87,20 @@ public class OrderService {
             throw new OrderIsEmptyException("Order is empty!");
         }
 
+        final List<Long> ids = goodsSet.stream().map(Goods::getId).collect(Collectors.toList());
+
+        final Map<Long, BeerEntity> beers = beerRepository.findByBeerIds(ids).stream()
+            .collect(Collectors.toMap(BeerEntity::getId, beer -> beer));
+
         for (final Goods goods : goodsSet) {
             final CustomerOrderEntity customerOrderEntity = new CustomerOrderEntity();
             customerOrderEntity.setAmount(goods.getAmount());
-            customerOrderEntity.setBeer(
-                beerRepository
-                    .findById(goods.getId())
-                    .orElseThrow(() -> new NoSuchBeerException(
-                        String.format("No beer with id = %d was found.", goods.getId()))));
+            final BeerEntity test = beers.get(goods.getId());
+            if (test == null) {
+                throw new NoSuchBeerException(
+                    String.format("No beer with id = %d was found.", goods.getId()));
+            }
+            customerOrderEntity.setBeer(test);
             customerOrderEntity.setOrders(orderEntity);
             customerOrders.add(customerOrderEntity);
         }

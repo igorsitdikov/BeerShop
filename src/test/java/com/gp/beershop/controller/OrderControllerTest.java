@@ -1,19 +1,20 @@
 package com.gp.beershop.controller;
 
 import com.gp.beershop.dto.Orders;
+import com.gp.beershop.entity.BeerEntity;
 import com.gp.beershop.entity.OrderEntity;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.mapper.BeerMapper;
 import com.gp.beershop.mapper.OrderMapper;
 import com.gp.beershop.mapper.UserMapper;
-import mock.BeerMock;
-import mock.OrderMock;
-import mock.OrderRequestMock;
-import mock.UsersMock;
 import com.gp.beershop.repository.BeerRepository;
 import com.gp.beershop.repository.OrderRepository;
 import com.gp.beershop.repository.UserRepository;
 import com.gp.beershop.security.UserRole;
+import mock.BeerMock;
+import mock.OrderMock;
+import mock.OrderRequestMock;
+import mock.UsersMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,7 +22,11 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +35,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,13 +72,13 @@ public class OrderControllerTest extends AbstractControllerTest {
 
         willReturn(Optional.of(customer)).given(userRepository).findById(CUSTOMER);
         willReturn(Optional.of(admin)).given(userRepository).findById(ADMIN);
+        final BeerEntity alivaria = beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA));
+        final BeerEntity pilsner = beerMapper.sourceToDestination(BeerMock.getById(PILSNER));
+        final List<BeerEntity> beers = new ArrayList<>(Arrays.asList(alivaria, pilsner));
 
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(ALIVARIA))))
-            .given(beerRepository)
-            .findById(ALIVARIA);
-        willReturn(Optional.of(beerMapper.sourceToDestination(BeerMock.getById(PILSNER))))
-            .given(beerRepository)
-            .findById(PILSNER);
+        final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
+
+        willReturn(beers).given(beerRepository).findByBeerIds(ids);
     }
 
 
@@ -168,7 +176,12 @@ public class OrderControllerTest extends AbstractControllerTest {
         final String token = signInAsUser(false);
         final Orders order = OrderMock.getById(ORDER_ID);
 
-        willReturn(Optional.empty()).given(beerRepository).findById(ALIVARIA);
+        final BeerEntity pilsner = beerMapper.sourceToDestination(BeerMock.getById(PILSNER));
+        final List<BeerEntity> beers = new ArrayList<>(Collections.singletonList(pilsner));
+
+        final List<Long> ids = new ArrayList<>(Arrays.asList(ALIVARIA, PILSNER));
+
+        willReturn(beers).given(beerRepository).findByBeerIds(ids);
         willReturn(orderMapper.sourceToDestination(order)).given(orderRepository).save(any(OrderEntity.class));
         // when
         mockMvc.perform(post("/api/orders")
@@ -268,11 +281,11 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(true).given(orderRepository).existsById(ORDER_ID);
         // when
         mockMvc.perform(delete("/api/orders/" + ORDER_ID)
-                .header("Authorization", token)
-                .param("status", "true")
-                .contentType(MediaType.APPLICATION_JSON))
-                // then
-                .andExpect(status().isOk());
+                            .header("Authorization", token)
+                            .param("status", "true")
+                            .contentType(MediaType.APPLICATION_JSON))
+            // then
+            .andExpect(status().isOk());
         verify(orderRepository, times(1)).existsById(ORDER_ID);
         verify(orderRepository, times(1)).deleteById(ORDER_ID);
     }
@@ -284,11 +297,11 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(false).given(orderRepository).existsById(ORDER_ID);
         // when
         mockMvc.perform(delete("/api/orders/" + ORDER_ID)
-                .header("Authorization", token)
-                .param("status", "true")
-                .contentType(MediaType.APPLICATION_JSON))
-                // then
-                .andExpect(status().isNotFound());
+                            .header("Authorization", token)
+                            .param("status", "true")
+                            .contentType(MediaType.APPLICATION_JSON))
+            // then
+            .andExpect(status().isNotFound());
         verify(orderRepository, times(1)).existsById(ORDER_ID);
         verify(orderRepository, times(0)).deleteById(ORDER_ID);
     }
@@ -301,11 +314,11 @@ public class OrderControllerTest extends AbstractControllerTest {
         willReturn(Optional.of(orderEntity)).given(orderRepository).findById(ORDER_ID);
         //when
         mockMvc.perform(patch("/api/orders/" + ORDER_ID)
-                .param("canceled", "true")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON))
-                //then
-                .andExpect(status().isOk());
+                            .param("canceled", "true")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON))
+            //then
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -320,10 +333,10 @@ public class OrderControllerTest extends AbstractControllerTest {
         final String token = signInAsUser(false);
         //when
         mockMvc.perform(patch("/api/orders/" + 1)
-                .param("canceled", "true")
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON))
-                //then
-                .andExpect(status().isForbidden());
+                            .param("canceled", "true")
+                            .header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON))
+            //then
+            .andExpect(status().isForbidden());
     }
 }
