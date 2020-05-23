@@ -61,12 +61,12 @@ public class IntegrationTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2)))));
+            .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2L)))));
     }
 
     private String signInAsUser(final Boolean admin) throws Exception {
         // given
-        final Integer user = admin ? ADMIN : CUSTOMER;
+        final Long user = admin ? ADMIN : CUSTOMER;
         // when
         final String responseUser = mockMvc.perform(
             post("/api/sign-in")
@@ -102,10 +102,10 @@ public class IntegrationTest extends AbstractControllerTest {
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                BeerMock.getById(6))))
+                                BeerMock.getById(6L))))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(6))));
+            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(6L))));
     }
 
     private void deleteBeerById(final String token, final Integer beerId) throws Exception {
@@ -123,7 +123,7 @@ public class IntegrationTest extends AbstractControllerTest {
             mockMvc.perform(post("/api/users/sign-up")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(
-                                    UsersMock.getById(4))))
+                                    UsersMock.getById(4L))))
                 // then
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -132,7 +132,7 @@ public class IntegrationTest extends AbstractControllerTest {
 
     private void addOrderAsNewUser(final String token) throws Exception {
         // given
-        final Integer ANTON = 4;
+        final Long ANTON = 4L;
         final Orders orderAntonExpected = OrderMock.getById(ANTON);
         // when
         final String responseOrderAnton =
@@ -164,7 +164,7 @@ public class IntegrationTest extends AbstractControllerTest {
 
     private void addOrderAsRegisteredUser(final String token) throws Exception {
         // given
-        final Integer PETR = 3;
+        final Long PETR = 3L;
         final Orders orderPetrExpected = OrderMock.getById(PETR);
         // when
         final String responseOrderPetr =

@@ -42,12 +42,12 @@ public class UserControllerTest extends AbstractControllerTest {
 
         willReturn(Optional.of(admin)).given(userRepository).findByEmail(ADMIN_EMAIL);
 
-        final UserEntity customer = userMapper.sourceToDestination(UsersMock.getById(1));
+        final UserEntity customer = userMapper.sourceToDestination(UsersMock.getById(1L));
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setUserRole(UserRole.CUSTOMER);
 
-        willReturn(true).given(userRepository).existsById(1);
-        willReturn(Optional.of(customer)).given(userRepository).findById(1);
+        willReturn(true).given(userRepository).existsById(1L);
+        willReturn(Optional.of(customer)).given(userRepository).findById(1L);
         willReturn(Optional.of(customer)).given(userRepository).findByEmail(customer.getEmail());
     }
 
@@ -78,7 +78,7 @@ public class UserControllerTest extends AbstractControllerTest {
         mockMvc.perform(post("/api/users/sign-up")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                UsersMock.getById(1))))
+                                UsersMock.getById(1L))))
             // then
             .andExpect(status().isConflict());
         verify(userRepository, times(1)).findByEmail(CUSTOMER_EMAIL);
@@ -90,8 +90,8 @@ public class UserControllerTest extends AbstractControllerTest {
         // given
 
         final String token = signInAsUser(true);
-        final List<UserEntity> userEntityList = List.of(userMapper.sourceToDestination(UsersMock.getById(1)),
-                                                        userMapper.sourceToDestination(UsersMock.getById(2)));
+        final List<UserEntity> userEntityList = List.of(userMapper.sourceToDestination(UsersMock.getById(1L)),
+                                                        userMapper.sourceToDestination(UsersMock.getById(2L)));
         userEntityList.forEach(el -> el.setUserRole(UserRole.CUSTOMER));
         willReturn(userEntityList).given(userRepository).findAll();
         // when
@@ -101,8 +101,8 @@ public class UserControllerTest extends AbstractControllerTest {
             // then
             .andExpect(status().isOk())
             .andExpect(content().json(mapper.writeValueAsString(List.of(
-                UsersMock.convertToUserWithoutPassword(UsersMock.getById(1)),
-                UsersMock.convertToUserWithoutPassword(UsersMock.getById(2))))));
+                UsersMock.convertToUserWithoutPassword(UsersMock.getById(1L)),
+                UsersMock.convertToUserWithoutPassword(UsersMock.getById(2L))))));
         verify(userRepository, times(3)).findByEmail(ADMIN_EMAIL);
         verify(userRepository, times(1)).findAll();
     }
@@ -121,33 +121,33 @@ public class UserControllerTest extends AbstractControllerTest {
     public void testDeleteUser() throws Exception {
         // given
         final String token = signInAsUser(true);
-        final UserEntity customer = userMapper.sourceToDestination(UsersMock.getById(1));
+        final UserEntity customer = userMapper.sourceToDestination(UsersMock.getById(1L));
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setUserRole(UserRole.CUSTOMER);
 
-        willReturn(true).given(userRepository).existsById(1);
-        willReturn(Optional.of(customer)).given(userRepository).findById(1);
+        willReturn(true).given(userRepository).existsById(1L);
+        willReturn(Optional.of(customer)).given(userRepository).findById(1L);
         // when
         mockMvc.perform(delete("/api/users/1")
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk());
-        verify(userRepository, times(1)).existsById(1);
-        verify(userRepository, times(1)).deleteById(1);
+        verify(userRepository, times(1)).existsById(1L);
+        verify(userRepository, times(1)).deleteById(1L);
     }
 
     @Test
     public void testDeleteUser_NoSuchUser() throws Exception {
         // given
         final String token = signInAsUser(true);
-        willReturn(false).given(userRepository).existsById(1);
+        willReturn(false).given(userRepository).existsById(1L);
         // when
         mockMvc.perform(delete("/api/users/1")
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isNotFound());
-        verify(userRepository, times(1)).existsById(1);
+        verify(userRepository, times(1)).existsById(1L);
     }
 }

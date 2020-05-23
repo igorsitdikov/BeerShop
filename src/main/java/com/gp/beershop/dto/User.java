@@ -14,9 +14,9 @@ import javax.validation.constraints.Pattern;
 @Builder
 @ApiModel(description = "All details about the user")
 @EqualsAndHashCode
-public class UserDTO {
+public class User {
     @ApiModelProperty(notes = "The database generated order ID")
-    private Integer id;
+    private Long id;
     @ApiModelProperty(notes = "User's first name")
     @NotNull(message = "Should input user first name")
     private String firstName;

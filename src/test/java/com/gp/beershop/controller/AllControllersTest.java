@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AllControllersTest extends AbstractControllerTest {
-    private final static Integer ANTON = 4;
+    private final static Long ANTON = 4L;
 
     @MockBean
     private BeerRepository beerRepository;
@@ -71,7 +71,7 @@ public class AllControllersTest extends AbstractControllerTest {
         final Beer beerKrynica = BeerMock.getById(KRYNICA);
         final BeerEntity beerEntity = beerMapper.sourceToDestination(beerKrynica);
         final Orders orderAnton = OrderMock.getById(ANTON);
-        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(4));
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(4L));
 
         willReturn(List.of(BeerMock.getById(ALIVARIA), BeerMock.getById(PILSNER), BeerMock.getById(LIDSKOE))
                        .stream()
@@ -98,7 +98,7 @@ public class AllControllersTest extends AbstractControllerTest {
             .given(orderRepository)
             .save(any(OrderEntity.class));
 
-        willReturn(List.of(OrderMock.getById(1), OrderMock.getById(3), OrderMock.getById(5))
+        willReturn(List.of(OrderMock.getById(1L), OrderMock.getById(3L), OrderMock.getById(5L))
                        .stream()
                        .map(orderMapper::sourceToDestination)
                        .collect(Collectors.toList()))
@@ -127,7 +127,7 @@ public class AllControllersTest extends AbstractControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2)))));
+            .andExpect(content().json(mapper.writeValueAsString(List.of(BeerMock.getById(2L)))));
 
         verify(beerRepository, times(2)).findAll();
         // when
@@ -160,10 +160,10 @@ public class AllControllersTest extends AbstractControllerTest {
                             .header("Authorization", tokenAdmin)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                BeerMock.getById(6))))
+                                BeerMock.getById(6L))))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(6))));
+            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(6L))));
 
         verify(beerRepository, times(2)).save(any(BeerEntity.class));
         // when
@@ -179,7 +179,7 @@ public class AllControllersTest extends AbstractControllerTest {
             mockMvc.perform(post("/api/users/sign-up")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(
-                                    UsersMock.getById(4))))
+                                    UsersMock.getById(4L))))
                 // then
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();

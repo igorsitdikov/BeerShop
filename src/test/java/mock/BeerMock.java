@@ -10,9 +10,9 @@ public final class BeerMock {
     private BeerMock() {
     }
 
-    private static Map<Integer, Beer> beerMap = new HashMap<>() {{
-        put(1, Beer.builder()
-            .id(1)
+    private static Map<Long, Beer> beerMap = new HashMap<>() {{
+        put(1L, Beer.builder()
+            .id(1L)
             .type("светлое")
             .inStock(true)
             .name("Лидское")
@@ -21,8 +21,8 @@ public final class BeerMock {
             .density(11.5)
             .country("Республика Беларусь")
             .price(BigDecimal.valueOf(5).setScale(2)).build());
-        put(2, Beer.builder()
-            .id(2)
+        put(2L, Beer.builder()
+            .id(2L)
             .type("темное")
             .inStock(true)
             .name("Аливария")
@@ -31,8 +31,8 @@ public final class BeerMock {
             .density(10.2)
             .country("Республика Беларусь")
             .price(BigDecimal.valueOf(3).setScale(2)).build());
-        put(3, Beer.builder()
-            .id(3)
+        put(3L, Beer.builder()
+            .id(3L)
             .type("светлое осветлённое")
             .inStock(true)
             .name("Pilsner Urquell")
@@ -41,8 +41,8 @@ public final class BeerMock {
             .density(12.0)
             .country("Чехия")
             .price(BigDecimal.valueOf(8).setScale(2)).build());
-        put(4, Beer.builder()
-            .id(4)
+        put(4L, Beer.builder()
+            .id(4L)
             .type("светлое")
             .inStock(true)
             .name("Крынiца Pilsner")
@@ -55,8 +55,8 @@ public final class BeerMock {
             .density(10.5)
             .country("Республика Беларусь")
             .price(BigDecimal.valueOf(3.2).setScale(2)).build());
-        put(5, Beer.builder()
-            .id(3)
+        put(5L, Beer.builder()
+            .id(3L)
             .type("светлое осветлённое")
             .inStock(false)
             .name("Pilsner Urquell Extra")
@@ -65,8 +65,8 @@ public final class BeerMock {
             .density(12.2)
             .country("Чехия")
             .price(BigDecimal.valueOf(8.3).setScale(2)).build());
-        put(6, Beer.builder()
-            .id(4)
+        put(6L, Beer.builder()
+            .id(4L)
             .type("светлое")
             .inStock(true)
             .name("Крынiца Pilsner")
@@ -81,7 +81,7 @@ public final class BeerMock {
             .price(BigDecimal.valueOf(5.2).setScale(2)).build());
     }};
 
-    public static Beer getById(final Integer id) {
+    public static Beer getById(final Long id) {
         return beerMap.get(id);
     }
 }

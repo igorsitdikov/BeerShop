@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 public class Beer {
     @ReadOnlyProperty
     @ApiModelProperty(notes = "The database generated beer ID")
-    private Integer id;
+    private Long id;
     @ApiModelProperty(notes = "The beer type")
     @NotNull(message = "Should input beer type")
     private String type;

@@ -1,6 +1,6 @@
 package mock;
 
-import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,33 +9,33 @@ public class UsersMock {
     private UsersMock() {
     }
 
-    private static final Map<Integer, UserDTO> userMap = new HashMap<>() {{
-        put(1, UserDTO.builder()
-            .id(1)
+    private static final Map<Long, User> userMap = new HashMap<>() {{
+        put(1L, User.builder()
+            .id(1L)
             .firstName("Иван")
             .secondName("Иванов")
             .email("ivan.ivanov@mail.ru")
             .password("123456")
             .phone("+375331234567")
             .build());
-        put(2, UserDTO.builder()
-            .id(2)
+        put(2L, User.builder()
+            .id(2L)
             .firstName("Петр")
             .secondName("Петров")
             .email("petr.petrov@yandex.ru")
             .password("654321")
             .phone("+375337654321")
             .build());
-        put(3, UserDTO.builder()
-            .id(3)
+        put(3L, User.builder()
+            .id(3L)
             .firstName("Алексей")
             .secondName("Алексеев")
             .email("alex.alexeev@gmail.com")
             .password("password")
             .phone("+375337654321")
             .build());
-        put(4, UserDTO.builder()
-            .id(4)
+        put(4L, User.builder()
+            .id(4L)
             .firstName("Антон")
             .secondName("Антонов")
             .email("anton.antonov@mail.ru")
@@ -44,8 +44,8 @@ public class UsersMock {
             .build());
     }};
 
-    public static UserDTO convertToUserWithoutPassword(final UserDTO user) {
-        return UserDTO.builder()
+    public static User convertToUserWithoutPassword(final User user) {
+        return User.builder()
             .id(user.getId())
             .email(user.getEmail())
             .firstName(user.getFirstName())
@@ -54,7 +54,7 @@ public class UsersMock {
             .build();
     }
 
-    public static UserDTO getById(final Integer id) {
+    public static User getById(final Long id) {
         return userMap.get(id);
     }
 }

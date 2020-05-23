@@ -15,9 +15,9 @@ import java.util.List;
 @EqualsAndHashCode
 public class Orders {
     @ApiModelProperty(notes = "The database generated order ID")
-    private Integer id;
+    private Long id;
     @ApiModelProperty(notes = "Customer who made order")
-    private UserDTO userDTO;
+    private User user;
     @ApiModelProperty(notes = "Order status")
     private Boolean processed;
     @ApiModelProperty(notes = "Order canceled")

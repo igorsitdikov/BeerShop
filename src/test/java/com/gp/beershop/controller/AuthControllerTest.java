@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AuthControllerTest extends AbstractControllerTest {
-    private final static Integer CUSTOMER = 2;
+    private final static Long CUSTOMER = 2L;
 
     @MockBean
     private UserRepository userRepository;

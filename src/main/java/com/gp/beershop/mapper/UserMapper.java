@@ -1,14 +1,14 @@
 package com.gp.beershop.mapper;
 
-import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.User;
 import com.gp.beershop.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserEntity sourceToDestination(UserDTO source);
+    UserEntity sourceToDestination(User source);
 
     @Mapping(target = "password", ignore = true)
-    UserDTO destinationToSource(UserEntity destination);
+    User destinationToSource(UserEntity destination);
 }

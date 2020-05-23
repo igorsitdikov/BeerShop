@@ -113,10 +113,10 @@ public class BeerControllerTest extends AbstractControllerTest {
                             .header("Authorization", token)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(mapper.writeValueAsString(
-                                BeerMock.getById(5))))
+                                BeerMock.getById(5L))))
             // then
             .andExpect(status().isOk())
-            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(5))));
+            .andExpect(content().json(mapper.writeValueAsString(BeerMock.getById(5L))));
         verify(beerRepository, times(1)).existsById(PILSNER);
     }
 

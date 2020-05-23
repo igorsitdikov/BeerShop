@@ -43,18 +43,19 @@ public class OrderService {
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
 
+    @Transactional
     public Orders addOrder(final OrderRequest orderRequest, final String token)
         throws NoSuchUserException, NoSuchBeerException, OrderIsEmptyException, SuchUserHasNoPermissionsException {
 
         final UserEntity userEntity = userRepository.findById(orderRequest.getCustomerId())
             .orElseThrow(() -> new NoSuchUserException(
-                "No customer with id = " + orderRequest.getCustomerId() + " was found."));
+                String.format("No customer with id = %s was found.", orderRequest.getCustomerId())));
 
         final String userEmailFromToken = jwtUtil.extractUsername(token.substring(BEARER));
 
         if (!userEntity.getEmail().equals(userEmailFromToken)) {
             throw new SuchUserHasNoPermissionsException(
-                "Customer with email = " + userEmailFromToken + " tried add order to other account.");
+                String.format("Customer with email = %s tried add order to other account.", userEmailFromToken));
         }
 
         final Set<Goods> goodsIds = orderRequest.getGoods();
@@ -90,7 +91,8 @@ public class OrderService {
             customerOrderEntity.setBeer(
                 beerRepository
                     .findById(goods.getId())
-                    .orElseThrow(() -> new NoSuchBeerException("No beer with id = " + goods.getId() + " was found.")));
+                    .orElseThrow(() -> new NoSuchBeerException(
+                        String.format("No beer with id = %d was found.", goods.getId()))));
             customerOrderEntity.setOrders(orderEntity);
             customerOrders.add(customerOrderEntity);
         }
@@ -98,7 +100,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Integer changeOrderStatus(final Integer id, final String token, final Boolean status, final Boolean canceled)
+    public Long changeOrderStatus(final Long id, final String token, final Boolean status, final Boolean canceled)
         throws NoSuchOrderException, SuchUserHasNoPermissionsException {
         final OrderEntity orderEntity = orderRepository.findById(id)
             .orElseThrow(() -> new NoSuchOrderException(String.format("No order with id = %d was found.", id)));
@@ -125,7 +127,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void deleteOrder(final Integer orderId) throws NoSuchOrderException {
+    public void deleteOrder(final Long orderId) throws NoSuchOrderException {
         final boolean isFound = orderRepository.existsById(orderId);
         if (!isFound) {
             throw new NoSuchOrderException(String.format("No order with id = %d was found.", orderId));
@@ -133,6 +135,7 @@ public class OrderService {
         orderRepository.deleteById(orderId);
     }
 
+    @Transactional
     public List<Orders> showOrders() {
         return orderRepository.findAll()
             .stream()
@@ -140,7 +143,8 @@ public class OrderService {
             .collect(Collectors.toList());
     }
 
-    public void cancelOrder(final Integer orderId) throws NoSuchOrderException {
+    @Transactional
+    public void cancelOrder(final Long orderId) throws NoSuchOrderException {
         final OrderEntity orderEntity = orderRepository.findById(orderId)
             .orElseThrow(() -> new NoSuchOrderException(String.format("No order with id = %d was found.", orderId)));
         orderEntity.setCanceled(true);

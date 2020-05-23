@@ -143,9 +143,9 @@ public class OrderControllerTest extends AbstractControllerTest {
         // given
         final String token = signInAsUser(false);
 
-        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(1))))
+        willReturn(Optional.of(userMapper.sourceToDestination(UsersMock.getById(1L))))
             .given(userRepository)
-            .findById(1);
+            .findById(1L);
         // when
         mockMvc.perform(post("/api/orders")
                             .header("Authorization", token)
@@ -159,7 +159,7 @@ public class OrderControllerTest extends AbstractControllerTest {
                                       "tried add order to other account.\"" +
                                       "}"));
         verify(userRepository, times(3)).findByEmail("petr.petrov@yandex.ru");
-        verify(userRepository, times(1)).findById(1);
+        verify(userRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -311,9 +311,9 @@ public class OrderControllerTest extends AbstractControllerTest {
     @Test
     public void testCancelOrder_UserHasNoPermissions() throws Exception {
         //given
-        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(1));
-        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(1);
-        final UserEntity ivan = userMapper.sourceToDestination(UsersMock.getById(1));
+        final OrderEntity orderEntity = orderMapper.sourceToDestination(OrderMock.getById(1L));
+        willReturn(Optional.of(orderEntity)).given(orderRepository).findById(1L);
+        final UserEntity ivan = userMapper.sourceToDestination(UsersMock.getById(1L));
         ivan.setUserRole(UserRole.CUSTOMER);
         willReturn(Optional.of(ivan)).given(userRepository).findByEmail(ivan.getEmail());
         willReturn(Optional.of(ivan)).given(userRepository).findById(ivan.getId());

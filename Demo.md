@@ -197,7 +197,7 @@ Response: `201 CREATED`
 ```
 {
     "id": 3,
-    "userDTO": {
+    "user": {
         "id": 4,
         "firstName": "Антон",
         "secondName": "Антонов",
@@ -299,7 +299,7 @@ Response: `201 CREATED`
 ```
 {
     "id": 3,
-    "userDTO": {
+    "user": {
         "id": 2,
         "firstName": "Петр",
         "secondName": "Петров",
@@ -355,7 +355,7 @@ Request: `200 OK`
 [
     {
         "id": 1,
-        "userDTO": {
+        "user": {
             "id": 1,
             "firstName": "Иван",
             "secondName": "Иванов",
@@ -399,7 +399,7 @@ Request: `200 OK`
     },
     {
         "id": 2,
-        "userDTO": {
+        "user": {
             "id": 4,
             "firstName": "Антон",
             "secondName": "Антонов",
@@ -443,7 +443,7 @@ Request: `200 OK`
     },
     {
         "id": 3,
-        "userDTO": {
+        "user": {
             "id": 2,
             "firstName": "Петр",
             "secondName": "Петров",

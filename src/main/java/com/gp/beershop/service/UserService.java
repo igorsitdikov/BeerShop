@@ -1,7 +1,7 @@
 package com.gp.beershop.service;
 
 import com.gp.beershop.dto.AuthRequest;
-import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.User;
 import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.entity.UserEntity;
 import com.gp.beershop.exception.NoSuchUserException;
@@ -14,6 +14,7 @@ import lombok.extern.java.Log;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,26 +27,28 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
 
-    public UserSignInResponse signUp(final UserDTO userDTO)
+    @Transactional
+    public UserSignInResponse signUp(final User user)
         throws SuchUserAlreadyExistException, NoSuchUserException {
 
-        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new SuchUserAlreadyExistException(
-                String.format("User with email %s already exists", userDTO.getEmail()));
+                String.format("User with email %s already exists", user.getEmail()));
         }
-        saveUser(userDTO);
+        saveUser(user);
         return authService.signIn(
-            new AuthRequest(userDTO.getEmail(), userDTO.getPassword()));
+            new AuthRequest(user.getEmail(), user.getPassword()));
     }
 
-    private void saveUser(final UserDTO userDTO) {
-        final UserEntity userEntity = userMapper.sourceToDestination(userDTO);
+    private void saveUser(final User user) {
+        final UserEntity userEntity = userMapper.sourceToDestination(user);
         userEntity.setUserRole(UserRole.CUSTOMER);
-        userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(userEntity);
     }
 
-    public List<UserDTO> customers() {
+    @Transactional
+    public List<User> customers() {
         return userRepository.findAll()
             .stream()
             .filter(el -> el.getUserRole().equals(UserRole.CUSTOMER))
@@ -53,7 +56,8 @@ public class UserService {
             .collect(Collectors.toList());
     }
 
-    public void deleteUser(final Integer userId) throws NoSuchUserException {
+    @Transactional
+    public void deleteUser(final Long userId) throws NoSuchUserException {
         final boolean isFound = userRepository.existsById(userId);
         if (!isFound) {
             throw new NoSuchUserException(String.format("No customer with id = %d was found.", userId));

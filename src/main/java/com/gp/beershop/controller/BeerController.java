@@ -58,7 +58,7 @@ public class BeerController {
     @PostMapping
     @ApiOperation(value = "Add a beer")
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer addBeer(
+    public Long addBeer(
         @Valid
         @ApiParam(value = "Beer object store in database table", required = true)
         @RequestBody final Beer request) throws SuchBeerAlreadyExistException {
@@ -71,7 +71,7 @@ public class BeerController {
     public Beer updateBeerById(
         @Valid
         @ApiParam(value = "Beer Id to update beer object", required = true)
-        @PathVariable final Integer beerId,
+        @PathVariable final Long beerId,
         @ApiParam(value = "Update beer object", required = true)
         @RequestBody final Beer beer)
         throws NoSuchBeerException {
@@ -84,7 +84,7 @@ public class BeerController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteBeerById(
         @ApiParam(value = "Beer Id from which beer object will delete from database table", required = true)
-        @PathVariable final Integer beerId) throws NoSuchBeerException {
+        @PathVariable final Long beerId) throws NoSuchBeerException {
         beerService.deleteBeerById(beerId);
     }
 }

@@ -19,6 +19,7 @@ public class BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
+    @Transactional
     public List<Beer> getBeers() {
         return beerRepository.findAll()
             .stream()
@@ -26,13 +27,15 @@ public class BeerService {
             .collect(Collectors.toList());
     }
 
-    public Beer getBeerById(final Integer id) throws NoSuchBeerException {
+    @Transactional
+    public Beer getBeerById(final Long id) throws NoSuchBeerException {
         checkExistingBeer(id);
         return beerRepository.findById(id)
             .map(beerMapper::destinationToSource)
             .get();
     }
 
+    @Transactional
     public List<Beer> getBeersByFilter(final String beerType) {
         return beerRepository.findAll()
             .stream()
@@ -42,7 +45,7 @@ public class BeerService {
     }
 
     @Transactional
-    public Integer addBeer(final Beer beer) throws SuchBeerAlreadyExistException {
+    public Long addBeer(final Beer beer) throws SuchBeerAlreadyExistException {
         if (beerRepository.findFirstByName(beer.getName()).isPresent()) {
             throw new SuchBeerAlreadyExistException(
                 String.format("Beer with name = %s already exists.", beer.getName()));
@@ -54,7 +57,8 @@ public class BeerService {
         return beerEntityOutput.getId();
     }
 
-    public Beer updateBeerById(final Integer id, final Beer beer) throws NoSuchBeerException {
+    @Transactional
+    public Beer updateBeerById(final Long id, final Beer beer) throws NoSuchBeerException {
         checkExistingBeer(id);
 
         beer.setId(id);
@@ -65,12 +69,13 @@ public class BeerService {
         return beerMapper.destinationToSource(beerEntity);
     }
 
-    public void deleteBeerById(final Integer id) throws NoSuchBeerException {
+    @Transactional
+    public void deleteBeerById(final Long id) throws NoSuchBeerException {
         checkExistingBeer(id);
         beerRepository.deleteById(id);
     }
 
-    private void checkExistingBeer(final Integer id) throws NoSuchBeerException {
+    private void checkExistingBeer(final Long id) throws NoSuchBeerException {
         final boolean isFound = beerRepository.existsById(id);
         if (!isFound) {
             throw new NoSuchBeerException("No beer with id = " + id + " was found.");

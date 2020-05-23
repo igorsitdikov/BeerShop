@@ -25,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("classpath:application-test.properties")
 @AutoConfigureMockMvc
 public abstract class AbstractControllerTest {
-    protected final static Integer ORDER_ID = 2;
-    protected final static Integer CUSTOMER = 2;
-    protected final static Integer ADMIN = 3;
-    protected final static Integer LIDSKOE = 1;
-    protected final static Integer ALIVARIA = 2;
-    protected final static Integer PILSNER = 3;
-    protected final static Integer KRYNICA = 4;
+    protected final static Long ORDER_ID = 2L;
+    protected final static Long CUSTOMER = 2L;
+    protected final static Long ADMIN = 3L;
+    protected final static Long LIDSKOE = 1L;
+    protected final static Long ALIVARIA = 2L;
+    protected final static Long PILSNER = 3L;
+    protected final static Long KRYNICA = 4L;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -42,7 +42,7 @@ public abstract class AbstractControllerTest {
 
     protected String signInAsUser(final boolean admin) throws Exception {
         // given
-        final Integer user = admin ? ADMIN : CUSTOMER;
+        final Long user = admin ? ADMIN : CUSTOMER;
 
         final AuthRequest request = AuthRequest.builder()
             .email(UsersMock.getById(user).getEmail())
@@ -61,7 +61,7 @@ public abstract class AbstractControllerTest {
 
     protected List<CustomerOrder> sortCustomerOrders(final Orders orders) {
         return orders.getCustomerOrders().stream().sorted(
-            Comparator.comparingInt(o -> o.getBeer().getId()))
+            Comparator.comparingLong(o -> o.getBeer().getId()))
             .collect(Collectors.toList());
     }
 }

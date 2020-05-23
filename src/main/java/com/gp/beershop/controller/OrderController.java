@@ -61,10 +61,10 @@ public class OrderController {
     @PatchMapping(value = "/{orderId}")
     @ApiOperation(value = "Change status of order")
     @ResponseStatus(HttpStatus.OK)
-    public Integer changeOrderStatus(
+    public Long changeOrderStatus(
         @RequestHeader("Authorization") final String token,
         @ApiParam(value = "Order ID to change order object", required = true)
-        @PathVariable final Integer orderId,
+        @PathVariable final Long orderId,
         @ApiParam(value = "Change status of order", required = true)
         @RequestParam(name = "status", defaultValue = "false") final Boolean status,
         @ApiParam(value = "Cancel order", required = true)
@@ -78,7 +78,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteOrder(
         @ApiParam(value = "Order ID to delete order object", required = true)
-        @PathVariable final Integer orderId)
+        @PathVariable final Long orderId)
         throws NoSuchOrderException {
         orderService.deleteOrder(orderId);
     }

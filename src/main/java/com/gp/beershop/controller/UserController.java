@@ -1,8 +1,7 @@
 package com.gp.beershop.controller;
 
-import com.gp.beershop.dto.UserDTO;
+import com.gp.beershop.dto.User;
 import com.gp.beershop.dto.UserSignInResponse;
-import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.service.UserService;
@@ -43,9 +42,9 @@ public class UserController {
     public UserSignInResponse singUp(
         @Valid
         @ApiParam(value = "User object store in database table", required = true)
-        @RequestBody final UserDTO userDTO)
+        @RequestBody final User user)
         throws SuchUserAlreadyExistException, NoSuchUserException {
-        return userService.signUp(userDTO);
+        return userService.signUp(user);
     }
 
     @GetMapping
@@ -57,7 +56,7 @@ public class UserController {
         @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDTO> customers() {
+    public List<User> customers() {
         return userService.customers();
     }
 
@@ -66,7 +65,7 @@ public class UserController {
     public void deleteUser(
         @Valid
         @ApiParam(value = "User Id from which user entity will delete from database table", required = true)
-        @PathVariable final Integer userId) throws NoSuchUserException {
+        @PathVariable final Long userId) throws NoSuchUserException {
         userService.deleteUser(userId);
     }
 

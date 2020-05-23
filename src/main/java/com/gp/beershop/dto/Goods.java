@@ -10,7 +10,7 @@ import lombok.Data;
 @ApiModel(description = "Goods ID and amount.")
 public class Goods {
     @ApiModelProperty(notes = "Goods ID")
-    private Integer id;
+    private Long id;
     @ApiModelProperty(notes = "Good amount")
     private Integer amount;
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BeerRepository extends JpaRepository<BeerEntity, Integer> {
+public interface BeerRepository extends JpaRepository<BeerEntity, Long> {
     Optional<BeerEntity> findFirstByName(String name);
 }
