@@ -3,6 +3,7 @@ databaseChangeLog:
     -   changeSet:
             id: set to db default CHARSET
             author: sitdikov_igor
+            dbms: mysql
             changes:
                 -   sql:
                         sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
