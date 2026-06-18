@@ -8,7 +8,7 @@ databaseChangeLog:
                 -   sql:
                         sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
     -   changeSet:
-            id: create tables beer, orders, user, customer_order
+            id: create tables beer, orders, users, customer_order
             author: sitdikov_igor
             changes:
                 -   createTable:
@@ -46,7 +46,7 @@ databaseChangeLog:
                                     name: price
                                     type: DOUBLE
                 -   createTable:
-                        tableName: user
+                        tableName: users
                         columns:
                             -   column:
                                     name: id
@@ -89,7 +89,7 @@ databaseChangeLog:
                                     constraints:
                                         nullable: false
                                         foreignKeyName: fk_user_id
-                                        references: user(id)
+                                        references: users(id)
                             -   column:
                                     name: processed
                                     type: TINYINT(1)

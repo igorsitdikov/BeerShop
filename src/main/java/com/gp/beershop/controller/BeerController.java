@@ -30,7 +30,6 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/beers")
-@BasePathAwareController
 @Validated
 @Api(value = "Beer Management System")
 public class BeerController {

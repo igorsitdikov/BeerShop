@@ -34,7 +34,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@BasePathAwareController
 @RequestMapping(value = "/orders")
 @Api(value = "Order Management System")
 @Validated

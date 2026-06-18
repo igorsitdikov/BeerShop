@@ -28,7 +28,6 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@BasePathAwareController
 @RequestMapping("/users")
 @Api(value = "User Management System")
 @Validated
