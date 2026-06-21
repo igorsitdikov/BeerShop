@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,25 +10,25 @@ import java.util.List;
 
 @Getter
 @Builder
-@ApiModel(description = "All details about the order")
+@Schema(description = "All details about the order")
 @EqualsAndHashCode
 public class Orders {
-    @ApiModelProperty(notes = "The database generated order ID")
+    @Schema(description = "The database generated order ID")
     private Long id;
 
-    @ApiModelProperty(notes = "Customer who made order")
+    @Schema(description = "Customer who made order")
     private User user;
 
-    @ApiModelProperty(notes = "Order status")
+    @Schema(description = "Order status")
     private Boolean processed;
 
-    @ApiModelProperty(notes = "Order canceled")
+    @Schema(description = "Order canceled")
     private Boolean canceled;
 
-    @ApiModelProperty(notes = "Order cost")
+    @Schema(description = "Order cost")
     private BigDecimal total;
 
-    @ApiModelProperty(notes = "List of goods and their amounts")
+    @Schema(description = "List of goods and their amounts")
     @EqualsAndHashCode.Exclude
     private List<CustomerOrder> customerOrders;
 }

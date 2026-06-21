@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Token of authorized user")
+@Schema(description = "Token of authorized user")
 public class UserSignInResponse {
-    @ApiModelProperty(notes = "JSON Web Token")
+    @Schema(description = "JSON Web Token")
     private String token;
 }

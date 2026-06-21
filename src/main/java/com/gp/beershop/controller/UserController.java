@@ -5,13 +5,12 @@ import com.gp.beershop.dto.UserSignInResponse;
 import com.gp.beershop.exception.NoSuchUserException;
 import com.gp.beershop.exception.SuchUserAlreadyExistException;
 import com.gp.beershop.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,30 +28,30 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/users")
-@Api(value = "User Management System")
+@Tag(name = "User Management System")
 @Validated
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping(value = "/sign-up")
-    @ApiOperation(value = "Add user")
+    @Operation(description = "Add user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserSignInResponse singUp(
         @Valid
-        @ApiParam(value = "User object store in database table", required = true)
+        @Parameter(description = "User object store in database table")
         @RequestBody final User user)
         throws SuchUserAlreadyExistException, NoSuchUserException {
         return userService.signUp(user);
     }
 
     @GetMapping
-    @ApiOperation(value = "View a list of available users", response = List.class)
+    @Operation(description = "View a list of available users")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully retrieved list"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
     public List<User> customers() {
@@ -63,7 +62,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(
         @Valid
-        @ApiParam(value = "User Id from which user entity will delete from database table", required = true)
+        @Parameter(description = "User Id from which user entity will delete from database table", required = true)
         @PathVariable final Long userId) throws NoSuchUserException {
         userService.deleteUser(userId);
     }

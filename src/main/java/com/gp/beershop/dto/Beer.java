@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,42 +15,42 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "All details about the Beer.")
+@Schema(description = "All details about the Beer.")
 @EqualsAndHashCode
 public class Beer {
     @ReadOnlyProperty
-    @ApiModelProperty(notes = "The database generated beer ID")
+    @Schema(description = "The database generated beer ID")
     private Long id;
 
-    @ApiModelProperty(notes = "The beer type")
+    @Schema(description = "The beer type")
     @NotNull(message = "Should input beer type")
     private String type;
 
-    @ApiModelProperty(notes = "The beer in stock or not")
+    @Schema(description = "The beer in stock or not")
     @NotNull(message = "Should input beer in stock")
     private Boolean inStock;
 
-    @ApiModelProperty(notes = "The beer name")
+    @Schema(description = "The beer name")
     @NotNull(message = "Should input beer name")
     private String name;
 
-    @ApiModelProperty(notes = "The beer description")
+    @Schema(description = "The beer description")
     @NotNull(message = "Should input beer description")
     private String description;
 
-    @ApiModelProperty(notes = "The beer alcohol")
+    @Schema(description = "The beer alcohol")
     @NotNull(message = "Should input beer alcohol")
     private Double alcohol;
 
-    @ApiModelProperty(notes = "The beer density")
+    @Schema(description = "The beer density")
     @NotNull(message = "Should input beer density")
     private Double density;
 
-    @ApiModelProperty(notes = "The country where beer was created")
+    @Schema(description = "The country where beer was created")
     @NotNull(message = "Should input beer country")
     private String country;
 
-    @ApiModelProperty(notes = "The beer price")
+    @Schema(description = "The beer price")
     @NotNull(message = "Should input beer price")
     private BigDecimal price;
 }

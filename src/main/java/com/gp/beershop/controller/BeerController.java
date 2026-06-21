@@ -4,13 +4,12 @@ import com.gp.beershop.dto.Beer;
 import com.gp.beershop.exception.NoSuchBeerException;
 import com.gp.beershop.exception.SuchBeerAlreadyExistException;
 import com.gp.beershop.service.BeerService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,22 +30,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/beers")
 @Validated
-@Api(value = "Beer Management System")
+@Tag(name = "Beer Management System")
 public class BeerController {
 
     private final BeerService beerService;
 
     @GetMapping
-    @ApiOperation(value = "View a list of available beers", response = List.class)
+    @Operation(summary = "View a list of available beers")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully retrieved list"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved list"),
+        @ApiResponse(responseCode = "401", description = "You are not authorized to view the resource"),
+        @ApiResponse(responseCode = "403", description = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(responseCode = "404", description = "The resource you were trying to reach is not found")
     })
     @ResponseStatus(HttpStatus.OK)
     public List<Beer> getBeers(
-        @ApiParam(value = "Beer type from which beers will filter and retrieve")
+        @Parameter(description = "Beer type from which beers will filter and retrieve")
         @RequestParam(name = "type", required = false) final String type) {
         if (type != null) {
             return beerService.getBeersByFilter(type);
@@ -55,23 +54,23 @@ public class BeerController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Add a beer")
+    @Operation(summary = "Add a beer")
     @ResponseStatus(HttpStatus.CREATED)
     public Long addBeer(
         @Valid
-        @ApiParam(value = "Beer object store in database table", required = true)
+        @Parameter(description = "Beer object store in database table", required = true)
         @RequestBody final Beer request) throws SuchBeerAlreadyExistException {
         return beerService.addBeer(request);
     }
 
     @PutMapping(value = "/{beerId}")
-    @ApiOperation(value = "Update a beer")
+    @Operation(summary = "Update a beer")
     @ResponseStatus(HttpStatus.OK)
     public Beer updateBeerById(
         @Valid
-        @ApiParam(value = "Beer Id to update beer object", required = true)
+        @Parameter(description = "Beer Id to update beer object", required = true)
         @PathVariable final Long beerId,
-        @ApiParam(value = "Update beer object", required = true)
+        @Parameter(description = "Update beer object", required = true)
         @RequestBody final Beer beer)
         throws NoSuchBeerException {
         return beerService.updateBeerById(beerId, beer);
@@ -79,10 +78,10 @@ public class BeerController {
 
 
     @DeleteMapping(value = "/{beerId}")
-    @ApiOperation(value = "Delete an employee")
+    @Operation(summary = "Delete an employee")
     @ResponseStatus(HttpStatus.OK)
     public void deleteBeerById(
-        @ApiParam(value = "Beer Id from which beer object will delete from database table", required = true)
+        @Parameter(description = "Beer Id from which beer object will delete from database table", required = true)
         @PathVariable final Long beerId) throws NoSuchBeerException {
         beerService.deleteBeerById(beerId);
     }

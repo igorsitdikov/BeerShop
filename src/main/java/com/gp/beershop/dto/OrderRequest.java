@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,13 +9,13 @@ import java.util.Set;
 
 @Getter
 @Builder
-@ApiModel(description = "Order request with customer ID and set of goods, which he would to buy")
+@Schema(description = "Order request with customer ID and set of goods, which he would to buy")
 public class OrderRequest {
-    @ApiModelProperty(notes = "Customer ID, which database generated")
+    @Schema(description = "Customer ID, which database generated")
     @NotNull(message = "Should input user id")
     private Long customerId;
 
-    @ApiModelProperty(notes = "Set of goods")
+    @Schema(description = "Set of goods")
     @NotNull(message = "Should input set of goods")
     private Set<Goods> goods;
 }

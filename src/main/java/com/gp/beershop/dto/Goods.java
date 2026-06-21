@@ -1,17 +1,16 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-@ApiModel(description = "Goods ID and amount.")
+@Schema(description = "Goods ID and amount.")
 public class Goods {
-    @ApiModelProperty(notes = "Goods ID")
+    @Schema(description = "Goods ID")
     private Long id;
 
-    @ApiModelProperty(notes = "Good amount")
+    @Schema(description = "Good amount")
     private Integer amount;
 }

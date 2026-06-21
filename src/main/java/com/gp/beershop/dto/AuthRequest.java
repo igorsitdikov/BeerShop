@@ -1,7 +1,6 @@
 package com.gp.beershop.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,11 +8,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-@ApiModel(description = "All details about the authentication request.")
+@Schema(description = "All details about the authentication request.")
 public class AuthRequest {
-    @ApiModelProperty(notes = "User's email")
+    @Schema(description = "User's email")
     private String email;
 
-    @ApiModelProperty(notes = "User's password")
+    @Schema(description = "User's password")
     private String password;
 }
