@@ -1,12 +1,12 @@
 databaseChangeLog:
     -   logicalFilePath: classpath:/db/changelog/db.changelog-master.yaml
-    -   changeSet:
-            id: set to db default CHARSET
-            author: sitdikov_igor
-            dbms: mysql
-            changes:
-                -   sql:
-                        sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+#    -   changeSet:
+#            id: set to db default CHARSET
+#            author: sitdikov_igor
+#            dbms: h2
+#            changes:
+#                -   sql:
+#                        sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
     -   changeSet:
             id: create tables beer, orders, users, customer_order
             author: sitdikov_igor
@@ -26,7 +26,7 @@ databaseChangeLog:
                                     type: varchar(64)
                             -   column:
                                     name: in_stock
-                                    type: TINYINT(1)
+                                    type: BOOLEAN
                             -   column:
                                     name: name
                                     type: varchar(512)
@@ -92,7 +92,7 @@ databaseChangeLog:
                                         references: users(id)
                             -   column:
                                     name: processed
-                                    type: TINYINT(1)
+                                    type: BOOLEAN
                             -   column:
                                     name: total
                                     type: DOUBLE
@@ -147,7 +147,7 @@ databaseChangeLog:
                         columns:
                             -   column:
                                     name: canceled
-                                    type: TINYINT(1)
+                                    type: BOOLEAN
                         schemaName: public
                         tableName: orders
     -   changeSet:
@@ -155,6 +155,6 @@ databaseChangeLog:
             author: sitdikov_igor
             changes:
                 -   sqlFile:
-                        dbms: mysql
+                        dbms: h2
                         encoding: UTF-8
                         path: db/changelog/beershop.sql
