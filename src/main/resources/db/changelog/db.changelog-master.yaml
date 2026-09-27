@@ -1,14 +1,7 @@
 databaseChangeLog:
     -   logicalFilePath: classpath:/db/changelog/db.changelog-master.yaml
-#    -   changeSet:
-#            id: set to db default CHARSET
-#            author: sitdikov_igor
-#            dbms: h2
-#            changes:
-#                -   sql:
-#                        sql: ALTER DATABASE beershop DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
     -   changeSet:
-            id: create tables beer, orders, users, customer_order
+            id: create tables beer, orders, user, customer_order
             author: sitdikov_igor
             changes:
                 -   createTable:
@@ -26,7 +19,7 @@ databaseChangeLog:
                                     type: varchar(64)
                             -   column:
                                     name: in_stock
-                                    type: BOOLEAN
+                                    type: TINYINT(1)
                             -   column:
                                     name: name
                                     type: varchar(512)
@@ -46,7 +39,7 @@ databaseChangeLog:
                                     name: price
                                     type: DOUBLE
                 -   createTable:
-                        tableName: users
+                        tableName: user
                         columns:
                             -   column:
                                     name: id
@@ -89,10 +82,10 @@ databaseChangeLog:
                                     constraints:
                                         nullable: false
                                         foreignKeyName: fk_user_id
-                                        references: users(id)
+                                        references: user(id)
                             -   column:
                                     name: processed
-                                    type: BOOLEAN
+                                    type: TINYINT(1)
                             -   column:
                                     name: total
                                     type: DOUBLE
@@ -147,7 +140,7 @@ databaseChangeLog:
                         columns:
                             -   column:
                                     name: canceled
-                                    type: BOOLEAN
+                                    type: TINYINT(1)
                         schemaName: public
                         tableName: orders
     -   changeSet:

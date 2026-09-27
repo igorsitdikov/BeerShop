@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Data
-@Entity(name = "users")
+@Entity(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
