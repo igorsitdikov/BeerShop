@@ -1,5 +1,5 @@
 databaseChangeLog:
-    -   logicalFilePath: classpath:/db/changelog/db.changelog-master.yaml
+    -   logicalFilePath: classpath:/db/changelog/db.changelog-test.yaml
     -   changeSet:
             id: create tables beer, orders, user, customer_order
             author: sitdikov_igor
