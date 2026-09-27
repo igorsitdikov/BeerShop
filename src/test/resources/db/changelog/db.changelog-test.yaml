@@ -150,4 +150,4 @@ databaseChangeLog:
                 -   sqlFile:
                         dbms: mysql, h2
                         encoding: UTF-8
-                        path: db/changelog/beershop.sql
+                        path: db/changelog/beershop-test.sql
